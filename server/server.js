@@ -13,13 +13,12 @@ const urlencodedParser = bodyParser.urlencoded({limit: '10mb', extended: false})
 const jsonParser = bodyParser.json({limit: '10mb'})
 const spritesheet = require('spritesheet-js')
 const uuidv4 = require('uuid/v4')
-const mkdirp = require('mkdirp')
 const rimraf = require('rimraf')
 
 const socketio = require('socket.io')
 
 const isDev = process.env.NODE_ENV !== 'production';
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 80;
 
 // Configuration
 // ================================================================================================
