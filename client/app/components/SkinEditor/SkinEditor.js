@@ -66,7 +66,7 @@ transCustom(event) {
   }
 }
 sendSprites(e) {
-  function noImage(imageValue){
+  function noImage(imageValue){s
     return imageValue.image !== '';
   }
   if(this.state.frames.every(noImage)){
