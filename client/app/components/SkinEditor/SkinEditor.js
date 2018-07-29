@@ -21,8 +21,8 @@ componentWillMount() {
       name: names,
       // xcord: 0,
       // ycord: 0,
-      width: 0,
-      height: 0,
+      // width: 0,
+      // height: 0,
       image: ''
     })
   })
