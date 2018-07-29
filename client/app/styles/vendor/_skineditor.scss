@@ -1,0 +1,71 @@
+body {
+  .upload-btn-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+// .btn-custom {
+//   border: 2px solid gray;
+//   color: gray;
+//   background-color: white;
+//   padding: 8px 20px;
+//   border-radius: 8px;
+//   font-size: 20px;
+//   font-weight: bold;
+// }
+
+.upload-btn-wrapper input[type=file] {
+  font-size: 100px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+}
+  .frameHolder {
+    display: inline-block;
+    height: auto;
+    max-width: 150px;
+    text-align: center;
+    padding: 5px;
+    border: 2px solid gray;
+    margin: 1px;
+    border-radius: 10%;
+    vertical-align: bottom;
+
+    .choose_file {
+      display: inline-block;
+      border-radius: 8px;
+      border: #ebebeb solid 1px;
+      width: 100%;
+      padding: 4px 6px 4px 8px;
+      font: normal 14px Myriad Pro, Verdana, Geneva, sans-serif;
+      color: #7f7f7f;
+      margin-top: 2px;
+      background: white;
+
+      input[type="file"] {
+        -webkit-appearance: none;
+        top: 0;
+        left: 0;
+        max-width: 100px;
+      }
+      img {
+        display: block;
+        width: 100%;
+    padding: 10px;
+      }
+    }
+  }
+
+  .editorSide {
+    display: inline-block;
+    float: left;
+  }
+
+  .frameSide {
+    display: inline-block;
+    button {
+      display: block;
+    }
+  }
+}
