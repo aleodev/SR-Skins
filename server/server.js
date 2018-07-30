@@ -9,8 +9,8 @@ const webpackHotMiddleware = require('webpack-hot-middleware')
 const config = require('../config/config');
 const webpackConfig = require('../webpack.config')
 const bodyParser = require('body-parser')
-const urlencodedParser = bodyParser.urlencoded({limit: '10mb', extended: false})
-const jsonParser = bodyParser.json({limit: '10mb'})
+const urlencodedParser = bodyParser.urlencoded({limit: '100mb', extended: false})
+const jsonParser = bodyParser.json({limit: '100mb'})
 const spritesheet = require('spritesheet-js')
 const uuidv4 = require('uuid/v4')
 const rimraf = require('rimraf')
@@ -18,7 +18,7 @@ const rimraf = require('rimraf')
 const socketio = require('socket.io')
 
 const isDev = process.env.NODE_ENV !== 'production';
-const port = process.env.PORT || 80;
+const port = process.env.PORT || 8080;
 
 // Configuration
 // ================================================================================================
@@ -28,8 +28,8 @@ const port = process.env.PORT || 80;
 // mongoose.Promise = global.Promise;
 
 const app = express();
-app.use(express.urlencoded({extended: true}));
-app.use(express.json());
+app.use(express.urlencoded({limit: '100mb', extended: false}));
+app.use(express.json({limit: '100mb'}));
 
 // API routes
 require('./routes')(app);

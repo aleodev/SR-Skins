@@ -7,7 +7,7 @@
   "private": true,
   "scripts": {
     "build": "webpack -p --progress --profile --colors",
-    "start:dev": "sudo node server.js",
+    "start:dev": "node server.js",
     "start": "set NODE_ENV=production && node server.js"
   },
   "engines": {
