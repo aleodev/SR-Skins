@@ -1,43 +1,44 @@
-const express = require('express');
-const fse = require('fs-extra');
-const historyApiFallback = require('connect-history-api-fallback');
-const mongoose = require('mongoose');
-const path = require('path');
-const webpack = require('webpack');
+const express = require('express')
+const fse = require('fs-extra')
+const historyApiFallback = require('connect-history-api-fallback')
+const mongoose = require('mongoose')
+const path = require('path')
+const webpack = require('webpack')
 const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
-const config = require('../config/config');
+const config = require('../config/config')
 const webpackConfig = require('../webpack.config')
 const bodyParser = require('body-parser')
 const urlencodedParser = bodyParser.urlencoded({limit: '100mb', extended: false})
 const jsonParser = bodyParser.json({limit: '100mb'})
 const spritesheet = require('spritesheet-js')
-const uuidv4 = require('uuid/v4')
+// const uuidv4 = require('uuid/v4')
 const rimraf = require('rimraf')
+const packer = require('gamefroot-texture-packer')
 
 const socketio = require('socket.io')
 
-const isDev = process.env.NODE_ENV !== 'production';
-const port = process.env.PORT || 8080;
+const isDev = process.env.NODE_ENV !== 'production'
+const port = process.env.PORT || 8080
 
 // Configuration
 // ================================================================================================
 
 // Set up Mongoose
-// mongoose.connect(isDev ? config.db_dev : config.db);
-// mongoose.Promise = global.Promise;
+// mongoose.connect(isDev ? config.db_dev : config.db)
+// mongoose.Promise = global.Promise
 
-const app = express();
-app.use(express.urlencoded({limit: '100mb', extended: false}));
-app.use(express.json({limit: '100mb'}));
+const app = express()
+app.use(express.urlencoded({limit: '100mb', extended: false}))
+app.use(express.json({limit: '100mb'}))
 
 // API routes
-require('./routes')(app);
+require('./routes')(app)
 
 if (isDev) {
-  const compiler = webpack(webpackConfig);
+  const compiler = webpack(webpackConfig)
 
-  app.use(historyApiFallback({verbose: false}));
+  app.use(historyApiFallback({verbose: false}))
 
   app.use(webpackDevMiddleware(compiler, {
     publicPath: webpackConfig.output.publicPath,
@@ -50,23 +51,23 @@ if (isDev) {
       chunkModules: false,
       modules: false
     }
-  }));
+  }))
 
-  app.use(webpackHotMiddleware(compiler));
-  app.use(express.static(path.resolve(__dirname, '../dist')));
+  app.use(webpackHotMiddleware(compiler))
+  app.use(express.static(path.resolve(__dirname, '../dist')))
 } else {
-  app.use(express.static(path.resolve(__dirname, '../dist')));
+  app.use(express.static(path.resolve(__dirname, '../dist')))
   app.get('*', function(req, res) {
-    res.sendFile(path.resolve(__dirname, '../dist/index.html'));
-    res.end();
-  });
+    res.sendFile(path.resolve(__dirname, '../dist/index.html'))
+    res.end()
+  })
 }
 //////////////////
 var server = app.listen(port, (err) => {
   if (err) {
-    console.log(err);
+    console.log(err)
   }
-});
+})
 //////////////////
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*")
@@ -83,82 +84,81 @@ const io = socketio(server)
 //////////////////
 // })
 app.post('/sendframes', urlencodedParser, function(req, res) {
-  var UUID = uuidv4()
-  let base64String = req.body
+  var base64String = req.body
   //////////////////
   function createFramePng(frameName, frameImage) {
-    fse.outputFile(path.join(__dirname, `assets/export/${frameName}.jpeg`), frameImage, {
-      encoding: 'base64'
-    }, err => {
-      if (err) {
-        console.log(err);
-      } else {
-        console.log('The file was saved!');
-      }
+    return new Promise((resolve, reject) => {
+      fse.outputFile(path.join(__dirname, `assets/${SOCKETID}/${frameName}.png`), frameImage, {
+        encoding: 'base64'
+      }, err => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve()
+        }
+      })
     })
   }
   //////////////////
   function createFrameMap() {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        console.log('one')
-        base64String.map(frames => (createFramePng(frames.name, frames.image.split('base64,').pop())))
-        resolve();
-      }, 0);
-    });
+    return new Promise((resolve, reject) => {
+      console.log('---- CREATE IMAGES ----')
+      base64String.map(frames => (createFramePng(frames.name, frames.image.split('base64,').pop())))
+      setTimeout(() => resolve(), 600)
+    })
   }
   //////////////////
 
   //////////////////
   function spriteMaker() {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        console.log('two')
-        spritesheet(`server/assets/export/*.jpeg`, {
-          format: 'json',
-          trim: false,
-          fuzz: '1%',
-          path: `server/assets/${SOCKETID}/`
-        }, function(err) {
-          if (err)
-            throw err;
-          console.log('spritesheet successfully generated');
-        })
-        resolve();
-      }, 2000);
-    });
-
+    return new Promise((resolve, reject) => {
+      console.log('---- CREATE SHEET ----')
+      packer(`server/assets/${SOCKETID}/*.png`, {
+        format: 'json',
+        trim: true,
+        fuzz: '1%',
+        path: `server/assets/${SOCKETID}/data`
+      }, err => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve()
+        }
+      })
+    })
   }
-
   //////////////////
   function removeFrames() {
     return new Promise(resolve => {
-      setTimeout(() => {
-        console.log('three')
-        rimraf('server/assets/export/*.jpeg', function() {
-          console.log('all jpegs removed from exports');
-        })
-        resolve();
-      }, 2000);
-    });
-
+      console.log('---- REMOVE ----')
+      rimraf(`server/assets/${SOCKETID}/*.png`, function() {
+        resolve()
+      })
+    })
   }
   //////////////////
-  // console.log(req.body)
-  createFrameMap().then(spriteMaker).then(removeFrames)
+  async function init() {
+    await createFrameMap()
+    await spriteMaker()
+    removeFrames()
+  }
+  init()
 })
-  //////////////////
-  var queue = [];
-  //////////////////
+//////////////////
+var queue = []
+//////////////////
 io.on('connection', socket => {
   SOCKETID = socket.id
   console.log('User connected', SOCKETID)
   queue.push(socket.id)
+  console.log('queue is now ', queue)
 
   socket.on('disconnect', () => {
     console.log('user disconnected', SOCKETID)
-    fse.remove(path.join(__dirname, `assets/${SOCKETID}`));
-    queue.indexOf(SOCKETID) !== 0 ? queue.splice(queue.indexOf(SOCKETID), 1) : queue = []
+    fse.remove(path.join(__dirname, `assets/${SOCKETID}`))
+    queue.indexOf(SOCKETID) !== 0
+      ? queue.splice(queue.indexOf(SOCKETID), 1)
+      : queue = []
     console.log('queue is now ', queue)
   })
 })
