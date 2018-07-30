@@ -12,9 +12,10 @@ const bodyParser = require('body-parser')
 const urlencodedParser = bodyParser.urlencoded({limit: '100mb', extended: false})
 const jsonParser = bodyParser.json({limit: '100mb'})
 const spritesheet = require('spritesheet-js')
-// const uuidv4 = require('uuid/v4')
 const rimraf = require('rimraf')
 const packer = require('gamefroot-texture-packer')
+
+const colors = require('colors');
 
 const socketio = require('socket.io')
 
@@ -74,16 +75,10 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
   next()
 })
-// This creates our socket using the instance of the server
+//////////////////
 const io = socketio(server)
-
-// This is what the socket.io syntax is like, we will work this later
-// app.post('/localsheet/sendSprites',urlencodedParser, function(req, res, next) {
-//   console.log(req.body)
 //////////////////
-//////////////////
-// })
-app.post('/sendframes', urlencodedParser, function(req, res) {
+app.post('/sendframes', function(req, res) {
   var base64String = req.body
   //////////////////
   function createFramePng(frameName, frameImage) {
@@ -107,8 +102,6 @@ app.post('/sendframes', urlencodedParser, function(req, res) {
       setTimeout(() => resolve(), 600)
     })
   }
-  //////////////////
-
   //////////////////
   function spriteMaker() {
     return new Promise((resolve, reject) => {
@@ -145,21 +138,19 @@ app.post('/sendframes', urlencodedParser, function(req, res) {
   init()
 })
 //////////////////
-var queue = []
-//////////////////
+var connected = []
 io.on('connection', socket => {
   SOCKETID = socket.id
-  console.log('User connected', SOCKETID)
-  queue.push(socket.id)
-  console.log('queue is now ', queue)
-
+  console.log('CONNECTED:'.bgGreen, `${SOCKETID}`.underline)
+  connected.push(SOCKETID)
+  console.log('CONNECTIONS ARE NOW: '.bgMagenta, connected)
   socket.on('disconnect', () => {
-    console.log('user disconnected', SOCKETID)
+    console.log('DISCONNECTED:'.bgRed, `${SOCKETID}`.underline)
     fse.remove(path.join(__dirname, `assets/${SOCKETID}`))
-    queue.indexOf(SOCKETID) !== 0
-      ? queue.splice(queue.indexOf(SOCKETID), 1)
-      : queue = []
-    console.log('queue is now ', queue)
+    connected.indexOf(SOCKETID) !== 0
+      ? connected.splice(connected.indexOf(SOCKETID), 1)
+      : connected = []
+    console.log('CONNECTIONS ARE NOW: '.bgMagenta, connected)
   })
 })
 //////////////////
