@@ -70,7 +70,7 @@ sendSprites(e) {
     return imageValue.image !== '';
   }
   if(this.state.frames.every(noImage)){
-  fetch('/sendframes', {
+  fetch('/skineditor', {
     method: 'POST',
     body: JSON.stringify(this.state.frames),
     headers: {
