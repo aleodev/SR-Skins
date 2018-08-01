@@ -85,7 +85,7 @@ sendSprites(e) {
     // });
     axios({
       method: 'post',
-      url: '/skineditor',
+      url: 'http://70.32.30.254:3000/skineditor',
       data: JSON.stringify(this.state.frames),
       mode: 'CORS',
       headers: {
@@ -95,8 +95,10 @@ sendSprites(e) {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
       }
-    }).then(function(response) {
+    }).then(response => {
       console.log(response)
+    }).catch(error => {
+      console.log(error.response)
     })
   } else {
     console.log('cucked')
