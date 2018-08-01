@@ -70,12 +70,16 @@ sendSprites(e) {
     return imageValue.image !== '';
   }
   if(this.state.frames.every(noImage)){
-  fetch('/skineditor', {
+  fetch('http://70.32.30.254:3000/skineditor', {
     method: 'POST',
     body: JSON.stringify(this.state.frames),
+    mode: 'CORS',
     headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Methods': 'PUT, GET, POST, DELETE, OPTIONS',
+      'Access-Control-Allow-Credentials': 'true',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
     }
   }).then(res => res.json()).then(json => {
     console.log(json)
