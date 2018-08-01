@@ -11,7 +11,6 @@ const webpackConfig = require('../webpack.config')
 const bodyParser = require('body-parser')
 const urlencodedParser = bodyParser.urlencoded({limit: '100mb', extended: false})
 const jsonParser = bodyParser.json({limit: '100mb'})
-const spritesheet = require('spritesheet-js')
 const rimraf = require('rimraf')
 const packer = require('gamefroot-texture-packer')
 
