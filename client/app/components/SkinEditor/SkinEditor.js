@@ -1,6 +1,5 @@
 import React from 'react';
-import $ from 'jquery'
-import update from 'immutability-helper';
+// import $ from 'jquery'
 import axios from 'axios';
 import openSocket from 'socket.io-client';
 // const socket = openSocket('http://localhost:8080');

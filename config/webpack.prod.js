@@ -3,6 +3,7 @@ const merge = require('webpack-merge');
 
 const helpers = require('./helpers');
 const commonConfig = require('./webpack.common');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = merge(commonConfig, {
   mode: 'production',
@@ -11,14 +12,30 @@ module.exports = merge(commonConfig, {
     filename: 'js/[name].[hash].js',
     chunkFilename: '[id].[hash].chunk.js'
   },
-  plugins: [
-    new webpack.optimize.UglifyJSPlugin({
-          parallel: true,
-          uglifyOptions: {
-            ecma: 6,
-            compress: false // hangs without this
-          },
-          cache: path.join(__dirname, 'webpack-cache/uglify-cache'),
-        })
-  ]
+  optimization: {
+    minimizer: [
+      // we specify a custom UglifyJsPlugin here to get source maps in production
+      new UglifyJsPlugin({
+        cache: true,
+        parallel: true,
+        uglifyOptions: {
+          compress: false,
+          ecma: 6,
+          mangle: true
+        },
+        sourceMap: true
+      })
+    ]
+  }
+  // plugins: [
+  //   new webpack.optimize.UglifyJsPlugin({
+  //     compressor: {
+  //       warnings: false,
+  //       screw_ie8: true
+  //     },
+  //     output: {
+  //       comments: false
+  //     }
+  //   })
+  // ]
 });
