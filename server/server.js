@@ -135,6 +135,7 @@ app.post('/skineditor', function(req, res) {
     removeFrames()
   }
   init()
+  res.send('yea')
 })
 //////////////////
 var connected = []
