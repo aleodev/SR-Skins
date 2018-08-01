@@ -11,27 +11,14 @@ module.exports = merge(commonConfig, {
     filename: 'js/[name].[hash].js',
     chunkFilename: '[id].[hash].chunk.js'
   },
-  {
-    devtool: 'source-map',
-    optimization: {
-      minimizer: [
-        new UglifyJsPlugin({
-          cache: true,
-          sourceMap: true,
+  plugins: [
+    new webpack.optimize.UglifyJSPlugin({
           parallel: true,
-        }),
-      ],
-    },
-  },
-  // plugins: [
-  //   new webpack.optimize.UglifyJsPlugin({
-  //     compressor: {
-  //       warnings: false,
-  //       screw_ie8: true
-  //     },
-  //     output: {
-  //       comments: false
-  //     }
-  //   })
-  // ]
+          uglifyOptions: {
+            ecma: 6,
+            compress: false // hangs without this
+          },
+          cache: path.join(__dirname, 'webpack-cache/uglify-cache'),
+        })
+  ]
 });
