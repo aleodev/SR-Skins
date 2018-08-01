@@ -14,7 +14,7 @@ const jsonParser = bodyParser.json({limit: '100mb'})
 const rimraf = require('rimraf')
 const packer = require('gamefroot-texture-packer')
 
-// const colors = require('colors');
+const colors = require('colors');
 
 const socketio = require('socket.io')
 
