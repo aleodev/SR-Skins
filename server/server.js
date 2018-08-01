@@ -142,6 +142,7 @@ var connected = []
 io.on('connection', socket => {
   SOCKETID = socket.id
   console.log('CONNECTED:'.bgGreen, `${SOCKETID}`.underline)
+  console.log(socket.handshake.address)
   connected.push(SOCKETID)
   console.log('CONNECTIONS ARE NOW: '.bgMagenta, connected)
   socket.on('disconnect', () => {
@@ -150,7 +151,9 @@ io.on('connection', socket => {
     connected.indexOf(SOCKETID) !== 0
       ? connected.splice(connected.indexOf(SOCKETID), 1)
       : connected = []
+    console.log(socket.handshake.address)
     console.log('CONNECTIONS ARE NOW: '.bgMagenta, connected)
+
   })
 })
 //////////////////
