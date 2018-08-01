@@ -77,7 +77,7 @@ app.use(function(req, res, next) {
 //////////////////
 const io = socketio(server)
 //////////////////
-app.post('/sendframes', function(req, res) {
+app.post('/skineditor', function(req, res) {
   var base64String = req.body
   //////////////////
   function createFramePng(frameName, frameImage) {
