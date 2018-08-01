@@ -3,7 +3,7 @@ import React from 'react';
 import axios from 'axios';
 import openSocket from 'socket.io-client';
 // const socket = openSocket('http://localhost:8080');
-// const socket = openSocket('http://70.32.30.254');
+const socket = openSocket('http://70.32.30.254');
 
 class SkinEditor extends React.Component {
   constructor(props) {
