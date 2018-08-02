@@ -80,7 +80,7 @@ sendSprites(e) {
       responseType: 'blob'
     }).then(response => {
       console.log(response)
-       FileSaver.saveAs(new Blob([response.data]));
+       FileSaver.saveAs(new Blob([response.data], {type:"image/png"}), "spritesheet.png");
     }).catch(error => {
       console.log(error.response)
     })
