@@ -139,7 +139,6 @@ app.post('/skineditor', function(req, res) {
     removeFrames()
   }
   init()
-  res.send('yea')
 })
 //////////////////
 var connected = []
@@ -159,22 +158,5 @@ io.on('connection', socket => {
     console.log('CONNECTIONS ARE NOW: '.bgMagenta, connected)
   })
 })
-////////////////////////////////////
-// io.on('connection', socket => {
-//   SOCKETID = socket.id
-//   console.log('CONNECTED:', SOCKETID)
-//   console.log(socket.handshake.address)
-//   connected.push(SOCKETID)
-//   console.log('CONNECTIONS ARE NOW: ', connected)
-//   socket.on('disconnect', () => {
-//     console.log('DISCONNECTED:', SOCKETID)
-//     fse.remove(path.join(__dirname, `assets/${SOCKETID}`))
-//     connected.indexOf(SOCKETID) !== 0
-//       ? connected.splice(connected.indexOf(SOCKETID), 1)
-//       : connected = []
-//     console.log(socket.handshake.address)
-//     console.log('CONNECTIONS ARE NOW: ', connected)
-//   })
-// })
-//////////////////
+///////////////
 module.exports = app
