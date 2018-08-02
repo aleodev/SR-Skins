@@ -13,13 +13,15 @@ const urlencodedParser = bodyParser.urlencoded({limit: '100mb', extended: false}
 const jsonParser = bodyParser.json({limit: '100mb'})
 const rimraf = require('rimraf')
 const packer = require('gamefroot-texture-packer')
-
+const dotenv = require('dotenv');
+const envFile = dotenv.config().parsed;
 const colors = require('colors');
 
 const socketio = require('socket.io')
 
 const isDev = process.env.NODE_ENV !== 'production'
-const port = process.env.PORT || 3000
+
+const port = isDev ? (envFile.DEV_P_ENV) : (envFile.PROD_P_ENV)
 
 // Configuration
 // ================================================================================================

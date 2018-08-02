@@ -6,9 +6,12 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const helpers = require('./helpers');
 
+const dotenv = require('dotenv');
+const envFile = dotenv.config().parsed;
+
 const NODE_ENV = process.env.NODE_ENV;
 const isProd = NODE_ENV === 'production';
-
+// console.log(cunt)
 module.exports = {
   entry: {
     'app': [
@@ -78,6 +81,8 @@ module.exports = {
 
     new webpack.DefinePlugin({
       'process.env': {
+        IP_ENV: isProd ? JSON.stringify(envFile.PROD_IP_ENV) : JSON.stringify(envFile.DEV_IP_ENV),
+        PORT_ENV: isProd ? JSON.stringify(envFile.PROD_P_ENV) : JSON.stringify(envFile.DEV_P_ENV),
         NODE_ENV: JSON.stringify(NODE_ENV)
       }
     }),

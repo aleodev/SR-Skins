@@ -1,12 +1,12 @@
-import React from 'react';
+import React from 'react'
 // import $ from 'jquery'
-import axios from 'axios';
-import openSocket from 'socket.io-client';
-const socket = openSocket('http://70.32.30.254:3000');
+import axios from 'axios'
+import openSocket from 'socket.io-client'
+const socket = openSocket(`http://${process.env.IP_ENV}:${process.env.PORT_ENV}`)
 
 class SkinEditor extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       frames: [],
       frameNames: ['321GO', 'Double-Jump-Fall', 'Double-Jump', 'Flip', 'Grabbed', 'Hookshot', 'Stand', 'Long-Fall', 'Long-Jump', 'Roll',
@@ -28,10 +28,10 @@ componentWillMount() {
 }
 onImageChange(event) {
   if (event.target.files[0]) {
-    let reader = new FileReader();
+    let reader = new FileReader()
     var idx = event.target.id
     reader.onload = (e) => {
-      let img = new Image();
+      let img = new Image()
       img.onload = () => {
         this.state.frames[idx] = {
           name: this.state.frames[idx].name,
@@ -41,7 +41,7 @@ onImageChange(event) {
         }
         this.setState({update: 1})
       }
-      img.src = reader.result;
+      img.src = reader.result
     }
     reader.readAsDataURL(event.target.files[0])
   }
@@ -54,7 +54,7 @@ transDefault(event) {
 }
 transCustom(event) {
   if (event.target.files[0]) {
-    let reader = new FileReader();
+    let reader = new FileReader()
     reader.onload = (e) => {
       let transCustomData = this.state.frames.map(data => {
         return Object.assign({}, data, {image: e.target.result})
@@ -66,26 +66,13 @@ transCustom(event) {
 }
 sendSprites(e) {
   function noImage(imageValue) {
-    return imageValue.image !== '';
+    return imageValue.image !== ''
   }
   if (this.state.frames.every(noImage)) {
-    // fetch('http://70.32.30.254:3000/skineditor', {
-    //   method: 'POST',
-    //   body: JSON.stringify(this.state.frames),
-    //   mode: 'CORS',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     'Access-Control-Allow-Methods': 'PUT, GET, POST, DELETE, OPTIONS',
-    //     'Access-Control-Allow-Credentials': 'true',
-    //     'Access-Control-Allow-Origin': '*',
-    //     'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
-    //   }
-    // }).then(res => res.json()).then(json => {
-    //   console.log(json)
-    // });
     axios({
       method: 'post',
-      url: 'http://70.32.30.254:3000/skineditor',
+      // url: 'http://70.32.30.254:3000/skineditor',
+      url: process.env.SPRITE_POST_URL,
       data: JSON.stringify(this.state.frames),
       mode: 'CORS',
       headers: {
@@ -109,6 +96,9 @@ render() {
         <>
          <div className="bootstrap-wrapper">
            <div>{socket.id}</div>
+           <div>{process.env.IP_ENV}</div>
+           <div>{process.env.PORT_ENV}</div>
+           <div>{process.env.NODE_ENV}</div>
            <div className="editorSide col-md-6">
            </div>
            <div className="frameSide col-md-6">
@@ -134,6 +124,6 @@ render() {
       }
   }
 
-export default SkinEditor;
+export default SkinEditor
      // <input type="file" onChange={this.onImageChange} className="filetype" id="group_image"/>
      // <img src={this.state.image}/>
