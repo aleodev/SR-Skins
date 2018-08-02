@@ -96,9 +96,6 @@ render() {
         <>
          <div className="bootstrap-wrapper">
            <div>{socket.id}</div>
-           <div>{process.env.IP_ENV}</div>
-           <div>{process.env.PORT_ENV}</div>
-           <div>{process.env.NODE_ENV}</div>
            <div className="editorSide col-md-6">
            </div>
            <div className="frameSide col-md-6">
