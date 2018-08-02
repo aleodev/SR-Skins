@@ -89,6 +89,7 @@ app.post('/skineditor', function(req, res) {
         encoding: 'base64'
       }, err => {
         if (err) {
+          console.log(err)
           reject(err)
         } else {
           resolve()
@@ -111,10 +112,10 @@ app.post('/skineditor', function(req, res) {
       packer(`server/assets/${SOCKETID}/*.png`, {
         format: 'json',
         trim: true,
-        fuzz: '1%',
         path: `server/assets/${SOCKETID}/data`
       }, err => {
         if (err) {
+          console.log(err)
           reject(err)
         } else {
           resolve()
