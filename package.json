@@ -6,7 +6,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build:prod": "rm -r dist/* && NODE_ENV=production webpack -p --progress --profile --colors",
+    "build:prod": "NODE_ENV=production webpack -p --progress --profile --colors",
     "push:build": "npm run build:prod && git add . && git commit -a -m \"Production Build\" && git push",
     "push:files": "git add . && git commit -a -m \"File Changes\" && git push",
     "start:dev": "node server.js",

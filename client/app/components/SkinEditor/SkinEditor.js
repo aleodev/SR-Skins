@@ -75,11 +75,7 @@ sendSprites(e) {
       data: JSON.stringify(this.state.frames),
       mode: 'CORS',
       headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Methods': 'PUT, GET, POST, DELETE, OPTIONS',
-        'Access-Control-Allow-Credentials': 'true',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
+        'Content-Type': 'application/json'
       }
     }).then(response => {
       console.log(response)
