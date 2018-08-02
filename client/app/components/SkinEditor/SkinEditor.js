@@ -71,8 +71,7 @@ sendSprites(e) {
   if (this.state.frames.every(noImage)) {
     axios({
       method: 'post',
-      // url: 'http://70.32.30.254:3000/skineditor',
-      url: process.env.SPRITE_POST_URL,
+      url: `http://${process.env.IP_ENV}:${process.env.PORT_ENV}/skineditor`,
       data: JSON.stringify(this.state.frames),
       mode: 'CORS',
       headers: {
