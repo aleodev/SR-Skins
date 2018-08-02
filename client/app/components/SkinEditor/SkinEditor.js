@@ -85,6 +85,7 @@ sendSprites(e) {
   } else {
     console.log('cucked')
   }
+  e.preventDefault()
 }
 render() {
       return (
