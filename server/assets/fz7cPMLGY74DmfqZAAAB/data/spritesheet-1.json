@@ -1,0 +1,185 @@
+{
+	"meta": {
+		"image": "spritesheet-1.png",
+		"size": {"w":3060,"h":2880},
+		"scale": "1"
+	},
+	"frames": {
+		"Wall-Hang.png":
+		{
+			"frame": {"x":1530,"y":2160,"w":510,"h":720},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":60,"y":20,"w":510,"h":720},
+			"sourceSize": {"w":630,"h":760}
+		},
+		"Double-Jump-Fall.png":
+		{
+			"frame": {"x":0,"y":0,"w":510,"h":720},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":60,"y":20,"w":510,"h":720},
+			"sourceSize": {"w":630,"h":760}
+		},
+		"Taunt.png":
+		{
+			"frame": {"x":510,"y":2160,"w":510,"h":720},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":60,"y":20,"w":510,"h":720},
+			"sourceSize": {"w":630,"h":760}
+		},
+		"Swing.png":
+		{
+			"frame": {"x":0,"y":2160,"w":510,"h":720},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":60,"y":20,"w":510,"h":720},
+			"sourceSize": {"w":630,"h":760}
+		},
+		"Straight-Jump.png":
+		{
+			"frame": {"x":2550,"y":1440,"w":510,"h":720},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":60,"y":20,"w":510,"h":720},
+			"sourceSize": {"w":630,"h":760}
+		},
+		"Straight-Fall.png":
+		{
+			"frame": {"x":2550,"y":720,"w":510,"h":720},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":60,"y":20,"w":510,"h":720},
+			"sourceSize": {"w":630,"h":760}
+		},
+		"Stand.png":
+		{
+			"frame": {"x":2550,"y":0,"w":510,"h":720},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":60,"y":20,"w":510,"h":720},
+			"sourceSize": {"w":630,"h":760}
+		},
+		"Spiked.png":
+		{
+			"frame": {"x":2040,"y":1440,"w":510,"h":720},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":60,"y":20,"w":510,"h":720},
+			"sourceSize": {"w":630,"h":760}
+		},
+		"Sliding.png":
+		{
+			"frame": {"x":1530,"y":1440,"w":510,"h":720},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":60,"y":20,"w":510,"h":720},
+			"sourceSize": {"w":630,"h":760}
+		},
+		"Slide.png":
+		{
+			"frame": {"x":1020,"y":1440,"w":510,"h":720},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":60,"y":20,"w":510,"h":720},
+			"sourceSize": {"w":630,"h":760}
+		},
+		"321GO.png":
+		{
+			"frame": {"x":510,"y":1440,"w":510,"h":720},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":60,"y":20,"w":510,"h":720},
+			"sourceSize": {"w":630,"h":760}
+		},
+		"Tumble.png":
+		{
+			"frame": {"x":1020,"y":2160,"w":510,"h":720},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":60,"y":20,"w":510,"h":720},
+			"sourceSize": {"w":630,"h":760}
+		},
+		"Run.png":
+		{
+			"frame": {"x":2040,"y":720,"w":510,"h":720},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":60,"y":20,"w":510,"h":720},
+			"sourceSize": {"w":630,"h":760}
+		},
+		"Roll.png":
+		{
+			"frame": {"x":2040,"y":0,"w":510,"h":720},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":60,"y":20,"w":510,"h":720},
+			"sourceSize": {"w":630,"h":760}
+		},
+		"Long-Jump.png":
+		{
+			"frame": {"x":1530,"y":720,"w":510,"h":720},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":60,"y":20,"w":510,"h":720},
+			"sourceSize": {"w":630,"h":760}
+		},
+		"Long-Fall.png":
+		{
+			"frame": {"x":1530,"y":0,"w":510,"h":720},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":60,"y":20,"w":510,"h":720},
+			"sourceSize": {"w":630,"h":760}
+		},
+		"Hookshot.png":
+		{
+			"frame": {"x":1020,"y":720,"w":510,"h":720},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":60,"y":20,"w":510,"h":720},
+			"sourceSize": {"w":630,"h":760}
+		},
+		"Grabbed.png":
+		{
+			"frame": {"x":510,"y":720,"w":510,"h":720},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":60,"y":20,"w":510,"h":720},
+			"sourceSize": {"w":630,"h":760}
+		},
+		"Flip.png":
+		{
+			"frame": {"x":0,"y":720,"w":510,"h":720},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":60,"y":20,"w":510,"h":720},
+			"sourceSize": {"w":630,"h":760}
+		},
+		"Double-Jump.png":
+		{
+			"frame": {"x":1020,"y":0,"w":510,"h":720},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":60,"y":20,"w":510,"h":720},
+			"sourceSize": {"w":630,"h":760}
+		},
+		"Skid.png":
+		{
+			"frame": {"x":510,"y":0,"w":510,"h":720},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":60,"y":20,"w":510,"h":720},
+			"sourceSize": {"w":630,"h":760}
+		},
+		"Running-Hook.png":
+		{
+			"frame": {"x":0,"y":1440,"w":510,"h":720},
+			"rotated": false,
+			"trimmed": true,
+			"spriteSourceSize": {"x":60,"y":20,"w":510,"h":720},
+			"sourceSize": {"w":630,"h":760}
+		}
+	}
+}

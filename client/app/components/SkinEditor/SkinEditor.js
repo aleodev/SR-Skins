@@ -1,5 +1,6 @@
 import React from 'react'
 // import $ from 'jquery'
+import FileSaver from 'file-saver'
 import axios from 'axios'
 import openSocket from 'socket.io-client'
 const socket = openSocket(`http://${process.env.IP_ENV}:${process.env.PORT_ENV}`)
@@ -70,15 +71,16 @@ sendSprites(e) {
   }
   if (this.state.frames.every(noImage)) {
     axios({
-      method: 'post',
+      method: 'POST',
       url: `http://${process.env.IP_ENV}:${process.env.PORT_ENV}/skineditor`,
       data: JSON.stringify(this.state.frames),
-      mode: 'CORS',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      responseType: 'blob'
     }).then(response => {
       console.log(response)
+       FileSaver.saveAs(new Blob([response.data]));
     }).catch(error => {
       console.log(error.response)
     })
