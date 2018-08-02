@@ -1,6 +1,6 @@
 import React from 'react'
 // import $ from 'jquery'
-import FileSaver from 'file-saver'
+import { saveAs } from 'file-saver/FileSaver';
 import axios from 'axios'
 import openSocket from 'socket.io-client'
 const socket = openSocket(`http://${process.env.IP_ENV}:${process.env.PORT_ENV}`)
@@ -80,7 +80,7 @@ sendSprites(e) {
       responseType: 'blob'
     }).then(response => {
       console.log(response)
-       FileSaver.saveAs(new Blob([response.data], {type:"image/png"}), "spritesheet.png");
+      saveAs(new Blob([response.data], {type:"application/zip"}), "skin.zip");
     }).catch(error => {
       console.log(error.response)
     })

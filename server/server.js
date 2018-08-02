@@ -1,5 +1,6 @@
 const express = require('express')
 const fse = require('fs-extra')
+const JSZip = require("jszip")
 const historyApiFallback = require('connect-history-api-fallback')
 const mongoose = require('mongoose')
 const path = require('path')
@@ -85,6 +86,13 @@ const io = socketio(server)
 app.post('/skineditor', function(req, res) {
   var base64String = req.body
   //////////////////
+  function base64_encode(file) {
+    // read binary data
+    let bitmap = fse.readFileSync(file)
+    // convert binary data to base64 encoded string
+    return new Buffer(bitmap).toString('base64')
+  }
+  //////////////////
   function createFramePng(frameName, frameImage) {
     return new Promise((resolve, reject) => {
       fse.outputFile(path.join(__dirname, `assets/${SOCKETID}/${frameName}.png`), frameImage, {
@@ -135,22 +143,55 @@ app.post('/skineditor', function(req, res) {
     })
   }
   //////////////////
-  function zipFiles() {
-    console.log('CUNTAGEEEEE')
-  }
-  //////////////////
   function downloadFiles() {
     return new Promise((resolve, reject) => {
       console.log('---- DOWNLOAD ----')
-      res.download(__dirname + `/assets/${SOCKETID}/data/spritesheet-1.png`, function(err) {
-        if (err) {
-          reject(err)
-        } else {
-          resolve('---- FILE SENT ----')
-        }
-      })
+      let imageXnb = base64_encode(__dirname + `/assets/${SOCKETID}/data/spritesheet-1.png`)
+      let imageAtlas = base64_encode(__dirname + `/assets/${SOCKETID}/data/spritesheet-1.json`)
+      let zip = new JSZip()
+      zip.file('spritesheet.png', imageXnb, {base64: true})
+      // zip.generateAsync({type: "uint8array"}).then(function(content) {
+      //    see FileSaver.js
+      //    res.download(content, function(err) {
+      //      if (err) {
+      //        reject(err)
+      //      } else {
+      //        resolve(console.log('---- DOWNLOAD DONE ----'))
+      //      }
+      //    })
+      // });
+      zip.file('atlas.json', imageAtlas, {base64: true})
+      zip.generateNodeStream({type: 'nodebuffer', streamFiles: true})
+      .pipe(fse.createWriteStream(__dirname + `/assets/${SOCKETID}/data/skin.zip`))
+      .on('finish', function() {
+        // JSZip generates a readable stream with a "end" event,
+        // but is piped here in a writable stream which emits a "finish" event.
+        res.download(__dirname + `/assets/${SOCKETID}/data/skin.zip`)
+        console.log("---- ZIPPED ----");
+      });
+      // res.download(__dirname + `/assets/${SOCKETID}/data/spritesheet-1.png`, function(err) {
+      //   if (err) {
+      //     reject(err)
+      //   } else {
+      //     resolve(console.log('cunt'))
+      //   }
+      // })
+      // res.download(__dirname + `assets/${SOCKETID}/data/spritesheet-1.png`)
     })
-    // res.download(__dirname + `assets/${SOCKETID}/data/spritesheet-1.png`)
+  }
+  //////////////////
+  function zipFiles() {
+
+    // see FileSaver.js
+    // saveAs(content, "example.zip")
+    // res.download(__dirname + `/assets/${SOCKETID}/data/spritesheet-1.png`, function(err) {
+    //   if (err) {
+    //     reject(err)
+    //   } else {
+    //     resolve(console.log('cunt'))
+    //   }
+    // })
+    console.log('cunt')
   }
   //////////////////
   async function init() {
