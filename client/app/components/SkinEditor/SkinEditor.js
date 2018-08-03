@@ -10,10 +10,10 @@ class SkinEditor extends React.Component {
     super(props)
     this.state = {
       frames: [],
-      frameNames: ['321GO', 'Double-Jump-Fall', 'Double-Jump', 'Flip', 'Grabbed', 'Hookshot', 'Stand', 'Long-Fall', 'Long-Jump', 'Roll',
-    'Run', 'Running-Hook', 'Skid', 'Slide', 'Sliding', 'Straight-Fall', 'Straight-Jump', 'Swing', 'Taunt', 'Spiked', 'Tumble', 'Wall-Hang', 'Run']
+      frameNames: ['321GO', 'Double-Jump-Fall', 'Double-Jump', 'Flip', 'Grabbed', 'Hookshot',
+       'Stand', 'Long-Fall', 'Long-Jump', 'Roll', 'Running-Hook', 'Skid', 'Slide', 'Sliding',
+        'Straight-Fall', 'Straight-Jump', 'Swing', 'Taunt', 'Spiked', 'Tumble', 'Wall-Hang', 'Run']
     }
-
   }
 componentWillMount() {
   this.state.frameNames.map((names) => {
