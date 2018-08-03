@@ -17,6 +17,7 @@ const packer = require('gamefroot-texture-packer')
 const dotenv = require('dotenv')
 const envFile = dotenv.config().parsed
 const colors = require('colors')
+const shell = require('shelljs');
 
 const socketio = require('socket.io')
 
@@ -84,6 +85,7 @@ app.use(function(req, res, next) {
 const io = socketio(server)
 //////////////////
 app.post('/skineditor', function(req, res) {
+  shell.exec('pwd')
   var base64String = req.body
   //////////////////
   function base64_encode(file) {
@@ -111,7 +113,7 @@ app.post('/skineditor', function(req, res) {
   function createFrameMap() {
     return new Promise((resolve, reject) => {
       console.log('---- CREATE IMAGES ----')
-      base64String.map(frames => (createFramePng(frames.name, frames.image.split('base64,').pop())))
+      base64String.map(frames => (createFramePng(frames.name + '0001', frames.image.split('base64,').pop())))
       setTimeout(() => resolve(), 600)
     })
   }
@@ -128,78 +130,56 @@ app.post('/skineditor', function(req, res) {
           console.log(err)
           reject(err)
         } else {
-          resolve()
+          rimraf(`server/assets/${SOCKETID}/*.png`, function() {
+            resolve()
+          })
         }
       })
     })
   }
   //////////////////
-  function removeFrames() {
-    return new Promise(resolve => {
-      console.log('---- REMOVE ----')
-      rimraf(`server/assets/${SOCKETID}/*.png`, function() {
-        resolve()
-      })
+  function convertToXnb() {
+    return new Promise((resolve, reject) => {
+      let imageDir = __dirname + `/assets/${SOCKETID}/data/spritesheet-1.png`
+      let sheetXnb = __dirname + `/assets/${SOCKETID}/data/spritesheetcunt.xnb`
+      console.log('---- CONVERT ----')
+      if (shell.exec(`wine ${__dirname}/png_to_xnb.exe -c ${imageDir} ${sheetXnb}`).code !== 0) {
+        shell.exit(1)
+        reject()
+      }
+      resolve()
     })
   }
   //////////////////
-  function downloadFiles() {
+  function zipFiles() {
     return new Promise((resolve, reject) => {
       console.log('---- DOWNLOAD ----')
       let imageXnb = base64_encode(__dirname + `/assets/${SOCKETID}/data/spritesheet-1.png`)
       let imageAtlas = base64_encode(__dirname + `/assets/${SOCKETID}/data/spritesheet-1.json`)
       let zip = new JSZip()
       zip.file('spritesheet.png', imageXnb, {base64: true})
-      // zip.generateAsync({type: "uint8array"}).then(function(content) {
-      //    see FileSaver.js
-      //    res.download(content, function(err) {
-      //      if (err) {
-      //        reject(err)
-      //      } else {
-      //        resolve(console.log('---- DOWNLOAD DONE ----'))
-      //      }
-      //    })
-      // });
       zip.file('atlas.json', imageAtlas, {base64: true})
       zip.generateNodeStream({type: 'nodebuffer', streamFiles: true})
       .pipe(fse.createWriteStream(__dirname + `/assets/${SOCKETID}/data/skin.zip`))
       .on('finish', function() {
-        // JSZip generates a readable stream with a "end" event,
-        // but is piped here in a writable stream which emits a "finish" event.
-        res.download(__dirname + `/assets/${SOCKETID}/data/skin.zip`)
-        console.log("---- ZIPPED ----");
-      });
-      // res.download(__dirname + `/assets/${SOCKETID}/data/spritesheet-1.png`, function(err) {
-      //   if (err) {
-      //     reject(err)
-      //   } else {
-      //     resolve(console.log('cunt'))
-      //   }
-      // })
-      // res.download(__dirname + `assets/${SOCKETID}/data/spritesheet-1.png`)
+        res.download(__dirname + `/assets/${SOCKETID}/data/skin.zip`, function(err){
+          if(err) {
+            reject(err)
+          }else {
+            resolve(console.log(console.log("---- ZIPPED ----")))
+          }
+        })
+      })
     })
   }
   //////////////////
-  function zipFiles() {
 
-    // see FileSaver.js
-    // saveAs(content, "example.zip")
-    // res.download(__dirname + `/assets/${SOCKETID}/data/spritesheet-1.png`, function(err) {
-    //   if (err) {
-    //     reject(err)
-    //   } else {
-    //     resolve(console.log('cunt'))
-    //   }
-    // })
-    console.log('cunt')
-  }
   //////////////////
   async function init() {
     await createFrameMap()
     await spriteMaker()
-    await removeFrames()
-    await downloadFiles()
-    zipFiles()
+    // await convertToXnb()
+    await zipFiles()
   }
   init()
 })
