@@ -17,12 +17,10 @@ const packer = require('gamefroot-texture-packer')
 const dotenv = require('dotenv')
 const envFile = dotenv.config().parsed
 const colors = require('colors')
-const shell = require('shelljs');
-
+const exec = require('child_process').exec
 const socketio = require('socket.io')
-
+const ElapsedTime = require('elapsed-time')
 const isDev = process.env.NODE_ENV !== 'production'
-
 const port = isDev
   ? (envFile.DEV_P_ENV)
   : (envFile.PROD_P_ENV)
@@ -84,8 +82,10 @@ app.use(function(req, res, next) {
 //////////////////
 const io = socketio(server)
 //////////////////
+
+//////////////////
 app.post('/skineditor', function(req, res) {
-  shell.exec('pwd')
+  var ET = ElapsedTime.new().start()
   var base64String = req.body
   //////////////////
   function base64_encode(file) {
@@ -97,7 +97,7 @@ app.post('/skineditor', function(req, res) {
   //////////////////
   function createFramePng(frameName, frameImage) {
     return new Promise((resolve, reject) => {
-      fse.outputFile(path.join(__dirname, `assets/${SOCKETID}/${frameName}.png`), frameImage, {
+      fse.outputFile(path.join(__dirname, `assets/${SOCKET_ID}/${frameName}.png`), frameImage, {
         encoding: 'base64'
       }, err => {
         if (err) {
@@ -121,16 +121,15 @@ app.post('/skineditor', function(req, res) {
   function spriteMaker() {
     return new Promise((resolve, reject) => {
       console.log('---- CREATE SHEET ----')
-      packer(`server/assets/${SOCKETID}/*.png`, {
+      packer(`server/assets/${SOCKET_ID}/*.png`, {
         format: 'json',
         trim: true,
-        path: `server/assets/${SOCKETID}/data`
+        path: `server/assets/${SOCKET_ID}/data`
       }, err => {
         if (err) {
-          console.log(err)
           reject(err)
         } else {
-          rimraf(`server/assets/${SOCKETID}/*.png`, function() {
+          rimraf(`server/assets/${SOCKET_ID}/*.png`, function() {
             resolve()
           })
         }
@@ -140,65 +139,74 @@ app.post('/skineditor', function(req, res) {
   //////////////////
   function convertToXnb() {
     return new Promise((resolve, reject) => {
-      let imageDir = __dirname + `/assets/${SOCKETID}/data/spritesheet-1.png`
-      let sheetXnb = __dirname + `/assets/${SOCKETID}/data/spritesheetcunt.xnb`
+      let imageDir = __dirname + `/assets/${SOCKET_ID}/data/spritesheet-1.png`
+      let sheetXnb = __dirname + `/assets/${SOCKET_ID}/data/spritesheetcunt.xnb`
       console.log('---- CONVERT ----')
-      if (shell.exec(`wine ${__dirname}/png_to_xnb.exe -c ${imageDir} ${sheetXnb}`).code !== 0) {
-        shell.exit(1)
-        reject()
-      }
-      resolve()
+      exec(`nohup wine ${__dirname}/png_to_xnb.exe -c ${imageDir} ${sheetXnb}`, (error, stdout, stderr) => {
+        if (error !== null) {
+          console.log(`exec error: ${error}`);
+        }
+        resolve()
+      })
     })
   }
   //////////////////
   function zipFiles() {
     return new Promise((resolve, reject) => {
       console.log('---- DOWNLOAD ----')
-      let imageXnb = base64_encode(__dirname + `/assets/${SOCKETID}/data/spritesheet-1.png`)
-      let imageAtlas = base64_encode(__dirname + `/assets/${SOCKETID}/data/spritesheet-1.json`)
+      let imageXnb = base64_encode(__dirname + `/assets/${SOCKET_ID}/data/spritesheetcunt.xnb`)
+      let imageAtlas = base64_encode(__dirname + `/assets/${SOCKET_ID}/data/spritesheet-1.json`)
       let zip = new JSZip()
-      zip.file('spritesheet.png', imageXnb, {base64: true})
+      zip.file('spritesheet.xnb', imageXnb, {base64: true})
       zip.file('atlas.json', imageAtlas, {base64: true})
-      zip.generateNodeStream({type: 'nodebuffer', streamFiles: true})
-      .pipe(fse.createWriteStream(__dirname + `/assets/${SOCKETID}/data/skin.zip`))
-      .on('finish', function() {
-        res.download(__dirname + `/assets/${SOCKETID}/data/skin.zip`, function(err){
-          if(err) {
+      zip.generateNodeStream({type: 'nodebuffer', streamFiles: true}).pipe(fse.createWriteStream(__dirname + `/assets/${SOCKET_ID}/data/skin.zip`)).on('finish', function() {
+        res.download(__dirname + `/assets/${SOCKET_ID}/data/skin.zip`, function(err) {
+          if (err) {
             reject(err)
-          }else {
-            resolve(console.log(console.log("---- ZIPPED ----")))
+          } else {
+            resolve(console.log("---- ZIPPED ----"))
           }
         })
       })
     })
   }
   //////////////////
-
-  //////////////////
   async function init() {
     await createFrameMap()
     await spriteMaker()
-    // await convertToXnb()
+    await convertToXnb()
     await zipFiles()
+    console.log(ET.getValue())
   }
   init()
 })
 //////////////////
 var connected = []
 io.on('connection', socket => {
-  SOCKETID = socket.id
-  console.log('CONNECTED:'.bgGreen, `${SOCKETID}`.underline)
-  console.log(socket.handshake.address)
-  connected.push(SOCKETID)
-  console.log('CONNECTIONS ARE NOW: '.bgMagenta, connected)
-  socket.on('disconnect', () => {
-    console.log('DISCONNECTED:'.bgRed, `${SOCKETID}`.underline)
-    fse.remove(path.join(__dirname, `assets/${SOCKETID}`))
-    connected.indexOf(SOCKETID) !== 0
-      ? connected.splice(connected.indexOf(SOCKETID), 1)
-      : connected = []
-    console.log(socket.handshake.address)
+  SOCKET_ID = socket.id
+  SOCKET_IP = socket.handshake.address
+  if (connected.some(e => e.address === SOCKET_IP) !== true) {
+    console.log('CONNECTED:'.bgGreen, `${SOCKET_ID}|${SOCKET_IP}`.underline)
+    connected.push({address: SOCKET_IP, sockets: [SOCKET_ID]})
     console.log('CONNECTIONS ARE NOW: '.bgMagenta, connected)
+  } else {
+    console.log('CONNECTED:'.bgGreen, `${SOCKET_ID}|${SOCKET_IP}`.underline)
+    connected[connected.findIndex(i => i.address === SOCKET_IP)].sockets.push(SOCKET_ID)
+    console.log('CONNECTIONS ARE NOW: '.bgMagenta, connected)
+  }
+  socket.on('disconnect', () => {
+    let SOCKET_IP_INDEX = connected.findIndex(i => i.address === SOCKET_IP)
+    let SOCKET_ID_INDEX = connected[SOCKET_IP_INDEX].sockets.indexOf(SOCKET_ID)
+    if(connected[SOCKET_IP_INDEX].sockets.length >= 2){
+      console.log('DISCONNECTED:'.bgRed, `${SOCKET_ID}|${SOCKET_IP}`.underline)
+      connected[SOCKET_IP_INDEX].sockets.splice(SOCKET_ID_INDEX, 1)
+      console.log('CONNECTIONS ARE NOW: '.bgMagenta, connected)
+    } else {
+      console.log('DISCONNECTED:'.bgRed, `${SOCKET_ID}|${SOCKET_IP}`.underline)
+      connected.splice(connected.findIndex(i => i.address === SOCKET_IP), 1)
+      fse.remove(path.join(__dirname, `assets/${SOCKET_ID}`))
+      console.log('CONNECTIONS ARE NOW: '.bgMagenta, connected)
+    }
   })
 })
 ///////////////
