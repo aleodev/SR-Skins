@@ -1,4 +1,5 @@
 const express = require('express')
+const helmet = require('helmet')
 const fse = require('fs-extra')
 const JSZip = require("jszip")
 const historyApiFallback = require('connect-history-api-fallback')
@@ -17,7 +18,7 @@ const packer = require('gamefroot-texture-packer')
 const dotenv = require('dotenv')
 const envFile = dotenv.config().parsed
 const colors = require('colors')
-const exec = require('child_process').exec
+const execFile = require('child_process').execFile
 const socketio = require('socket.io')
 const ElapsedTime = require('elapsed-time')
 const isDev = process.env.NODE_ENV !== 'production'
@@ -33,6 +34,8 @@ const port = isDev
 // mongoose.Promise = global.Promise
 
 const app = express()
+app.use(helmet())
+app.disable('x-powered-by')
 app.use(express.urlencoded({limit: '100mb', extended: false}))
 app.use(express.json({limit: '100mb'}))
 
@@ -73,18 +76,20 @@ var server = app.listen(port, (err) => {
   }
 })
 //////////////////
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*")
-  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT")
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
-  next()
-})
+// app.use(function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*")
+//   res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT")
+//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization")
+//   next()
+// })
 //////////////////
 const io = socketio(server)
 //////////////////
 
 //////////////////
 app.post('/skineditor', function(req, res) {
+  console.log(req.connection.remoteAddress)
+  console.log(req.socket.remoteAddress)
   var ET = ElapsedTime.new().start()
   var base64String = req.body
   //////////////////
@@ -142,7 +147,7 @@ app.post('/skineditor', function(req, res) {
       let imageDir = __dirname + `/assets/${SOCKET_ID}/data/spritesheet-1.png`
       let sheetXnb = __dirname + `/assets/${SOCKET_ID}/data/spritesheetcunt.xnb`
       console.log('---- CONVERT ----')
-      exec(`nohup wine ${__dirname}/png_to_xnb.exe -c ${imageDir} ${sheetXnb}`, (error, stdout, stderr) => {
+      execFile('nohup', ['wine', `${__dirname}/png_to_xnb.exe`,'-c', `${imageDir}`, `${sheetXnb}`], (error, stdout, stderr) => {
         if (error !== null) {
           console.log(`exec error: ${error}`);
         }
