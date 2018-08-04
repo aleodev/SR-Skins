@@ -97,9 +97,9 @@ render() {
            <div className="editorSide col-md-6">
            </div>
            <div className="frameSide col-md-6">
-             <button onClick={this.transDefault.bind(this)}>Change All - Transparent</button>
+             <button onClick={this.transDefault.bind(this)}>Change All -> Transparent</button>
              <div className="upload-btn-wrapper">
-                 <button className="btn-custom">Change All - Custom Image Upload</button>
+                 <button className="btn-custom">Change All -> Custom Image Upload</button>
                  <input onChange={this.transCustom.bind(this)} name="Select File" type="file" />
              </div>
              {

@@ -144,7 +144,7 @@ app.post('/skineditor', function(req, res) {
   //////////////////
   function convertToXnb() {
     return new Promise((resolve, reject) => {
-      let imageDir = __dirname + `/assets/${SOCKET_ID}/data/spritesheet-1.png`
+      let imageDir = __dirname + `/assets/${SOCKET_ID}/data/spritesheet-1.png`s
       let sheetXnb = __dirname + `/assets/${SOCKET_ID}/data/spritesheetcunt.xnb`
       console.log('---- CONVERT ----')
       execFile('nohup', ['wine', `${__dirname}/png_to_xnb.exe`,'-c', `${imageDir}`, `${sheetXnb}`], (error, stdout, stderr) => {
