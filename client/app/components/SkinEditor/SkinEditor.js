@@ -19,10 +19,6 @@ componentWillMount() {
   this.state.frameNames.map((names) => {
     this.state.frames.push({
       name: names,
-      // xcord: 0,
-      // ycord: 0,
-      // width: 0,
-      // height: 0,
       image: ''
     })
   })
@@ -84,10 +80,7 @@ sendSprites(e) {
     }).catch(error => {
       console.log(error.response)
     })
-  } else {
-    console.log('cucked')
-  }
-  e.preventDefault()
+  }e.preventDefault()
 }
 render() {
       return (
@@ -120,5 +113,3 @@ render() {
   }
 
 export default SkinEditor
-     // <input type="file" onChange={this.onImageChange} className="filetype" id="group_image"/>
-     // <img src={this.state.image}/>

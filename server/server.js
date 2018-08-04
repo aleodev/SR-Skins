@@ -20,6 +20,7 @@ const envFile = dotenv.config().parsed
 const colors = require('colors')
 const execFile = require('child_process').execFile
 const socketio = require('socket.io')
+const cors = require('cors')
 const ElapsedTime = require('elapsed-time')
 const isDev = process.env.NODE_ENV !== 'production'
 const port = isDev
@@ -76,17 +77,17 @@ var server = app.listen(port, (err) => {
   }
 })
 //////////////////
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*")
-  res.header("Access-Control-Allow-Headers", "Origin, Content-Type")
-  next()
-})
+// app.use(function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*")
+//   res.header("Access-Control-Allow-Headers", "Origin, Content-Type")
+//   next()
+// })
 //////////////////
 const io = socketio(server)
 //////////////////
 
 //////////////////
-app.post('/skineditor', function(req, res) {
+app.post('/skineditor', cors(), function(req, res) {
   console.log(req.connection.remoteAddress)
   console.log(req.socket.remoteAddress)
   var ET = ElapsedTime.new().start()
