@@ -11,7 +11,8 @@
 		"push:files": "git add . && git commit -a -m \"File Changes\" && git push",
 		"start:dev": "node server.js",
 		"start:prod": "rm -rf server/assets/* & NODE_ENV=production node server.js",
-		"start:pm2" : "rm -rf server/assets/* & NODE_ENV=production pm2 start server.js"
+		"start:pm2" : "rm -rf server/assets/* & NODE_ENV=production pm2 start server.js",
+		"start:pm2watch" : "rm -rf server/assets/* & NODE_ENV=production pm2 start server.js --watch"
 	},
 	"engines": {
 		"node": ">=6"
