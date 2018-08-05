@@ -100,7 +100,7 @@ app.post('/skineditor', cors(), function(req, res) {
     //////////////////
     function createFramePng(frameName, frameImage) {
       return new Promise((resolve, reject) => {
-        fse.outputFile(path.join(__dirname, `assets/${req.connection.remoteAddress}/${frameName}.png`), frameImage, {
+        fse.outputFile(path.join(__dirname, `assets/${SOCKET_ID}/${frameName}.png`), frameImage, {
           encoding: 'base64'
         }, err => {
           if (err) {
@@ -125,15 +125,15 @@ app.post('/skineditor', cors(), function(req, res) {
     function spriteMaker() {
       return new Promise((resolve, reject) => {
         console.log('---- CREATE SHEET ----')
-        packer(`server/assets/${req.connection.remoteAddress}/*.png`, {
+        packer(`server/assets/${SOCKET_ID}/*.png`, {
           format: 'json',
           trim: true,
-          path: `server/assets/${req.connection.remoteAddress}/data`
+          path: `server/assets/${SOCKET_ID}/data`
         }, err => {
           if (err) {
             reject(err)
           } else {
-            rimraf(`server/assets/${req.connection.remoteAddress}/*.png`, function() {
+            rimraf(`server/assets/${SOCKET_ID}/*.png`, function() {
               resolve()
             })
           }
@@ -143,8 +143,8 @@ app.post('/skineditor', cors(), function(req, res) {
     //////////////////
     function convertToXnb() {
       return new Promise((resolve, reject) => {
-        let imageDir = __dirname + `/assets/${req.connection.remoteAddress}/data/spritesheet-1.png`
-        let sheetXnb = __dirname + `/assets/${req.connection.remoteAddress}/data/spritesheetcunt.xnb`
+        let imageDir = __dirname + `/assets/${SOCKET_ID}/data/spritesheet-1.png`
+        let sheetXnb = __dirname + `/assets/${SOCKET_ID}/data/spritesheetcunt.xnb`
         console.log('---- CONVERT ----')
         let ET = ElapsedTime.new().start()
         execFile('wine', [
@@ -162,13 +162,13 @@ app.post('/skineditor', cors(), function(req, res) {
     function zipFiles() {
       return new Promise((resolve, reject) => {
         console.log('---- ZIPPING ----')
-        let imageXnb = base64_encode(__dirname + `/assets/${req.connection.remoteAddress}/data/spritesheetcunt.xnb`)
-        let imageAtlas = base64_encode(__dirname + `/assets/${req.connection.remoteAddress}/data/spritesheet-1.json`)
+        let imageXnb = base64_encode(__dirname + `/assets/${SOCKET_ID}/data/spritesheetcunt.xnb`)
+        let imageAtlas = base64_encode(__dirname + `/assets/${SOCKET_ID}/data/spritesheet-1.json`)
         let zip = new JSZip()
         zip.file('spritesheet.xnb', imageXnb, {base64: true})
         zip.file('atlas.json', imageAtlas, {base64: true})
-        zip.generateNodeStream({type: 'nodebuffer', streamFiles: true}).pipe(fse.createWriteStream(__dirname + `/assets/${req.connection.remoteAddress}/data/skin.zip`)).on('finish', function() {
-          res.download(__dirname + `/assets/${req.connection.remoteAddress}/data/skin.zip`, function(err) {
+        zip.generateNodeStream({type: 'nodebuffer', streamFiles: true}).pipe(fse.createWriteStream(__dirname + `/assets/${SOCKET_ID}/data/skin.zip`)).on('finish', function() {
+          res.download(__dirname + `/assets/${SOCKET_ID}/data/skin.zip`, function(err) {
             if (err) {
               reject(err)
             } else {
