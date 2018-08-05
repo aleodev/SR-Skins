@@ -18,7 +18,7 @@ const packer = require('gamefroot-texture-packer')
 const dotenv = require('dotenv')
 const envFile = dotenv.config().parsed
 const colors = require('colors')
-const execFile = require('child_process').execFile
+const child = require('child_process')
 const socketio = require('socket.io')
 const cors = require('cors')
 const ElapsedTime = require('elapsed-time')
@@ -147,12 +147,14 @@ app.post('/skineditor', cors(), function(req, res) {
       let imageDir = __dirname + `/assets/${SOCKET_ID}/data/spritesheet-1.png`
       let sheetXnb = __dirname + `/assets/${SOCKET_ID}/data/spritesheetcunt.xnb`
       console.log('---- CONVERT ----')
-      execFile(['mono', `${__dirname}/png_to_xnb.exe`, `${imageDir}`, `${sheetXnb}`], (error, stdout, stderr) => {
-        if (error !== null) {
-          console.log(`exec error: ${error}`);
-        }
-        resolve()
-      })
+      // execFile(['mono', `${__dirname}/png_to_xnb.exe`, `${imageDir}`, `${sheetXnb}`], (error, stdout, stderr) => {
+      //   if (error !== null) {
+      //     console.log(`exec error: ${error}`);
+      //   }
+      //   resolve()
+      // })
+      child.exec(`mono ${__dirname}/png_to_xnb.exe ${imageDir} ${sheetXnb}`)
+      resolve()
     })
   }
   //////////////////
