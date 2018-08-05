@@ -12,7 +12,9 @@
 		"start:dev": "node server.js",
 		"start:prod": "rm -rf server/assets/* & NODE_ENV=production node server.js",
 		"start:pm2": "rm -rf server/assets/* & NODE_ENV=production pm2 start server.js",
-		"start:pm2watch": "rm -rf server/assets/* & NODE_ENV=production pm2 start server.js --watch"
+		"start:pm2watch": "rm -rf server/assets/* & NODE_ENV=production pm2 start server.js --watch",
+		"pull": "sudo git pull",
+		"pull:prod": "npm run pull && npm run start:prod"
 	},
 	"engines": {
 		"node": ">=6"
