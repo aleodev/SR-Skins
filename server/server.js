@@ -158,7 +158,7 @@ app.post('/skineditor', cors(), function(req, res) {
           console.log(`exec error: ${error}`);
         }
         resolve()
-      }))
+      })
     })
   }
   //////////////////
