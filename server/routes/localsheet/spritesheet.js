@@ -1,5 +1,3 @@
-
-
 module.exports = (app) => {
 
   app.get('/localsheet/sendSprites', (req, res, next) => {
