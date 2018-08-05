@@ -153,11 +153,12 @@ app.post('/skineditor', cors(), function(req, res) {
       //   }
       //   resolve()
       // })
-      child.exec(`mono ${__dirname}/png_to_xnb.exe ${imageDir} ${sheetXnb}`,(error, stdout, stderr) => {
+      child.exec(`wine ${__dirname}/png_to_xnb.exe ${imageDir} ${sheetXnb}`,(error, stdout, stderr) => {
         if (error !== null) {
-          console.log(`exec error: ${error}`);
+          console.log(`exec error: ${error}`, reject());
+        } else {
+          resolve()
         }
-        resolve()
       })
     })
   }
