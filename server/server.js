@@ -153,7 +153,7 @@ app.post('/skineditor', cors(), function(req, res) {
       //   }
       //   resolve()
       // })
-      execFile(['wine', `${__dirname}/png_to_xnb.exe`, imageDir, sheetXnb],(error, stdout, stderr) => {
+      execFile('wine', [`${__dirname}/png_to_xnb.exe`, imageDir, sheetXnb],(error, stdout, stderr) => {
         if (error !== null) {
           console.log(`exec error: ${error}`, reject());
         } else {
