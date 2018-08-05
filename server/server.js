@@ -18,7 +18,7 @@ const packer = require('gamefroot-texture-packer')
 const dotenv = require('dotenv')
 const envFile = dotenv.config().parsed
 const colors = require('colors')
-const child = require('child_process')
+const execFile = require('child_process').execFile
 const socketio = require('socket.io')
 const cors = require('cors')
 const ElapsedTime = require('elapsed-time')
@@ -153,7 +153,7 @@ app.post('/skineditor', cors(), function(req, res) {
       //   }
       //   resolve()
       // })
-      execFile((['wine', `${__dirname}/png_to_xnb.exe`, imageDir, sheetXnb]`,(error, stdout, stderr) => {
+      execFile(['wine', `${__dirname}/png_to_xnb.exe`, imageDir, sheetXnb],(error, stdout, stderr) => {
         if (error !== null) {
           console.log(`exec error: ${error}`, reject());
         } else {
