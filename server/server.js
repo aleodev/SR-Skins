@@ -147,7 +147,7 @@ app.post('/skineditor', cors(), function(req, res) {
       let imageDir = __dirname + `/assets/${SOCKET_ID}/data/spritesheet-1.png`
       let sheetXnb = __dirname + `/assets/${SOCKET_ID}/data/spritesheetcunt.xnb`
       console.log('---- CONVERT ----')
-      execFile('nohup', [isDev ? 'wine' : 'mono', `${__dirname}/png_to_xnb.exe`,'-c', `${imageDir}`, `${sheetXnb}`], (error, stdout, stderr) => {
+      execFile([isDev ? 'wine' : 'mono', `${__dirname}/png_to_xnb.exe`, `${imageDir}`, `${sheetXnb}`], (error, stdout, stderr) => {
         if (error !== null) {
           console.log(`exec error: ${error}`);
         }
