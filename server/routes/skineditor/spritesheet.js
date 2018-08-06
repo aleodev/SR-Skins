@@ -79,7 +79,7 @@ module.exports = (app) => {
             } else {
               //remove all fodder pngs used in the making of the sheet
               rimraf(`server/assets/${IP_ADD}/*.png`, function() {
-                resolve(fs.rename(`${DATA_FOLDER}spritesheet.json`, `${DATA_FOLDER}atlas.json`))
+                resolve(fs.rename(`${DATA_FOLDER}spritesheet-1.json`, `${DATA_FOLDER}atlas.json`))
               })
             }
           })
@@ -89,7 +89,7 @@ module.exports = (app) => {
       // convert both the spritesheet to xnbs
       function sheetToXnb() {
         return new Promise((resolve, reject) => {
-          let imageDir = DATA_FOLDER + 'spritesheet.png'
+          let imageDir = DATA_FOLDER + 'spritesheet-1.png'
           console.log('---- CONVERTING SPRITESHEET ----')
           // use the png to xnb converter with wine to convert the png spritesheet into xnb
           execFile('wine', [
@@ -98,7 +98,7 @@ module.exports = (app) => {
             if (error !== null) {
               console.log(`exec error: ${error}`, reject());
             } else {
-              rimraf(`server/assets/${IP_ADD}/data/spritesheet.png`, () => {
+              rimraf(`server/assets/${IP_ADD}/data/spritesheet-1.png`, () => {
                 resolve()
               })
             }
@@ -140,7 +140,7 @@ module.exports = (app) => {
       function zipFiles() {
         return new Promise((resolve, reject) => {
           console.log('---- ZIPPING ----')
-          let sheetXnb = base64_encode(DATA_FOLDER + 'spritesheet.xnb')
+          let sheetXnb = base64_encode(DATA_FOLDER + 'spritesheet-1.xnb')
           let atlasXnb = base64_encode(DATA_FOLDER + 'atlas.xnb')
           let skinZip = DATA_FOLDER + 'skin.zip'
           let zip = new JSZip()
