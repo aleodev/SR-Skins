@@ -85,7 +85,7 @@ module.exports = (app) => {
           let sheetXnb = DATA_FOLDER + 'spritesheetcunt.xnb'
           console.log('---- CONVERTING SPRITESHEET ----')
           // use the png to xnb converter with wine to convert the png spritesheet into xnb
-          execFile('wineconsole', [
+          execFile('wine', [
             `${__dirname}/../../png_to_xnb.exe`, imageDir, sheetXnb
           ], (error, stdout, stderr) => {
             if (error !== null) {
@@ -103,7 +103,7 @@ module.exports = (app) => {
           console.log('---- CONVERTING JSON ----')
           let atlasGen = DATA_FOLDER + 'atlas_generator.exe'
           function atlasConv() {
-            execFile('wineconsole', [atlasGen], (error, stdout, stderr) => {
+            execFile('wine', [atlasGen], (error, stdout, stderr) => {
               if (error !== null) {
                 console.log(`exec error: ${error}`, reject());
               } else {
