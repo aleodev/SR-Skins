@@ -1,5 +1,5 @@
-const express = require('express');
-const router = express.Router();
+const express = require('express')
+const router = express.Router()
 const cors = require('cors')
 const fse = require('fs-extra')
 const JSZip = require("jszip")
@@ -8,7 +8,6 @@ const bodyParser = require('body-parser')
 const ElapsedTime = require('elapsed-time')
 const rimraf = require('rimraf')
 const packer = require('gamefroot-texture-packer')
-// const { first, second, third } = require('./path/to/first_file.js');
 const execFile = require('child_process').execFile
 
 // var corsOptions = {

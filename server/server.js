@@ -35,7 +35,7 @@ app.use(express.json({limit: '100mb'}))
 const skineditor = require('./routes/skineditor/spritesheet')
 const counters = require('./routes/api/counters')
 app.use(function(req, res, next){
-  res.header('Access-Control-Allow-Origin', 'http://70.32.30.254');
+  res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
   next()
@@ -63,6 +63,7 @@ if (isDev) {
 
   app.use(webpackHotMiddleware(compiler))
   app.use(express.static(path.resolve(__dirname, '../dist')))
+
 } else {
   app.use(express.static(path.resolve(__dirname, '../dist')))
   app.get('*', function(req, res) {
@@ -110,4 +111,4 @@ app.listen(port, (err) => {
 //   })
 // })
 ///////////////
-module.exports = [app, isDev]
+module.exports = app
