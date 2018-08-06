@@ -1,12 +1,13 @@
 const express = require('express')
 const fse = require('fs-extra')
+const fs = require('fs')
 const JSZip = require('jszip')
 const path = require('path')
 const bodyParser = require('body-parser')
 // const ElapsedTime = require('elapsed-time')
 const rimraf = require('rimraf')
 const packer = require('gamefroot-texture-packer')
-const { exec, execFile } = require('child_process')
+const {exec, execFile} = require('child_process')
 
 module.exports = (app) => {
   //////////////////
@@ -21,11 +22,9 @@ module.exports = (app) => {
       DATA_FOLDER = __dirname + `/../../assets/${IP_ADD}/data/`
       rimraf(`server/assets/${IP_ADD}/data/*.png`, () => {
         rimraf(`server/assets/${IP_ADD}/data/*.xnb`, () => {
-          rimraf(`server/assets/${IP_ADD}/data/*.json`, () => {
-          })
+          rimraf(`server/assets/${IP_ADD}/data/*.json`, () => {})
         })
       })
-
 
       //////////////////
       // encode data into base64 format
@@ -72,14 +71,19 @@ module.exports = (app) => {
           packer(`server/assets/${IP_ADD}/*.png`, {
             format: 'json',
             trim: false,
-            path: `server/assets/${IP_ADD}/data`
+            path: `server/assets/${IP_ADD}/data`,
+            name: 'spritesheet'
           }, err => {
             if (err) {
               reject(err)
             } else {
-              //remove all fodder pngs used in the making of the sheet
-              rimraf(`server/assets/${IP_ADD}/*.png`, function() {
-                resolve()
+              fs.rename(`server/assets/${IP_ADD}/spritesheet.json`, `server/assets/${IP_ADD}/atlas.json`, (err) => {
+                if (err)
+                  throw err;
+                //remove all fodder pngs used in the making of the sheet
+                rimraf(`server/assets/${IP_ADD}/*.png`, function() {
+                  resolve()
+                })
               })
             }
           })
@@ -89,18 +93,17 @@ module.exports = (app) => {
       // convert both the spritesheet to xnbs
       function sheetToXnb() {
         return new Promise((resolve, reject) => {
-          let imageDir = DATA_FOLDER + 'spritesheet-1.png'
-          let sheetXnb = DATA_FOLDER + 'spritesheet.xnb'
+          let imageDir = DATA_FOLDER + 'spritesheet.png'
           console.log('---- CONVERTING SPRITESHEET ----')
           // use the png to xnb converter with wine to convert the png spritesheet into xnb
           execFile('wine', [
-            `${__dirname}/../../png_to_xnb.exe`, imageDir, sheetXnb
+            `${__dirname}/../../png_to_xnb.exe`, imageDir
           ], (error, stdout, stderr) => {
             if (error !== null) {
               console.log(`exec error: ${error}`, reject());
             } else {
-              rimraf(`server/assets/${IP_ADD}/data/*.png`, () => {
-              resolve()
+              rimraf(`server/assets/${IP_ADD}/data/spritesheet.png`, () => {
+                resolve()
               })
             }
           })
@@ -113,11 +116,15 @@ module.exports = (app) => {
           console.log('---- CONVERTING JSON ----')
           let atlasGen = DATA_FOLDER + 'atlas_generator.exe'
           function atlasConv() {
-            exec(`wine atlas_generator.exe`,{cwd: DATA_FOLDER}, (error, stdout, stderr) => {
+            exec(`wine atlas_generator.exe`, {
+              cwd: DATA_FOLDER
+            }, (error, stdout, stderr) => {
               if (error !== null) {
                 console.log(`exec error: ${error}`, reject());
               } else {
-                resolve()
+                rimraf(`server/assets/${IP_ADD}/data/atlas.json`, () => {
+                  resolve()
+                })
               }
             })
           }
@@ -137,13 +144,13 @@ module.exports = (app) => {
       function zipFiles() {
         return new Promise((resolve, reject) => {
           console.log('---- ZIPPING ----')
-          let imageXnb = base64_encode(DATA_FOLDER + 'spritesheet.xnb')
-          let imageAtlas = base64_encode(DATA_FOLDER + 'spritesheet-1.xnb')
+          let sheetXnb = base64_encode(DATA_FOLDER + 'spritesheet.xnb')
+          let atlasXnb = base64_encode(DATA_FOLDER + 'atlas.xnb')
           let skinZip = DATA_FOLDER + 'skin.zip'
           let zip = new JSZip()
           // zip both the xnb and json
-          zip.file(`animation_variant${req.body.options.variant}.xnb`, imageXnb, {base64: true})
-          zip.file(`animation_atlas_variant${req.body.options.variant}.xnb`, imageAtlas, {base64: true})
+          zip.file(`animation_variant${req.body.options.variant}.xnb`, sheetXnb, {base64: true})
+          zip.file(`animation_atlas_variant${req.body.options.variant}.xnb`, atlasXnb, {base64: true})
           // create the node stream for file gen
           zip.generateNodeStream({type: 'nodebuffer', streamFiles: true})
           //pipe the zip into file creation write stream with fse
