@@ -78,9 +78,9 @@ module.exports = (app) => {
               reject(err)
             } else {
               // remove all fodder pngs used in the making of the sheet
-              rimraf(`server/assets/${IP_ADD}/*.png`, function() {
-                resolve()
-              })
+              // rimraf(`server/assets/${IP_ADD}/*.png`, function() {
+              //   resolve()
+              // })
             }
           })
         })
