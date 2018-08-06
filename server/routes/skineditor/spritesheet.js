@@ -1,3 +1,5 @@
+const express = require('express');
+const router = express.Router();
 const cors = require('cors')
 const fse = require('fs-extra')
 const JSZip = require("jszip")
@@ -6,17 +8,13 @@ const bodyParser = require('body-parser')
 const ElapsedTime = require('elapsed-time')
 const rimraf = require('rimraf')
 const packer = require('gamefroot-texture-packer')
+// const { first, second, third } = require('./path/to/first_file.js');
 const execFile = require('child_process').execFile
 
-module.exports = (app) => {
-
-  app.get('/localsheet/sendSprites', (req, res, next) => {
-    res.send('hello world')
-  })
   //////////////////
   connections = []
   //////////////////
-  app.post('/skineditor', cors(), function(req, res) {
+  router.post('/', cors(), function(req, res) {
     if (connections.includes(req.connection.remoteAddress) !== true) {
       connections.push(req.connection.remoteAddress)
       var IP_ADD = req.connection.remoteAddress
@@ -83,7 +81,7 @@ module.exports = (app) => {
             if (error !== null) {
               console.log(`exec error: ${error}`, reject());
             } else {
-              resolve(console.log(`done in ${ET.getValue()}`))
+              resolve(console.log(`Converted in ${ET.getValue()}`))
             }
           })
         })
@@ -102,8 +100,7 @@ module.exports = (app) => {
               if (err) {
                 reject(err)
               } else {
-                connections = connections.filter(ip => ip !== req.connection.remoteAddress)
-                resolve(console.log('---- FINISHED ----'))
+                resolve(console.log('---- FINISHED ----'), connections = connections.filter(ip => ip !== req.connection.remoteAddress))
               }
             })
           })
@@ -121,4 +118,4 @@ module.exports = (app) => {
       res.sendStatus(403)
     }
   })
-}
+module.exports = router

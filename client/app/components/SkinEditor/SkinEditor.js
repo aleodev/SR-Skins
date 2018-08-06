@@ -3,8 +3,8 @@ import React, { Component } from 'react'
 import {frame_names} from './info/frames'
 import {change} from './buttons/change'
 import {make} from './buttons/make'
-import openSocket from 'socket.io-client'
-const socket = openSocket(`http://${process.env.IP_ENV}:${process.env.PORT_ENV}`)
+// import openSocket from 'socket.io-client'
+// const socket = openSocket(`http://${process.env.IP_ENV}:${process.env.PORT_ENV}`)
 
 class SkinEditor extends Component {
   constructor(props) {

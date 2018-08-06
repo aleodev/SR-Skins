@@ -1,14 +1,15 @@
-const Counter = require('../../models/Counter');
+const express = require('express');
+const router = express.Router();
+const Counter = require('../../models/Counter')
 
-module.exports = (app) => {
-  app.get('/api/counters', (req, res, next) => {
+  router.get('/', (req, res, next) => {
     Counter.find()
       .exec()
       .then((counter) => res.json(counter))
       .catch((err) => next(err));
   });
 
-  app.post('/api/counters', function (req, res, next) {
+  router.post('/', function (req, res, next) {
     const counter = new Counter();
 
     counter.save()
@@ -16,14 +17,14 @@ module.exports = (app) => {
       .catch((err) => next(err));
   });
 
-  app.delete('/api/counters/:id', function (req, res, next) {
+  router.delete('/:id', function (req, res, next) {
     Counter.findOneAndRemove({ _id: req.params.id })
       .exec()
       .then((counter) => res.json())
       .catch((err) => next(err));
   });
 
-  app.put('/api/counters/:id/increment', (req, res, next) => {
+  router.put('/:id/increment', (req, res, next) => {
     Counter.findById(req.params.id)
       .exec()
       .then((counter) => {
@@ -36,7 +37,7 @@ module.exports = (app) => {
       .catch((err) => next(err));
   });
 
-  app.put('/api/counters/:id/decrement', (req, res, next) => {
+  router.put('/:id/decrement', (req, res, next) => {
     Counter.findById(req.params.id)
       .exec()
       .then((counter) => {
@@ -48,4 +49,4 @@ module.exports = (app) => {
       })
       .catch((err) => next(err));
   });
-};
+module.exports = router
