@@ -101,9 +101,8 @@ module.exports = (app) => {
       function jsonToAtlasXnb() {
         return new Promise((resolve, reject) => {
           console.log('---- CONVERTING JSON ----')
-          let atlasGen = DATA_FOLDER + 'atlas_generator.exe'
           function atlasConv() {
-            exec(`wine ${__dirname}/../../assets/${IP_ADD}/data/atlas_generator.exe`, (error, stdout, stderr) => {
+            exec(`wine atlas_generator.exe`,{cwd: DATA_FOLDER}, (error, stdout, stderr) => {
               if (error !== null) {
                 console.log(`exec error: ${error}`, reject());
               } else {
