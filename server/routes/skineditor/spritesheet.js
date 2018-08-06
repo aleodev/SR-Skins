@@ -1,5 +1,4 @@
 const express = require('express')
-const router = express.Router()
 const cors = require('cors')
 const fse = require('fs-extra')
 const JSZip = require("jszip")
@@ -10,6 +9,7 @@ const rimraf = require('rimraf')
 const packer = require('gamefroot-texture-packer')
 const execFile = require('child_process').execFile
 
+module.exports = (app) => {
 // var corsOptions = {
 //   "origin": "*",
 //   "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
@@ -19,7 +19,7 @@ const execFile = require('child_process').execFile
 //////////////////
 connections = []
 //////////////////
-router.post('/', function(req, res) {
+app.post('/skineditor', function(req, res) {
 if (connections.includes(req.connection.remoteAddress) !== true) {
     connections.push(req.connection.remoteAddress)
     var IP_ADD = req.connection.remoteAddress
@@ -123,4 +123,4 @@ if (connections.includes(req.connection.remoteAddress) !== true) {
     res.sendStatus(403)
   }
 })
-module.exports = router
+}

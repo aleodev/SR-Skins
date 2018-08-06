@@ -1,18 +1,23 @@
-const express = require('express')
-const helmet = require('helmet')
-const fse = require('fs-extra')
+const express = require('express');
+const helmet = require('helmet');
+const fse = require('fs-extra');
 const historyApiFallback = require('connect-history-api-fallback')
 const mongoose = require('mongoose')
 const path = require('path')
+
 const webpack = require('webpack')
 const webpackDevMiddleware = require('webpack-dev-middleware')
 const webpackHotMiddleware = require('webpack-hot-middleware')
+
 const config = require('../config/config')
 const webpackConfig = require('../webpack.config')
+
 const dotenv = require('dotenv')
 const envFile = dotenv.config().parsed
+
 const colors = require('colors')
 const socketio = require('socket.io')
+
 const isDev = process.env.NODE_ENV !== 'production'
 const port = isDev
   ? (envFile.DEV_P_ENV)
@@ -28,20 +33,17 @@ const port = isDev
 const app = express()
 app.use(helmet())
 app.disable('x-powered-by')
-app.use(express.urlencoded({limit: '100mb', extended: false}))
-app.use(express.json({limit: '100mb'}))
-
-// API routes
-const skineditor = require('./routes/skineditor/spritesheet')
-const counters = require('./routes/api/counters')
 app.use(function(req, res, next){
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
   next()
 })
-app.use('/', counters)
-app.use('/skineditor', skineditor)
+app.use(express.urlencoded({limit: '100mb', extended: false}))
+app.use(express.json({limit: '100mb'}))
+
+// API routes
+require('./routes')(app)
 
 if (isDev) {
   const compiler = webpack(webpackConfig)
