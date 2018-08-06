@@ -11,16 +11,22 @@ const packer = require('gamefroot-texture-packer')
 // const { first, second, third } = require('./path/to/first_file.js');
 const execFile = require('child_process').execFile
 
-var corsOptions = {
-  "origin": "*",
-  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
-  "preflightContinue": false,
-  "optionsSuccessStatus": 204
-}
+// var corsOptions = {
+//   "origin": "*",
+//   "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+//   "preflightContinue": false,
+//   "optionsSuccessStatus": 204
+// }
 //////////////////
+router.use(function(req, res, next){
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+  next()
+})
 connections = []
 //////////////////
-router.post('/', cors(corsOptions), function(req, res) {
+router.post('/', function(req, res) {
 if (connections.includes(req.connection.remoteAddress) !== true) {
     connections.push(req.connection.remoteAddress)
     var IP_ADD = req.connection.remoteAddress
