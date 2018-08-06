@@ -11,15 +11,9 @@ const packer = require('gamefroot-texture-packer')
 // const { first, second, third } = require('./path/to/first_file.js');
 const execFile = require('child_process').execFile
 
-var whitelist = 'http://70.32.30.254'
 var corsOptions = {
-  origin: function (origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
-      callback(null, true)
-    } else {
-      callback(new Error('Not allowed by CORS'))
-    }
-  }
+  origin: 'http://70.32.30.254',
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
   //////////////////
   connections = []
