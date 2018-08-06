@@ -12,7 +12,7 @@ const packer = require('gamefroot-texture-packer')
 const execFile = require('child_process').execFile
 
 var corsOptions = {
-  origin: 'http://70.32.30.254',
+  origin: '*',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
   //////////////////
