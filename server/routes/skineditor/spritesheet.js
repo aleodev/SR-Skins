@@ -63,7 +63,7 @@ module.exports = (app) => {
           // pack all pngs made from the frame looping function into a png spritesheet and a json
           packer(`server/assets/${IP_ADD}/*.png`, {
             format: 'json',
-            trim: true,
+            trim: false,
             path: `server/assets/${IP_ADD}/data`
           }, err => {
             if (err) {
