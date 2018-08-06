@@ -6,7 +6,7 @@ const bodyParser = require('body-parser')
 // const ElapsedTime = require('elapsed-time')
 const rimraf = require('rimraf')
 const packer = require('gamefroot-texture-packer')
-const execFile = require('child_process').execFile
+const { exec, execFile } = require('child_process')
 
 module.exports = (app) => {
   // connections array to manage active ips executing a post request on /skineditor
