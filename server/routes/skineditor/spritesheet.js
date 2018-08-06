@@ -19,6 +19,9 @@ module.exports = (app) => {
       connections.push(req.connection.remoteAddress)
       IP_ADD = req.connection.remoteAddress
       DATA_FOLDER = __dirname + `/../../assets/${IP_ADD}/data/`
+      rimraf(`server/assets/${IP_ADD}/data/*.png`)
+      rimraf(`server/assets/${IP_ADD}/data/*.xnb`)
+      rimraf(`server/assets/${IP_ADD}/data/*.json`)
       //////////////////
       // encode data into base64 format
       function base64_encode(file) {
