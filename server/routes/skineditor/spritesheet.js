@@ -16,10 +16,11 @@ var corsOptions = {
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   optionsSuccessStatus: 200
 }
+  router.all('*', cors());
   //////////////////
   connections = []
   //////////////////
-  router.post('/', cors(corsOptions), function(req, res) {
+  router.post('/', function(req, res) {
     if (connections.includes(req.connection.remoteAddress) !== true) {
       connections.push(req.connection.remoteAddress)
       var IP_ADD = req.connection.remoteAddress
