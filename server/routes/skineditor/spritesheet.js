@@ -58,7 +58,7 @@ module.exports = (app) => {
           console.log('---- CREATE IMAGES ----')
           let _data = req.body.frame_data
           // loop the frame creation, creating all frames in png format input by the user from the frontend
-          _data.map(frames => (createFramePng(frames.name + '0001', frames.image.split('base64,').pop())))
+          _data.map(frames => (createFramePng(frames.name + '0001113124', frames.image.split('base64,').pop())))
           setTimeout(() => resolve(), 600)
         })
       }
