@@ -77,13 +77,9 @@ module.exports = (app) => {
             if (err) {
               reject(err)
             } else {
-              fs.rename(`server/assets/${IP_ADD}/spritesheet.json`, `server/assets/${IP_ADD}/atlas.json`, (err) => {
-                if (err)
-                  throw err;
-                //remove all fodder pngs used in the making of the sheet
-                rimraf(`server/assets/${IP_ADD}/*.png`, function() {
-                  resolve()
-                })
+              //remove all fodder pngs used in the making of the sheet
+              rimraf(`server/assets/${IP_ADD}/*.png`, function() {
+                resolve(fs.rename(`${DATA_FOLDER}spritesheet.json`, `${DATA_FOLDER}atlas.json`))
               })
             }
           })
