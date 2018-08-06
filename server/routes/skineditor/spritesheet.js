@@ -103,7 +103,7 @@ module.exports = (app) => {
           console.log('---- CONVERTING JSON ----')
           let atlasGen = DATA_FOLDER + 'atlas_generator.exe'
           function atlasConv() {
-            exec(`wine ${atlasGen}` (error, stdout, stderr) => {
+            exec(`wine ${atlasGen}`, (error, stdout, stderr) => {
               if (error !== null) {
                 console.log(`exec error: ${error}`, reject());
               } else {
