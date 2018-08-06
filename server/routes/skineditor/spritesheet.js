@@ -81,6 +81,7 @@ module.exports = (app) => {
               // rimraf(`server/assets/${IP_ADD}/*.png`, function() {
               //   resolve()
               // })
+              resolve()
             }
           })
         })
