@@ -12,8 +12,10 @@ const packer = require('gamefroot-texture-packer')
 const execFile = require('child_process').execFile
 
 var corsOptions = {
-  origin: '*',
-  optionsSuccessStatus: 200
+  "origin": "*",
+  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+  "preflightContinue": false,
+  "optionsSuccessStatus": 204
 }
 //////////////////
 connections = []
