@@ -11,7 +11,9 @@ class SkinEditor extends Component {
     super(props)
     this.state = {
       frames: [],
-      options: {aye: 'cunt'}
+      options: {
+        variant: '00'
+      }
     }
   }
   componentWillMount() {

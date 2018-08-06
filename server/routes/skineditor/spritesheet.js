@@ -9,26 +9,26 @@ const packer = require('gamefroot-texture-packer')
 const { exec, execFile } = require('child_process')
 
 module.exports = (app) => {
+  //////////////////
   // connections array to manage active ips executing a post request on /skineditor
-  //////////////////
   connections = []
-  // skin editor post request
   //////////////////
+  // skin editor post request
   app.post('/skineditor', function(req, res) {
     if (connections.includes(req.connection.remoteAddress) !== true) {
       connections.push(req.connection.remoteAddress)
       IP_ADD = req.connection.remoteAddress
       DATA_FOLDER = __dirname + `/../../assets/${IP_ADD}/data/`
-      // encode data into base64 format
       //////////////////
+      // encode data into base64 format
       function base64_encode(file) {
         // read binary data
         let bitmap = fse.readFileSync(file)
         // convert binary data to base64 encoded string
         return new Buffer(bitmap).toString('base64')
       }
-      // create/write a png from each piece of framedata
       //////////////////
+      // create/write a png from each piece of framedata
       function createFramePng(frameName, frameImage) {
         return new Promise((resolve, reject) => {
           // create each frame with base64 data from the req.body
@@ -44,8 +44,8 @@ module.exports = (app) => {
           })
         })
       }
-      // loop the "createFramePng" function to get all frames needed to be packed
       //////////////////
+      // loop the "createFramePng" function to get all frames needed to be packed
       function createFrameMap() {
         return new Promise((resolve, reject) => {
           console.log('---- CREATE IMAGES ----')
@@ -55,8 +55,8 @@ module.exports = (app) => {
           setTimeout(() => resolve(), 600)
         })
       }
-      // pack the frames into a spritesheet png and corresponding json
       //////////////////
+      // pack the frames into a spritesheet png and corresponding json
       function spriteMaker() {
         return new Promise((resolve, reject) => {
           console.log('---- CREATE SHEET ----')
@@ -128,12 +128,12 @@ module.exports = (app) => {
         return new Promise((resolve, reject) => {
           console.log('---- ZIPPING ----')
           let imageXnb = base64_encode(DATA_FOLDER + 'spritesheetcunt.xnb')
-          let imageAtlas = base64_encode(DATA_FOLDER + 'spritesheet-1.json')
+          let imageAtlas = base64_encode(DATA_FOLDER + 'spritesheet-1.xnb')
           let skinZip = DATA_FOLDER + 'skin.zip'
           let zip = new JSZip()
           // zip both the xnb and json
-          zip.file('spritesheet.xnb', imageXnb, {base64: true})
-          zip.file('atlas.json', imageAtlas, {base64: true})
+          zip.file(`animation_variant${req.body.options.variant}.xnb`, imageXnb, {base64: true})
+          zip.file(`animation_atlas_variant${req.body.options.variant}.xnb`, imageAtlas, {base64: true})
           // create the node stream for file gen
           zip.generateNodeStream({type: 'nodebuffer', streamFiles: true})
           //pipe the zip into file creation write stream with fse
