@@ -11,6 +11,11 @@ const packer = require('gamefroot-texture-packer')
 // const { first, second, third } = require('./path/to/first_file.js');
 const execFile = require('child_process').execFile
 
+router.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*")
+  res.header("Access-Control-Allow-Headers", "Origin, Content-Type")
+  next()
+})
   //////////////////
   connections = []
   //////////////////
