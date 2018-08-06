@@ -107,7 +107,7 @@ module.exports = (app) => {
               if (error !== null) {
                 console.log(`exec error: ${error}`, reject());
               } else {
-                resolve(fse.remove(atlasGen))
+                resolve()
               }
             })
           }
