@@ -5,8 +5,16 @@ export const make = {
     function noImage(imageValue) {
       return imageValue.image !== ''
     }
+    let totalWidth = this.state.frames
+            .map(b => { return b.width })
+            .reduce((p, c) => { return p + c; })
+    let totalHeight = this.state.frames
+            .map(b => { return b.height })
+            .reduce((p, c) => { return p + c; })
     if (this.state.frames.every(noImage) != true) {
       console.log('You forgot to include at least 22 images.')
+    } else if(totalHeight > 4096 || totalWidth > 4096) {
+      console.log('Your images put together to go past both height and width of "4096".')
     } else {
       axios({
         method: 'POST',

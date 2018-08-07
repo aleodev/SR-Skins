@@ -44,5 +44,13 @@ export const change = {
       }
       reader.readAsDataURL(event.target.files[0])
     }
+  },
+  variant_select: function(event) {
+    this.setState({
+      options: {
+        ...this.state.options,
+        variant: event.target.value
+      }
+    })
   }
 }
