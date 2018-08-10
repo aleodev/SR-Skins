@@ -1,6 +1,18 @@
 @charset "UTF-8";
 
-@import 'vendor/normalize';
-@import 'vendor/bootstrap-grid.min.css';
+// UTILITIES
+@import 'vendor/utils/normalize';
+@import 'vendor/utils/bootstrap-grid.min.css';
+@import 'vendor/utils/Accordion';
+@import 'vendor/utils/Buttons';
+
+// PAGES
+@import 'vendor/pages/all_pages';
+
+
+// COMPONENTS
+@import 'vendor/components/Navigation';
+
+
+// VARIABLES
 @import 'vendor/variables';
-@import 'vendor/skineditor';

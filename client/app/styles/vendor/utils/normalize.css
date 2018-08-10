@@ -465,3 +465,10 @@ textarea {
   -webkit-appearance: button; /* 1 */
   font: inherit; /* 2 */
 }
+
+/**
+ * Clear class to use multiple floats.
+ */
+ .clear {
+   clear:both;
+ }

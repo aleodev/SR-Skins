@@ -9,8 +9,7 @@ const Header = () => (
     <nav>
       <Link to="/skineditor">Skin Editor</Link>
     </nav>
-
-    <hr />
+    <hr/>
   </header>
 );
 
