@@ -1,18 +1,27 @@
 @charset "UTF-8";
 
 // UTILITIES
-@import 'vendor/utils/normalize';
-@import 'vendor/utils/bootstrap-grid.min.css';
-@import 'vendor/utils/Accordion';
-@import 'vendor/utils/Buttons';
+@import "vendor/utils/bootstrap.min.css";
+@import "vendor/utils/normalize";
+@import "vendor/utils/Accordion";
+@import "vendor/utils/Buttons";
 
 // PAGES
-@import 'vendor/pages/all_pages';
-
+@import "vendor/pages/all_pages";
 
 // COMPONENTS
-@import 'vendor/components/Navigation';
-
+@import "vendor/components/Navigation";
+@import "vendor/components/Footer";
 
 // VARIABLES
-@import 'vendor/variables';
+@import "vendor/variables";
+
+body {
+  background-color: #3c3c3c;
+  height: 100%;
+  width: 100%;
+}
+#app {
+  height: 100%;
+  width: 100%;
+}

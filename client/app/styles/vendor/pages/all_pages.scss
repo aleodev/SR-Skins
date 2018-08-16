@@ -1,3 +1,6 @@
-// Skin Editor
-@import 'skin_editor/Gui-Left';
-@import 'skin_editor/Upload-Right';
+.wrapper {
+  display: block;
+}
+@import "skin_editor/Tasks_Side.scss";
+@import "skin_editor/Selector_Side.scss";
+@import "skin_editor/Editor_Side.scss";

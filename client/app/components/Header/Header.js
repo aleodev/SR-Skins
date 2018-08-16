@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 const Header = () => (
   <header>
@@ -9,7 +9,7 @@ const Header = () => (
     <nav>
       <Link to="/skineditor">Skin Editor</Link>
     </nav>
-    <hr/>
+    <hr />
   </header>
 );
 

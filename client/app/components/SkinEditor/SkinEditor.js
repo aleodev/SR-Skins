@@ -1,64 +1,129 @@
-import React, {Component} from 'react'
-import {frame_names} from './info/frames'
-import {change_frame} from './buttons/change_frame'
-import {change_all} from './buttons/change_all'
-import {utils} from './buttons/utils'
-import {make} from './buttons/make'
-import FrameUploader from './components/frameUploader'
-import $ from 'jquery'
-
-// import 'react-accessible-accordion/dist/fancy-example.css';
-
+import React, { Component } from "react";
+import update from "immutability-helper";
+// Data
+import { frame_names } from "./info/frames";
+// Buttons
+// import {task_btn_handlers} from './buttons/btns_tasks'
+// Components
+// import FrameUploader from './components/frameUploader'
+import Create from "./components/create";
+import Editor from "./components/editor";
+import Selector from "./components/selector";
 // import openSocket from 'socket.io-client'
+
 // const socket = openSocket(`http://${process.env.IP_ENV}:${process.env.PORT_ENV}`)
 
 class SkinEditor extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      frames: [],
+      // frames: frame_names.map(names => ({name: names, image: []})),
+      frames: frame_names.map(names => ({ name: names, image: [] })),
       options: {
-        variant: '00'
-      }
+        variant: "00"
+      },
+      active: null
+      // allow: frames.every(x => x.image[0])
+    };
+  }
+
+  addFrame = e => {
+    e.preventDefault();
+    let file = e.target.files[0],
+      reader = new window.FileReader();
+    if (file)
+      reader.onload = e => {
+        this.setState({
+          frames: update(this.state.frames, {
+            [this.state.active]: { image: { $push: [e.target.result] } }
+          })
+        });
+      };
+    reader.readAsDataURL(file);
+    e.target.value = null;
+  };
+
+  removeFrame = idx => {
+    this.setState({
+      frames: update(this.state.frames, {
+        [this.state.active]: { image: { $splice: [[idx, 1]] } }
+      })
+    });
+  };
+
+  moveFrame = (idx, dir) => {
+    let actIdx = this.state.active,
+      actImgs = this.state.frames[actIdx].image,
+      nextIdx = dir == "l" ? idx-- : idx++;
+    function swap(a, i, j) {
+      a = a.slice();
+      [a[i], a[j]] = [a[j], a[i]];
+      return a;
     }
-  }
-  componentWillMount() {
-    frame_names.map((names) => {
-      this.state.frames.push({name: names, image: []})
-    })
-  }
-  componentDidMount() {
-    $(document).on('click', '#new-frame-button', function(){
-          $(this).closest('div').find('input').click()
-    })
-  }
+    if (actImgs[idx] != null) {
+      this.setState({
+        frames: update(this.state.frames, {
+          [actIdx]: {
+            image: {
+              $set: swap(actImgs, idx, nextIdx)
+            }
+          }
+        })
+      });
+    }
+  };
+  changeFrame = (e, idx) => {
+    e.preventDefault();
+    let file = e.target.files[0],
+      reader = new window.FileReader();
+    if (file)
+      reader.onload = e => {
+        this.setState({
+          frames: update(this.state.frames, {
+            [this.state.active]: {
+              image: { [idx]: { $set: [e.target.result] } }
+            }
+          })
+        });
+      };
+    reader.readAsDataURL(file);
+    e.target.value = null;
+  };
+
+  deleteActiveFrames = () => {
+    this.setState({
+      frames: update(this.state.frames, {
+        [this.state.active]: { image: { $set: [] } }
+      })
+    });
+  };
+
+  addTransparent = () => {
+    console.log("Not working.");
+  };
+
+  handleActive = idx => {
+    this.setState({ active: idx });
+  };
   render() {
     return (
       <React.Fragment>
-        <div className="bootstrap-wrapper">
-          <div className="editorSide col-md-5">
-            <div className="button-sticky">
-
-              <button onClick={change_all.all_transparent.bind(this)}>Change All -> Transparent</button>
-              <div className="upload-btn-wrapper">
-                <button className="btn-custom">Change All -> Custom Image Upload</button>
-                <input onChange={change_all.all_custom.bind(this)} name="Select File" type="file"/>
-              </div>
-              <select value={this.state.options.variant} onChange={utils.variant_select.bind(this)}>
-                <option defaultValue="defaultValue" value="00">Variant 00</option>
-                <option value="01">Variant 01</option>
-                <option value="02">Variant 02</option>
-                <option value="03">Variant 03</option>
-              </select>
-              <button onClick={make.skin.bind(this)}>Create Skin</button>
-            </div>
-          </div>
-          <div className="frameSide col-md-7">
-            <FrameUploader data_names={frame_names} data={this.state.frames} change={change_frame.add_frame.bind(this)}/>
-            </div>
-          </div>
-        </React.Fragment>)
-      }
+        <div className="wrapper">
+          <Create curState={this.state} />
+          <Editor
+            curState={this.state}
+            addFrame={this.addFrame}
+            removeFrame={this.removeFrame}
+            moveFrame={this.moveFrame}
+            changeFrame={this.changeFrame}
+            addTransparent={this.addTransparent}
+            deleteActiveFrames={this.deleteActiveFrames}
+          />
+          <Selector curState={this.state} changeActive={this.handleActive} />
+        </div>
+      </React.Fragment>
+    );
   }
+}
 
-export default SkinEditor
+export default SkinEditor;

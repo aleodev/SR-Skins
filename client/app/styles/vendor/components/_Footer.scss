@@ -1,0 +1,17 @@
+footer {
+  text-align: center;
+  vertical-align: center;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0;
+  color: white;
+
+  :first-child {
+    color: orange;
+    text-decoration: none;
+  }
+  :last-child {
+    color: red;
+    text-decoration: none;
+  }
+}

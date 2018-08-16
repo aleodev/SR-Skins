@@ -1,0 +1,8 @@
+#tasks {
+  display: block;
+  .upload-btn-wrapper input[type="file"] {
+    position: absolute;
+    left: 0;
+    opacity: 0;
+  }
+}
