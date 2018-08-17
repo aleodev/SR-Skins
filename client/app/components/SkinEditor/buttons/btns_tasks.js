@@ -1,6 +1,5 @@
 import axios from "axios";
 import { saveAs } from "file-saver/FileSaver";
-import React from "react";
 export const task_btn_handlers = {
   make_skin: function(e) {
     function noImage(imageValue) {

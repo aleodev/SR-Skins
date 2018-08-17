@@ -223,9 +223,3 @@ Editor.propTypes = {
   removeFrame: PropTypes.func.isRequired,
   addFrame: PropTypes.func.isRequired
 };
-// <div className="new-frame-button-wrapper">
-//     <button id="new-frame-button" className="button button-glow button-circle button-action button-jumbo">
-//       <i className="fas fa-plus"></i>
-//     </button>
-//     <input className="new-frame-input" onChange={this.addFrame} name="Select File" type="file"/>
-//   </div>
