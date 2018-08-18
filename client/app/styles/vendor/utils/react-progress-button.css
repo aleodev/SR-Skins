@@ -1,7 +1,6 @@
 .pb-container {
   display: inline-block;
   width: 40%;
-  float: left;
 }
 .pb-container .pb-button {
   background: transparent;

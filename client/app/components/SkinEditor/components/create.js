@@ -6,7 +6,6 @@ import axios from "axios";
 
 import { saveAs } from "file-saver/FileSaver";
 const modalRoot = document.getElementById("modal-root");
-const textMuted = { color: "rgb(179, 179, 179)" };
 export default class Create extends Component {
   constructor(props) {
     super(props);
@@ -32,6 +31,7 @@ export default class Create extends Component {
 
   //! Backend doesn't take in multiple frames
   handleCreateCustom = e => {
+    this.setState({ buttonState: "loading" });
     axios({
       method: "POST",
       url: `http://${process.env.IP_ENV}:${process.env.PORT_ENV}/skineditor`,
@@ -65,8 +65,7 @@ export default class Create extends Component {
               this.setState({ buttonState: "" });
             }, 2000);
           });
-          // console.log(error.response);
-          console.log("Internal Error");
+          console.log(error.response);
         }
       });
     e.preventDefault();
@@ -91,7 +90,7 @@ export default class Create extends Component {
                 aria-describedby="nameHelp"
                 placeholder="Enter name"
               />
-              <small id="nameHelp" style={textMuted} className="form-text">
+              <small id="nameHelp" className="form-text text-muted">
                 e.g., Superman.zip
               </small>
             </div>
@@ -110,7 +109,7 @@ export default class Create extends Component {
                 <option>02</option>
                 <option>03</option>
               </select>
-              <small id="variantHelp" style={textMuted} className="form-text">
+              <small id="variantHelp" className="form-text text-muted">
                 e.g., animation_atlas_variant”00/01/02/03”.xnb
               </small>
             </div>
@@ -122,10 +121,13 @@ export default class Create extends Component {
             >
               Create Skin
             </ProgressButton>
-            <button onClick={e => this.onClose(e)} className="close-btn">
-              Cancel
-            </button>
-            <div className="clearfix" />
+            {this.state.buttonState != "loading" ? (
+              <button onClick={e => this.onClose(e)} className="close-btn">
+                Cancel
+              </button>
+            ) : (
+              <div />
+            )}
           </div>
         </div>
       </div>

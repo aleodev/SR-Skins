@@ -18,7 +18,7 @@ export default class Editor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      editorColor: "#917B7A",
+      editorColor: "#697689",
       active: this.props.curState.active
     };
   }

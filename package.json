@@ -59,6 +59,7 @@
     "react-hot-loader": "^4.3.4",
     "react-images-upload": "^1.2.0",
     "react-progress-button": "^5.1.0",
+    "react-reveal": "^1.2.2",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "reactcss": "^1.2.3",

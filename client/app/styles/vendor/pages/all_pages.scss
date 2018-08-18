@@ -4,6 +4,9 @@
 .clearfix {
   clear: both;
 }
+.text-muted {
+  color: rgb(179, 179, 179);
+}
 @import "skin_editor/Create_Side.scss";
 @import "skin_editor/Selector_Side.scss";
 @import "skin_editor/Editor_Side.scss";
