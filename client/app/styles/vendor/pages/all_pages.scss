@@ -1,6 +1,9 @@
 .wrapper {
   display: block;
 }
-@import "skin_editor/Tasks_Side.scss";
+.clearfix {
+  clear: both;
+}
+@import "skin_editor/Create_Side.scss";
 @import "skin_editor/Selector_Side.scss";
 @import "skin_editor/Editor_Side.scss";

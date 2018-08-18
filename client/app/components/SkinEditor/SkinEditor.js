@@ -17,13 +17,9 @@ class SkinEditor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // frames: frame_names.map(names => ({name: names, image: []})),
       frames: frame_names.map(names => ({ name: names, image: [] })),
-      options: {
-        variant: "00"
-      },
-      active: null
-      // allow: frames.every(x => x.image[0])
+      active: null,
+      modal: false
     };
   }
 
@@ -105,11 +101,37 @@ class SkinEditor extends Component {
   handleActive = idx => {
     this.setState({ active: idx });
   };
+
+  testFillBtn = () => {
+    this.setState(state => ({
+      frames: state.frames.map(object => ({
+        image: object.image.concat(
+          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAACWCAQAAACWCLlpAAAA3klEQVR42u3QQREAAAwCoNm/9Cr49iACOWpRIEuWLFmyZCmQJUuWLFmyFMiSJUuWLFkKZMmSJUuWLAWyZMmSJUuWAlmyZMmSJUuBLFmyZMmSpUCWLFmyZMlSIEuWLFmyZCmQJUuWLFmyFMiSJUuWLFkKZMmSJUuWLAWyZMmSJUuWAlmyZMmSJUuBLFmyZMmSpUCWLFmyZMlSIEuWLFmyZCmQJUuWLFmyFMiSJUuWLFkKZMmSJUuWLAWyZMmSJUuWAlmyZMmSJUuBLFmyZMmSpUCWLFmyZMlSIEuWLFmbHrcjAJdeLWiCAAAAAElFTkSuQmCC"
+        )
+      }))
+    }));
+  };
+  showModal = e => {
+    e.preventDefault();
+    if (this.state.modal) {
+      this.setState({ modal: !this.state.modal });
+    } else if (!this.state.frames.every(x => x.image[0])) {
+      console.log("Missed a frame");
+    } else {
+      this.setState({ modal: !this.state.modal });
+    }
+  };
+
   render() {
     return (
       <React.Fragment>
         <div className="wrapper">
-          <Create curState={this.state} />
+          <button onClick={this.testFillBtn}>CUNTAGE</button>
+          <Create
+            curState={this.state}
+            show={this.state.modal}
+            onClose={this.showModal}
+          />
           <Editor
             curState={this.state}
             addFrame={this.addFrame}
@@ -119,7 +141,11 @@ class SkinEditor extends Component {
             addTransparent={this.addTransparent}
             deleteActiveFrames={this.deleteActiveFrames}
           />
-          <Selector curState={this.state} changeActive={this.handleActive} />
+          <Selector
+            curState={this.state}
+            changeActive={this.handleActive}
+            showModal={this.showModal}
+          />
         </div>
       </React.Fragment>
     );

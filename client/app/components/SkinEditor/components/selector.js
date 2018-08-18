@@ -18,7 +18,10 @@ const Selector = props => (
         </button>
       );
     })}
-    <button className="button button-3d button-rounded button-action">
+    <button
+      onClick={props.showModal}
+      className="button button-3d button-rounded button-action"
+    >
       Create Skin
     </button>
   </section>
@@ -26,6 +29,7 @@ const Selector = props => (
 
 Selector.propTypes = {
   changeActive: PropTypes.func.isRequired,
-  curState: PropTypes.object.isRequired
+  curState: PropTypes.object.isRequired,
+  showModal: PropTypes.func.isRequired
 };
 export default Selector;

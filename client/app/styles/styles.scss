@@ -1,10 +1,11 @@
 @charset "UTF-8";
 
 // UTILITIES
-@import "vendor/utils/bootstrap.min.css";
-@import "vendor/utils/normalize";
+
+@import "vendor/utils/Bootstrap";
 @import "vendor/utils/Accordion";
 @import "vendor/utils/Buttons";
+@import "vendor/utils/react-progress-button";
 
 // PAGES
 @import "vendor/pages/all_pages";
@@ -14,7 +15,7 @@
 @import "vendor/components/Footer";
 
 // VARIABLES
-@import "vendor/variables";
+// @import "vendor/variables";
 
 body {
   background-color: #3c3c3c;
