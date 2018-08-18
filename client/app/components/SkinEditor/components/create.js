@@ -3,8 +3,7 @@ import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import ProgressButton from "react-progress-button";
 import axios from "axios";
-var CancelToken = axios.CancelToken;
-var source = CancelToken.source();
+
 import { saveAs } from "file-saver/FileSaver";
 const modalRoot = document.getElementById("modal-root");
 const textMuted = { color: "rgb(179, 179, 179)" };
@@ -20,7 +19,6 @@ export default class Create extends Component {
     this.el = document.createElement("div");
   }
   onClose = e => {
-    source.cancel();
     this.props.onClose && this.props.onClose(e);
   };
   variantSelect = e => {
@@ -44,8 +42,7 @@ export default class Create extends Component {
       headers: {
         "Content-Type": "application/json"
       },
-      responseType: "blob",
-      cancelToken: source.token
+      responseType: "blob"
     })
       .then(response => {
         this.setState({ buttonState: "success" });
@@ -55,30 +52,22 @@ export default class Create extends Component {
         );
       })
       .catch(error => {
-        if (axios.isCancel(error)) {
-          console.log("post cancelled ");
+        if (error.response.status === 403) {
           this.setState({ buttonState: "error" }, () => {
             setTimeout(() => {
               this.setState({ buttonState: "" });
             }, 2000);
           });
+          console.log("Not allowed to request 2 things at a time.");
+        } else {
+          this.setState({ buttonState: "error" }, () => {
+            setTimeout(() => {
+              this.setState({ buttonState: "" });
+            }, 2000);
+          });
+          // console.log(error.response);
+          console.log("Internal Error");
         }
-        // else if (error.response.status === 403) {
-        //   this.setState({ buttonState: "error" }, () => {
-        //     setTimeout(() => {
-        //       this.setState({ buttonState: "" });
-        //     }, 2000);
-        //   });
-        //   console.log("Not allowed to request 2 things at a time.");
-        // } else {
-        //   this.setState({ buttonState: "error" }, () => {
-        //     setTimeout(() => {
-        //       this.setState({ buttonState: "" });
-        //     }, 2000);
-        //   });
-        //   // console.log(error.response);
-        //   console.log("Internal Error");
-        // }
       });
     e.preventDefault();
   };
