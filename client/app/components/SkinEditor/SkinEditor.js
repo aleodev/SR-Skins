@@ -128,7 +128,7 @@ class SkinEditor extends Component {
       <React.Fragment>
         <Fade big>
           <div className="wrapper">
-            {/* <button onClick={this.testFillBtn}>CUNTAGE</button> */}
+            <button onClick={this.testFillBtn}>Dev BTN</button>
             <Create
               curState={this.state}
               show={this.state.modal}
