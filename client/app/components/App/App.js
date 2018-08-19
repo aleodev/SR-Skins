@@ -6,7 +6,7 @@ import Fade from "react-reveal/Fade";
 
 const App = ({ children }) => (
   <React.Fragment>
-    <Fade big>
+    <Fade>
       <Header />
 
       <main>{children}</main>

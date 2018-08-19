@@ -47,7 +47,6 @@
     .options {
       float: right;
       padding: 15px;
-      display: inline-block;
       @media screen and (max-width: 500px) {
         float: none;
         display: block;
@@ -61,7 +60,6 @@
 
     .new-frame-button-wrapper {
       margin: 20px;
-      display: inline-block;
       float: left;
 
       input {
@@ -86,7 +84,6 @@
       .frameHolder {
         max-width: 150px;
         margin: 0 10px 20px;
-        display: inline-block;
         text-align: center;
         float: left;
 
@@ -107,6 +104,7 @@
             font-size: 0.875rem;
             line-height: 1.5;
             border-radius: 0.2rem;
+            vertical-align: unset !important;
           }
 
           input {
@@ -152,9 +150,6 @@
       text-transform: uppercase;
       font-size: 2em;
       animation: glowing 3000ms infinite;
-    }
-
-    .btn-group {
     }
   }
 }

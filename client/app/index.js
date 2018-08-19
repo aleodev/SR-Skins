@@ -8,6 +8,8 @@ import NotFound from "./components/App/NotFound";
 
 import Home from "./components/Home/Home";
 
+import Portal from "./components/SkinEditor/Portal";
+
 import SkinEditor from "./components/SkinEditor/SkinEditor";
 
 import "./styles/styles.scss";
@@ -17,7 +19,8 @@ render(
     <App>
       <Switch>
         <Route exact path="/" component={Home} />
-        <Route path="/skineditor" component={SkinEditor} />
+        <Route exact path="/skineditor" component={Portal} />
+        <Route exact path="/skineditor/custom" component={SkinEditor} />
         <Route component={NotFound} />
       </Switch>
     </App>

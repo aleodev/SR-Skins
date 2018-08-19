@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import ProgressButton from "react-progress-button";
 import axios from "axios";
+import Fade from "react-reveal/Fade";
 
 import { saveAs } from "file-saver/FileSaver";
 const modalRoot = document.getElementById("modal-root");
@@ -78,59 +79,61 @@ export default class Create extends Component {
   }
   render() {
     var modalUI = (
-      <div className="backdrop">
-        <div className="create-modal">
-          <form>
-            <div className="form-group">
-              <label htmlFor="name">Skin Name</label>
-              <input
-                type="name"
-                className="form-control"
-                id="name"
-                aria-describedby="nameHelp"
-                placeholder="Enter name"
-              />
-              <small id="nameHelp" className="form-text text-muted">
-                e.g., Superman.zip
-              </small>
-            </div>
-            <div className="form-group">
-              <label htmlFor="exampleSelect1">Variant</label>
-              <select
-                value={this.state.options.variant}
-                className="form-control"
-                id="variant_select"
-                onChange={e => this.variantSelect(e)}
+      <Fade>
+        <div className="backdrop">
+          <div className="create-modal">
+            <form>
+              <div className="form-group">
+                <label htmlFor="name">Skin Name</label>
+                <input
+                  type="name"
+                  className="form-control"
+                  id="name"
+                  aria-describedby="nameHelp"
+                  placeholder="Enter name"
+                />
+                <small id="nameHelp" className="form-text text-muted">
+                  e.g., Superman.zip
+                </small>
+              </div>
+              <div className="form-group">
+                <label htmlFor="exampleSelect1">Variant</label>
+                <select
+                  value={this.state.options.variant}
+                  className="form-control"
+                  id="variant_select"
+                  onChange={e => this.variantSelect(e)}
+                >
+                  <option defaultValue="defaultValue" value="00">
+                    00
+                  </option>
+                  <option>01</option>
+                  <option>02</option>
+                  <option>03</option>
+                </select>
+                <small id="variantHelp" className="form-text text-muted">
+                  e.g., animation_atlas_variant”00/01/02/03”.xnb
+                </small>
+              </div>
+            </form>
+            <div>
+              <ProgressButton
+                onClick={e => this.handleCreateCustom(e)}
+                state={this.state.buttonState}
               >
-                <option defaultValue="defaultValue" value="00">
-                  00
-                </option>
-                <option>01</option>
-                <option>02</option>
-                <option>03</option>
-              </select>
-              <small id="variantHelp" className="form-text text-muted">
-                e.g., animation_atlas_variant”00/01/02/03”.xnb
-              </small>
+                Create Skin
+              </ProgressButton>
+              {this.state.buttonState != "loading" ? (
+                <button onClick={e => this.onClose(e)} className="close-btn">
+                  Cancel
+                </button>
+              ) : (
+                <div />
+              )}
             </div>
-          </form>
-          <div>
-            <ProgressButton
-              onClick={e => this.handleCreateCustom(e)}
-              state={this.state.buttonState}
-            >
-              Create Skin
-            </ProgressButton>
-            {this.state.buttonState != "loading" ? (
-              <button onClick={e => this.onClose(e)} className="close-btn">
-                Cancel
-              </button>
-            ) : (
-              <div />
-            )}
           </div>
         </div>
-      </div>
+      </Fade>
     );
     if (!this.props.show) {
       return null;

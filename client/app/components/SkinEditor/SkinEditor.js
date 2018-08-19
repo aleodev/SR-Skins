@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Fade from "react-reveal/Fade";
 import update from "immutability-helper";
 // Data
 import { frame_names } from "./info/frames";
@@ -125,28 +126,30 @@ class SkinEditor extends Component {
   render() {
     return (
       <React.Fragment>
-        <div className="wrapper">
-          <button onClick={this.testFillBtn}>CUNTAGE</button>
-          <Create
-            curState={this.state}
-            show={this.state.modal}
-            onClose={this.showModal}
-          />
-          <Editor
-            curState={this.state}
-            addFrame={this.addFrame}
-            removeFrame={this.removeFrame}
-            moveFrame={this.moveFrame}
-            changeFrame={this.changeFrame}
-            addTransparent={this.addTransparent}
-            deleteActiveFrames={this.deleteActiveFrames}
-          />
-          <Selector
-            curState={this.state}
-            changeActive={this.handleActive}
-            showModal={this.showModal}
-          />
-        </div>
+        <Fade big>
+          <div className="wrapper">
+            {/* <button onClick={this.testFillBtn}>CUNTAGE</button> */}
+            <Create
+              curState={this.state}
+              show={this.state.modal}
+              onClose={this.showModal}
+            />
+            <Editor
+              curState={this.state}
+              addFrame={this.addFrame}
+              removeFrame={this.removeFrame}
+              moveFrame={this.moveFrame}
+              changeFrame={this.changeFrame}
+              addTransparent={this.addTransparent}
+              deleteActiveFrames={this.deleteActiveFrames}
+            />
+            <Selector
+              curState={this.state}
+              changeActive={this.handleActive}
+              showModal={this.showModal}
+            />
+          </div>
+        </Fade>
       </React.Fragment>
     );
   }
