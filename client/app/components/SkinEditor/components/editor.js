@@ -86,7 +86,7 @@ export default class Editor extends Component {
                       className="dropdown-item"
                       onClick={this.props.deleteActiveFrames}
                     >
-                      Delete All
+                      Delete Row
                     </a>
                     <a
                       className="dropdown-item"

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Fade from "react-reveal/Fade";
+import Tilt from "react-tilt";
 class Portal extends Component {
   constructor(props) {
     super(props);
@@ -13,24 +14,34 @@ class Portal extends Component {
         <section id="portal">
           <div className="col-6">
             <Link to="/skineditor/custom">
-              <div className="movie">
-                <div className="movie__card">
-                  <div className="layer-1" />
-                  <div className="layer-2" />
-                  <div className="layer-3" />
+              <Tilt
+                className="Tilt"
+                options={{ max: 25, perspective: 1000, reset: true }}
+              >
+                <div className="movie">
+                  <div className="movie__card">
+                    <div className="layer-1" />
+                    <div className="layer-2" />
+                    <div className="layer-3" />
+                  </div>
                 </div>
-              </div>
+              </Tilt>
             </Link>
           </div>
 
           <div className="col-6">
-            <div className="movie">
-              <div className="movie__card">
-                <div className="layer-4" />
-                <div className="layer-5" />
-                <div className="layer-6" />
+            <Tilt
+              className="Tilt"
+              options={{ max: 25, perspective: 500, reset: true }}
+            >
+              <div className="movie">
+                <div className="movie__card">
+                  <div className="layer-4" />
+                  <div className="layer-5" />
+                  <div className="layer-6" />
+                </div>
               </div>
-            </div>
+            </Tilt>
           </div>
           {/* <div className="project-list">
           <div className="project">

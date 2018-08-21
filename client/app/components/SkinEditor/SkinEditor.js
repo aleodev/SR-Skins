@@ -3,17 +3,21 @@ import Fade from "react-reveal/Fade";
 import update from "immutability-helper";
 // Data
 import { frame_names } from "./info/frames";
-// Buttons
-// import {task_btn_handlers} from './buttons/btns_tasks'
 // Components
-// import FrameUploader from './components/frameUploader'
 import Create from "./components/create";
 import Editor from "./components/editor";
 import Selector from "./components/selector";
+// Alerts
+import { withAlert } from "react-alert";
+//PropTypes
+import PropTypes from "prop-types";
 // import openSocket from 'socket.io-client'
 
 // const socket = openSocket(`http://${process.env.IP_ENV}:${process.env.PORT_ENV}`)
-
+// ! Add sockets to remove data folder not being used
+// ! Add a button group on the top of the editor, to remove all frame and add single custom image to all frames
+// ! Add algorithm to check for entire packed image dimensions, and ask pop for max to decline past max
+// ! Fix double-jump-fall width button on selector
 class SkinEditor extends Component {
   constructor(props) {
     super(props);
@@ -23,18 +27,23 @@ class SkinEditor extends Component {
       modal: false
     };
   }
-
   addFrame = e => {
     e.preventDefault();
     let file = e.target.files[0],
       reader = new window.FileReader();
     if (file)
       reader.onload = e => {
-        this.setState({
-          frames: update(this.state.frames, {
-            [this.state.active]: { image: { $push: [e.target.result] } }
-          })
-        });
+        let type = e.target.result.match(/:\s*(.*?)\s*;/g).pop(),
+          fixedType = type.substring(1, type.length - 1);
+        fixedType == "image/png" || fixedType == "image/jpeg"
+          ? this.setState({
+              frames: update(this.state.frames, {
+                [this.state.active]: { image: { $push: [e.target.result] } }
+              })
+            })
+          : this.props.alert.error(
+              `The ${fixedType} format is not supported. Please upload a png or jpg file.`
+            );
       };
     reader.readAsDataURL(file);
     e.target.value = null;
@@ -75,13 +84,19 @@ class SkinEditor extends Component {
       reader = new window.FileReader();
     if (file)
       reader.onload = e => {
-        this.setState({
-          frames: update(this.state.frames, {
-            [this.state.active]: {
-              image: { [idx]: { $set: [e.target.result] } }
-            }
-          })
-        });
+        let type = e.target.result.match(/:\s*(.*?)\s*;/g).pop(),
+          fixedType = type.substring(1, type.length - 1);
+        fixedType == "image/png" || fixedType == "image/jpeg"
+          ? this.setState({
+              frames: update(this.state.frames, {
+                [this.state.active]: {
+                  image: { [idx]: { $set: [e.target.result] } }
+                }
+              })
+            })
+          : this.props.alert.error(
+              `The ${fixedType} format is not supported. Please upload a png or jpg/jpeg file.`
+            );
       };
     reader.readAsDataURL(file);
     e.target.value = null;
@@ -96,7 +111,7 @@ class SkinEditor extends Component {
   };
 
   addTransparent = () => {
-    console.log("Not working.");
+    this.props.alert.show("This button is currently not working.");
   };
 
   handleActive = idx => {
@@ -117,7 +132,9 @@ class SkinEditor extends Component {
     if (this.state.modal) {
       this.setState({ modal: !this.state.modal });
     } else if (!this.state.frames.every(x => x.image[0])) {
-      console.log("Missed a frame");
+      this.props.alert.error(
+        "Warning: Your skin will not work if you leave an animation empty."
+      );
     } else {
       this.setState({ modal: !this.state.modal });
     }
@@ -154,5 +171,7 @@ class SkinEditor extends Component {
     );
   }
 }
-
-export default SkinEditor;
+SkinEditor.propTypes = {
+  alert: PropTypes.object.isRequired
+};
+export default withAlert(SkinEditor);

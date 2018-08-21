@@ -90,7 +90,9 @@
         .btn-group-sm {
           display: block;
           margin-left: 10px;
-
+          button {
+            vertical-align: unset;
+          }
           .sideBtn {
             margin: 0 10px;
           }

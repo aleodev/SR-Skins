@@ -152,37 +152,47 @@
       border-radius: 10px;
     }
     // CUSTOM
-    .layer-1 {
-      background-image: url(http://gifimage.net/wp-content/uploads/2017/11/fire-animated-gif-transparent-11.gif);
-      background-size: 100% 100%;
-    }
-    .layer-2 {
-      background-image: url(https://i.imgur.com/GtB5uQO.gif);
-      background-size: 100% 100%;
-      transform: translateZ(60px);
-    }
-    .layer-3 {
-      background-image: url(http://i64.tinypic.com/euohp4.png);
-      background-size: 100% 100%;
-      transform: translateZ(60px);
-    }
-    // SINGLE COLOR
-    .layer-4 {
-      background-image: url(http://ariona.github.io/hover3d/dist/images/deadpool-bg.png);
-      background-size: cover;
-    }
-    .layer-5 {
-      background-image: url(http://i65.tinypic.com/311v315.jpg);
-      background-size: cover;
-      transform: translateZ(30px);
-    }
-    .layer-6 {
-      background-image: url(http://i64.tinypic.com/uon0m.png);
-      background-size: 100% 100%;
-      transform: translateZ(50px);
-    }
+
     .shine {
       border-radius: 10px;
     }
   }
+}
+.layer-1 {
+  background-image: url(http://gifimage.net/wp-content/uploads/2017/11/fire-animated-gif-transparent-11.gif);
+  background-size: 100% 100%;
+}
+.layer-2 {
+  background-image: url(https://i.imgur.com/GtB5uQO.gif);
+  background-size: 100% 100%;
+  transform: translateZ(60px);
+}
+.layer-3 {
+  background-image: url(http://i64.tinypic.com/euohp4.png);
+  background-size: 100% 100%;
+  transform: translateZ(90px);
+}
+// SINGLE COLOR
+.layer-4 {
+  background-image: url(http://ariona.github.io/hover3d/dist/images/deadpool-bg.png);
+  background-size: cover;
+}
+.layer-5 {
+  background-image: url(http://i65.tinypic.com/311v315.jpg);
+  background-size: cover;
+  transform: translateZ(30px);
+}
+.layer-6 {
+  background-image: url(http://i64.tinypic.com/uon0m.png);
+  background-size: 100% 100%;
+  transform: translateZ(50px);
+}
+.Tilt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 550px;
+  height: 550px;
+  margin-top: 35px;
+  transform-style: preserve-3d;
 }

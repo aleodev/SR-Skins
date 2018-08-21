@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import ProgressButton from "react-progress-button";
-import axios from "axios";
+import { withAlert } from "react-alert";
 import Fade from "react-reveal/Fade";
-
-import { saveAs } from "file-saver/FileSaver";
+// import axios from "axios";
+// import { saveAs } from "file-saver/FileSaver";
 const modalRoot = document.getElementById("modal-root");
-export default class Create extends Component {
+class Create extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,43 +32,47 @@ export default class Create extends Component {
 
   //! Backend doesn't take in multiple frames
   handleCreateCustom = e => {
-    this.setState({ buttonState: "loading" });
-    axios({
-      method: "POST",
-      url: `http://${process.env.IP_ENV}:${process.env.PORT_ENV}/skineditor`,
-      data: {
-        frame_data: this.props.curState.frames,
-        options: this.props.curState.options
-      },
-      headers: {
-        "Content-Type": "application/json"
-      },
-      responseType: "blob"
-    })
-      .then(response => {
-        this.setState({ buttonState: "success" });
-        saveAs(
-          new Blob([response.data], { type: "application/zip" }),
-          "skin.zip"
-        );
-      })
-      .catch(error => {
-        if (error.response.status === 403) {
-          this.setState({ buttonState: "error" }, () => {
-            setTimeout(() => {
-              this.setState({ buttonState: "" });
-            }, 2000);
-          });
-          console.log("Not allowed to request 2 things at a time.");
-        } else {
-          this.setState({ buttonState: "error" }, () => {
-            setTimeout(() => {
-              this.setState({ buttonState: "" });
-            }, 2000);
-          });
-          console.log(error.response);
-        }
-      });
+    this.props.alert.error(
+      "This function is turned off for development purposes."
+    );
+    this.props.onClose(e);
+    // this.setState({ buttonState: "loading" });
+    // axios({
+    //   method: "POST",
+    //   url: `http://${process.env.IP_ENV}:${process.env.PORT_ENV}/skineditor`,
+    //   data: {
+    //     frame_data: this.props.curState.frames,
+    //     options: this.props.curState.options
+    //   },
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   },
+    //   responseType: "blob"
+    // })
+    //   .then(response => {
+    //     this.setState({ buttonState: "success" });
+    //     saveAs(
+    //       new Blob([response.data], { type: "application/zip" }),
+    //       "skin.zip"
+    //     );
+    //   })
+    //   .catch(error => {
+    //     if (error.response.status === 403) {
+    //       this.setState({ buttonState: "error" }, () => {
+    //         setTimeout(() => {
+    //           this.setState({ buttonState: "" });
+    //         }, 2000);
+    //       });
+    //       console.log("Not allowed to request 2 things at a time.");
+    //     } else {
+    //       this.setState({ buttonState: "error" }, () => {
+    //         setTimeout(() => {
+    //           this.setState({ buttonState: "" });
+    //         }, 2000);
+    //       });
+    //       console.log(error.response);
+    //     }
+    //   });
     e.preventDefault();
   };
   componentDidMount() {
@@ -145,5 +149,8 @@ export default class Create extends Component {
 Create.propTypes = {
   show: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  curState: PropTypes.object.isRequired
+  curState: PropTypes.object.isRequired,
+  alert: PropTypes.object.isRequired
 };
+
+export default withAlert(Create);

@@ -1,18 +1,24 @@
 import React, { Component } from "react";
 const revData = [
   {
-    title: "Rev 0.1",
+    title: (
+      <p>
+        Rev 0.1
+        <span className="badge badge-info">Major Update</span>
+      </p>
+    ),
     bodyTitle: "Introducting SpeedSkins",
     body: (
       <p>
         Welcome to beginning of speedskins. This tool is essentially a
         SpeedRunners custom skin creator, that has the ability to take images as
         frames from your selected animation, packs them all into an XNB and
-        ATLAS. Me &#40;
+        ATLAS.
+        {/* Me &#40;
         <span style={{ color: "red" }}> Slevero//Syrian Limabean</span> &#41;
-        &amp; <span style={{ color: "red" }}>pop4959 </span> are going to try to
-        update the app as frequent as possible, and make your user experience as
-        good as possible. <br />
+        &amp; <span style={{ color: "red" }}>pop4959 </span> */}{" "}
+        We&#39;re going to try to update the app as frequent as possible, and
+        make your user experience as good as possible. <br />
         <span style={{ color: "lightgreen" }}>
           If you want to leave any feedback/suggestions on the app, please
           follow{" "}
