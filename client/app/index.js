@@ -29,8 +29,8 @@ render(
       <App>
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route exact path="/skineditor" component={Portal} />
-          <Route exact path="/skineditor/custom" component={SkinEditor} />
+          <Route exact path="/editor" component={Portal} />
+          <Route exact path="/editor/custom" component={SkinEditor} />
           <Route component={NotFound} />
         </Switch>
       </App>
