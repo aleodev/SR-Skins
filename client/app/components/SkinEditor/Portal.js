@@ -13,7 +13,7 @@ class Portal extends Component {
       <Fade big>
         <section id="portal">
           <div className="col-6">
-            <Link to="/skineditor/custom">
+            <Link to="/editor/custom">
               <Tilt
                 className="Tilt"
                 options={{ max: 25, perspective: 1000, reset: true }}
