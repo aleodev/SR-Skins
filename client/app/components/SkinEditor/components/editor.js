@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { BlockPicker } from "react-color";
-import { frame_names } from "../info/frames";
+import { frame_names } from "../data/frames";
 const popover = {
   position: "absolute",
   zIndex: "2"
@@ -18,8 +18,7 @@ export default class Editor extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      editorColor: "#697689",
-      active: this.props.curState.active
+      editorColor: "#697689"
     };
   }
   openPicker = () => {
@@ -31,7 +30,6 @@ export default class Editor extends Component {
   changeColor = color => {
     this.setState({ editorColor: color.hex });
   };
-  //
   render() {
     return (
       <section id="editor" className="row row-eq-height">
@@ -41,11 +39,11 @@ export default class Editor extends Component {
           }}
           className="configure col-sm-12 col-md-12 col-lg-12 col-xl-9"
         >
-          {this.props.curState.active == null ? (
+          {this.props.active == null ? (
             <div className="notactive align-middle">Nothing Active</div>
           ) : (
             <div>
-              <p className="h3">{frame_names[this.props.curState.active]}</p>
+              <p className="h3">{frame_names[this.props.active]}</p>
               <div
                 className="options btn-group"
                 role="group"
@@ -99,66 +97,65 @@ export default class Editor extends Component {
               </div>
               <hr />
               <div id="frames">
-                {this.props.curState.frames[
-                  this.props.curState.active
-                ].image.map((img, idx) => {
-                  return (
-                    <div key={idx} data-key={idx} className="frameHolder">
-                      <div
-                        className="btn-group-sm"
-                        role="group"
-                        aria-label="Basic example"
-                      >
-                        <button
-                          type="button"
-                          className="sideBtn btn-sm btn-primary"
-                          onClick={() => this.props.moveFrame(idx, "l")}
+                {this.props.frameData[this.props.active].image.map(
+                  (img, idx) => {
+                    return (
+                      <div key={idx} data-key={idx} className="frameHolder">
+                        <div
+                          className="btn-group-sm"
+                          role="group"
+                          aria-label="Basic example"
                         >
-                          <i className="fas fa-arrow-left" />
-                        </button>
-                        <button
-                          type="button"
-                          className="sideBtn btn-sm btn-primary"
-                          onClick={() => this.props.moveFrame(idx, "r")}
-                        >
-                          <i className="fas fa-arrow-right" />
-                        </button>
-                      </div>
-                      <img src={img} />
-                      <div
-                        className="btn-group-sm"
-                        role="group"
-                        aria-label="Basic example"
-                      >
-                        <div className="change-frame-button-wrapper">
-                          <label
-                            htmlFor={"upload-" + idx}
-                            className="btn btn-info"
+                          <button
+                            type="button"
+                            className="sideBtn btn-sm btn-primary"
+                            onClick={() => this.props.moveFrame(idx, "l")}
                           >
-                            <i className="fas fa-file" />
-                          </label>
-                          <input
-                            id={"upload-" + idx}
-                            className="custom-file-input"
-                            onChange={e => this.props.changeFrame(e, idx)}
-                            name="Select File"
-                            type="file"
-                          />
+                            <i className="fas fa-arrow-left" />
+                          </button>
+                          <button
+                            type="button"
+                            className="sideBtn btn-sm btn-primary"
+                            onClick={() => this.props.moveFrame(idx, "r")}
+                          >
+                            <i className="fas fa-arrow-right" />
+                          </button>
                         </div>
-                        <button
-                          type="button"
-                          className="btn btn-danger"
-                          onClick={() => this.props.removeFrame(idx)}
+                        <img src={img} />
+                        <div
+                          className="btn-group-sm"
+                          role="group"
+                          aria-label="Basic example"
                         >
-                          <i className="fas fa-trash-alt" />
-                        </button>
+                          <div className="change-frame-button-wrapper">
+                            <label
+                              htmlFor={"upload-" + idx}
+                              className="btn btn-info"
+                            >
+                              <i className="fas fa-file" />
+                            </label>
+                            <input
+                              id={"upload-" + idx}
+                              className="custom-file-input"
+                              onChange={e => this.props.changeFrame(e, idx)}
+                              name="Select File"
+                              type="file"
+                            />
+                          </div>
+                          <button
+                            type="button"
+                            className="btn btn-danger"
+                            onClick={() => this.props.removeFrame(idx)}
+                          >
+                            <i className="fas fa-trash-alt" />
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  }
+                )}
               </div>
-              {this.props.curState.frames[this.props.curState.active].image
-                .length >= 6 ? (
+              {this.props.frameData[this.props.active].image.length >= 6 ? (
                 <div />
               ) : (
                 <div className="new-frame-button-wrapper">
@@ -187,7 +184,7 @@ export default class Editor extends Component {
             backgroundColor: this.state.editorColor
           }}
         >
-          {this.state.active == null ? (
+          {this.props.active == null ? (
             <div className="not-active align-middle">Nothing Active</div>
           ) : (
             <div className="btn-group" role="group" aria-label="Basic example">
@@ -211,11 +208,12 @@ export default class Editor extends Component {
     );
   }
 }
+Editor.defaultProps = {
+  active: null
+};
 Editor.propTypes = {
-  curState: PropTypes.shape({
-    active: PropTypes.number,
-    frames: PropTypes.array.isRequired
-  }),
+  frameData: PropTypes.array.isRequired,
+  active: PropTypes.number,
   deleteActiveFrames: PropTypes.func.isRequired,
   addTransparent: PropTypes.func.isRequired,
   moveFrame: PropTypes.func.isRequired,

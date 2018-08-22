@@ -2,12 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Fade from "react-reveal/Fade";
 import Tilt from "react-tilt";
-class Portal extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-  componentDidMount() {}
+export default class Portal extends Component {
   render() {
     return (
       <Fade big>
@@ -64,5 +59,3 @@ class Portal extends Component {
     );
   }
 }
-
-export default Portal;

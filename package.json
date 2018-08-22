@@ -73,6 +73,7 @@
     "socket.io": "^2.1.1",
     "socket.io-client": "^2.1.1",
     "style-loader": "^0.21.0",
+    "timeago-react": "^2.0.0",
     "uglifyjs-webpack-plugin": "^1.2.7",
     "uuid": "^3.3.2",
     "webpack": "^4.16.3",

@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import Fade from "react-reveal/Fade";
 import update from "immutability-helper";
 // Data
-import { frame_names } from "./info/frames";
+import { frame_names } from "./data/frames";
 // Components
-import Create from "./components/create";
+import Modal from "./components/modal";
 import Editor from "./components/editor";
 import Selector from "./components/selector";
 // Alerts
@@ -24,7 +24,8 @@ class SkinEditor extends Component {
     this.state = {
       frames: frame_names.map(names => ({ name: names, image: [] })),
       active: null,
-      modal: false
+      modal: false,
+      modalState: null
     };
   }
   addFrame = e => {
@@ -127,16 +128,20 @@ class SkinEditor extends Component {
       }))
     }));
   };
-  showModal = e => {
+  showModal = (code, e) => {
+    const modalCodes = [468];
     e.preventDefault();
-    if (this.state.modal) {
-      this.setState({ modal: !this.state.modal });
-    } else if (!this.state.frames.every(x => x.image[0])) {
-      this.props.alert.error(
-        "Warning: Your skin will not work if you leave an animation empty."
-      );
-    } else {
-      this.setState({ modal: !this.state.modal });
+    if (modalCodes.includes(code)) {
+      if (!this.state.frames.every(x => x.image[0])) {
+        this.props.alert.error(
+          "Warning: Your skin will not work if you leave an animation empty."
+        );
+      } else {
+        this.setState({
+          modal: !this.state.modal,
+          modalState: code
+        });
+      }
     }
   };
 
@@ -146,13 +151,16 @@ class SkinEditor extends Component {
         <Fade big>
           <div className="wrapper">
             <button onClick={this.testFillBtn}>Dev BTN</button>
-            <Create
-              curState={this.state}
+            <Modal
+              options={this.state.options}
+              frameData={this.state.frames}
               show={this.state.modal}
               onClose={this.showModal}
+              modalState={this.state.modalState}
             />
             <Editor
-              curState={this.state}
+              frameData={this.state.frames}
+              active={this.state.active}
               addFrame={this.addFrame}
               removeFrame={this.removeFrame}
               moveFrame={this.moveFrame}
@@ -161,7 +169,7 @@ class SkinEditor extends Component {
               deleteActiveFrames={this.deleteActiveFrames}
             />
             <Selector
-              curState={this.state}
+              frameData={this.state.frames}
               changeActive={this.handleActive}
               showModal={this.showModal}
             />

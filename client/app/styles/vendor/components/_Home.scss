@@ -1,5 +1,6 @@
 section#home {
   margin: 0 1rem;
+  align-content: center;
   hr {
     border-top: 1px solid rgba(255, 255, 255, 0.4);
   }
@@ -15,7 +16,6 @@ section#home {
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
     -ms-flex-direction: column;
-    flex-direction: column;
     min-width: 0;
     word-wrap: break-word;
     background-clip: border-box;

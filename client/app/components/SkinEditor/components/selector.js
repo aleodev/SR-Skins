@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { frame_names } from "../info/frames";
+import { frame_names } from "../data/frames";
 const Selector = props => (
   <section id="selector">
     {frame_names.map((name, idx) => {
@@ -11,7 +11,7 @@ const Selector = props => (
           onClick={() => props.changeActive(idx)}
           className={
             "button button-block button-rounded button-3d " +
-            (props.curState.frames[idx].image.length < 1 ? "nf" : "hf")
+            (props.frameData[idx].image.length < 1 ? "nf" : "hf")
           }
         >
           {name}
@@ -19,7 +19,7 @@ const Selector = props => (
       );
     })}
     <button
-      onClick={props.showModal}
+      onClick={e => props.showModal(468, e)}
       className="button button-3d button-rounded button-action"
     >
       Create Skin
@@ -29,7 +29,7 @@ const Selector = props => (
 
 Selector.propTypes = {
   changeActive: PropTypes.func.isRequired,
-  curState: PropTypes.object.isRequired,
+  frameData: PropTypes.array.isRequired,
   showModal: PropTypes.func.isRequired
 };
 export default Selector;
