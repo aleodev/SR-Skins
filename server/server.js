@@ -65,9 +65,9 @@ if (isDev) {
   );
 
   app.use(webpackHotMiddleware(compiler));
-  app.use(express.static(path.resolve(__dirname, "../dist")));
+  app.use(express.static(path.resolve(__dirname, "../dist/assets")));
 } else {
-  app.use(express.static(path.resolve(__dirname, "../dist")));
+  app.use(express.static(path.resolve(__dirname, "../dist/assets")));
   app.get("*", function(req, res) {
     res.sendFile(path.resolve(__dirname, "../dist/index.html"));
     res.end();
