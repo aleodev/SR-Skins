@@ -10,8 +10,16 @@ section#footer {
     color: orange;
     text-decoration: none;
   }
-  :last-child {
+  :nth-child(2) {
     color: red;
+    text-decoration: none;
+  }
+  :nth-child(4) {
+    color: rgb(49, 175, 218);
+    text-decoration: none;
+  }
+  :last-child {
+    color: rgb(49, 175, 218);
     text-decoration: none;
   }
 }
