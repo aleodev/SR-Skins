@@ -18,12 +18,26 @@ const Selector = props => (
         </button>
       );
     })}
-    <button
-      onClick={e => props.showModal(468, e)}
-      className="button button-3d button-rounded button-action"
-    >
-      Create Skin
-    </button>
+    <div>
+      <button
+        onClick={e => props.showModal(468, e)}
+        className="button button-3d button-rounded button-action create-btn"
+      >
+        Create Skin
+      </button>
+      <button
+        onClick={e => props.showModal(468, e)}
+        className="button button-3d button-rounded button-danger clear-btn"
+      >
+        Clear All
+      </button>
+      <button
+        onClick={e => props.showModal(468, e)}
+        className="button button-3d button-rounded button-info upload-btn"
+      >
+        Single Upload All
+      </button>
+    </div>
   </section>
 );
 

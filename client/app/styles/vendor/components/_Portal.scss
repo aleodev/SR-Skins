@@ -126,7 +126,7 @@
 
   .movie {
     margin: 0 auto;
-    width: 500px;
+    width: auto;
 
     &-list {
       &:after {
@@ -138,8 +138,8 @@
 
     &__card {
       position: relative;
-      width: 550px;
-      height: 550px;
+      width: 30vw;
+      height: 30vw;
       transition: 0.2s ease-out;
     }
 
@@ -180,18 +180,18 @@
 .layer-5 {
   background-image: url("./images/color-skin-deer.jpg");
   background-size: cover;
-  transform: translateZ(30px);
+  transform: translateZ(60px);
 }
 .layer-6 {
   background-image: url("./images/color-skin-logo.png");
   background-size: 100% 100%;
-  transform: translateZ(50px);
+  transform: translateZ(90px);
 }
 .Tilt {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 550px;
+  width: auto;
   height: 550px;
   margin-top: 35px;
   transform-style: preserve-3d;

@@ -16,7 +16,6 @@
 * limitations under the License.
 */
 
-
 /*
 * Compass (optional)
 *
@@ -29,7 +28,6 @@
 $ubtn-use-compass: false;
 // @import 'compass';
 
-
 /*
 * Required Files
 *
@@ -37,11 +35,10 @@ $ubtn-use-compass: false;
 * and base css styles that are required to generate buttons.
 */
 
-@import 'buttonIncl/options';
-@import 'buttonIncl/mixins';
-@import 'buttonIncl/base';
-@import 'buttonIncl/layout';
-
+@import "buttonIncl/options";
+@import "buttonIncl/mixins";
+@import "buttonIncl/base";
+@import "buttonIncl/layout";
 
 /*
 * Button Types (optional)
@@ -51,15 +48,17 @@ $ubtn-use-compass: false;
 * are required. Simple remove the uneeded type below and
 * the button type will be excluded from the final build
 */
-
-@import 'buttonIncl/shapes';
-@import 'buttonIncl/border';
-@import 'buttonIncl/borderless';
-@import 'buttonIncl/raised';
-@import 'buttonIncl/3d';
-@import 'buttonIncl/glow';
-@import 'buttonIncl/dropdown';
-@import 'buttonIncl/groups';
-@import 'buttonIncl/wrapper';
-@import 'buttonIncl/longshadow';
-@import 'buttonIncl/sizes';
+.btn-secondary {
+  border-color: #9ea3a9;
+}
+@import "buttonIncl/shapes";
+@import "buttonIncl/border";
+@import "buttonIncl/borderless";
+@import "buttonIncl/raised";
+@import "buttonIncl/3d";
+@import "buttonIncl/glow";
+@import "buttonIncl/dropdown";
+@import "buttonIncl/groups";
+@import "buttonIncl/wrapper";
+@import "buttonIncl/longshadow";
+@import "buttonIncl/sizes";

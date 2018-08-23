@@ -24,10 +24,10 @@ export default class Portal extends Component {
             </Link>
           </div>
 
-          <div className="col-6">
+          <div className="col-6" style={{ overflow: "hidden" }}>
             <Tilt
               className="Tilt"
-              options={{ max: 25, perspective: 500, reset: true }}
+              options={{ max: 25, perspective: 1000, reset: true }}
             >
               <div className="movie">
                 <div className="movie__card">
@@ -38,22 +38,6 @@ export default class Portal extends Component {
               </div>
             </Tilt>
           </div>
-          {/* <div className="project-list">
-          <div className="project">
-            <div className="project__card">
-              <a href="" className="project__image">
-                <img src="http://unsplash.it/600/400?image=189" alt="" />
-              </a>
-              <div className="project__detail">
-                <h2 className="project__title">
-                  <a href="#">Project Name</a>
-                </h2>
-                <small className="project__category">
-                  <a href="#">Photography</a>
-                </small>
-              </div>
-            </div>
-          </div> */}
         </section>
       </Fade>
     );

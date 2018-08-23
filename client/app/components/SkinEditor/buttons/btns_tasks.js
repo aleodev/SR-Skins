@@ -19,6 +19,5 @@ export const task_btn_handlers = {
   },
   all_transparent: function() {
     console.log("cunt");
-  },
-  variant_select: function(event) {}
+  }
 };

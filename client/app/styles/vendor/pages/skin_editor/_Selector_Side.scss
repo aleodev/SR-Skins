@@ -19,17 +19,24 @@
     margin: 10px;
     background-color: #6c757d;
   }
-  :last-child {
+  .create-btn {
     width: 350px !important;
     margin: 10px 10px 15px !important;
     background-color: #a5de37 !important;
     border-color: #a5de37 !important;
   }
-  .allowed {
+  .clear-btn {
+    width: 350px !important;
+    margin: 10px 10px 15px !important;
+    background-color: #de3737 !important;
+    border-color: #de3737 !important;
+    box-shadow: 0 7px 0 #c22020, 0 8px 3px rgba(0, 0, 0, 0.3);
   }
-
-  .declined {
-    background-color: #ff4351 !important;
-    border-color: #ff4351 !important;
+  .upload-btn {
+    width: 350px !important;
+    margin: 10px 10px 15px !important;
+    background-color: #17a2b8 !important;
+    border-color: #17a2b8 !important;
+    box-shadow: 0 7px 0 #117b8b, 0 8px 3px rgba(0, 0, 0, 0.3);
   }
 }
