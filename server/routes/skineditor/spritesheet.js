@@ -167,9 +167,9 @@ module.exports = app => {
         return new Promise((resolve, reject) => {
           console.log("---- ZIPPING ----");
           let sheetXnb = base64_encode(DATA_FOLDER + "spritesheet-1.xnb"),
-           atlasXnb = base64_encode(DATA_FOLDER + "atlas.xnb"),
-           skinZip = DATA_FOLDER + "skin.zip",
-           zip = new JSZip();
+            atlasXnb = base64_encode(DATA_FOLDER + "atlas.xnb"),
+            skinZip = DATA_FOLDER + "skin.zip",
+            zip = new JSZip();
           // zip both the xnb and json
           zip.file(
             `animation_variant${req.body.options.variant}.xnb`,
