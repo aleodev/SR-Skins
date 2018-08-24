@@ -1,0 +1,68 @@
+#selector {
+  .hf {
+    box-shadow: inset 0 -3px #00ff00 !important;
+  }
+
+  .nf {
+    box-shadow: inset 0 -3px #ff0000 !important;
+  }
+
+  button {
+    color: white;
+    width: auto;
+    margin: 10px;
+    background-color: #6c757d;
+  }
+  .create-btn {
+    width: 200px !important;
+    margin: 10px 10px 15px !important;
+    background-color: #a5de37 !important;
+    border-color: #a5de37 !important;
+    text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.77);
+  }
+  .clear-btn {
+    width: 200px !important;
+    margin: 10px 10px 15px !important;
+    background-color: #de3737 !important;
+    border-color: #de3737 !important;
+    box-shadow: 0 7px 0 #c22020, 0 8px 3px rgba(0, 0, 0, 0.3);
+    text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.77);
+  }
+  .upload-btn {
+    width: 200px !important;
+    margin: 10px 10px 15px !important;
+    background-color: #17a2b8 !important;
+    border-color: #17a2b8 !important;
+    box-shadow: 0 7px 0 #117b8b, 0 8px 3px rgba(0, 0, 0, 0.3);
+    color: white;
+    text-shadow: 0px 0px 5px rgba(255, 255, 255, 0.77);
+  }
+  .change-all-frame-button-wrapper {
+    display: inline-block;
+    input {
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      font-size: 1;
+      width: 0;
+      height: 100%;
+      opacity: 0;
+    }
+  }
+  .selector-left {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #4b5156;
+    align-items: center;
+    justify-content: center;
+  }
+  .selector-right {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #3a3e42;
+    align-items: center;
+    justify-content: center;
+  }
+}

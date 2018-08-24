@@ -5,7 +5,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.8);
   padding: 50px;
   overflow-x: hidden;
   overflow-y: "auto";
@@ -16,7 +16,7 @@
     max-width: 500px;
     margin: 3.75rem auto;
     width: auto;
-    min-height: 300px;
+    height: auto;
     padding: 30px;
     position: relative;
     transition: transform 0.3s ease-in-out;
@@ -25,7 +25,6 @@
       color: white !important;
     }
     .close-btn {
-      display: inline-block;
       background: transparent;
       border: 1px solid rgb(238, 144, 144);
       border-radius: 27px;
@@ -40,6 +39,12 @@
       outline: none;
       transition: background-color 0.3s, width 0.3s, border-width 0.3s,
         border-color 0.3s, border-radius 0.3s;
+    }
+    .open-btn {
+      @extend .close-btn;
+      float: none;
+      color: rgb(147, 238, 144);
+      border: 1px solid rgb(147, 238, 144);
     }
   }
 }

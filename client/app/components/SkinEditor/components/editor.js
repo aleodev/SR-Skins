@@ -54,7 +54,7 @@ export default class Editor extends Component {
                   className="btn btn-secondary"
                   onClick={this.openPicker}
                 >
-                  Color
+                  BG Color
                 </button>
                 {this.state.displayPicker ? (
                   <div style={popover}>

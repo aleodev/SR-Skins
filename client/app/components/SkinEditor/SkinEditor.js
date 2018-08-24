@@ -43,7 +43,7 @@ class SkinEditor extends Component {
               })
             })
           : this.props.alert.error(
-              `The ${fixedType} format is not supported. Please upload a png or jpg file.`
+              `The ${fixedType} format is not supported. Please upload a png or jpg/jpeg file.`
             );
       };
     reader.readAsDataURL(file);
@@ -119,7 +119,7 @@ class SkinEditor extends Component {
     this.setState({ active: idx });
   };
 
-  testFillBtn = () => {
+  fillAll = () => {
     this.setState(state => ({
       frames: state.frames.map(object => ({
         image: object.image.concat(
@@ -128,6 +128,35 @@ class SkinEditor extends Component {
       }))
     }));
   };
+  customAll = e => {
+    e.preventDefault();
+    let file = e.target.files[0],
+      reader = new window.FileReader();
+    if (file)
+      reader.onload = e => {
+        let type = e.target.result.match(/:\s*(.*?)\s*;/g).pop(),
+          fixedType = type.substring(1, type.length - 1);
+        fixedType == "image/png" || fixedType == "image/jpeg"
+          ? this.setState(state => ({
+              frames: state.frames.map(object => ({
+                image: object.image.concat(e.target.result)
+              }))
+            }))
+          : this.props.alert.error(
+              `The ${fixedType} format is not supported. Please upload a png or jpg/jpeg file.`
+            );
+      };
+    reader.readAsDataURL(file);
+    e.target.value = null;
+  };
+  clearAll = () => {
+    this.setState(state => ({
+      frames: state.frames.map(object => ({
+        image: (object.image = [])
+      }))
+    }));
+  };
+
   showModal = (code, e) => {
     const modalCodes = [468, 599, 958, 0];
     // 458 Custom Skin
@@ -146,11 +175,16 @@ class SkinEditor extends Component {
                 modal: !this.state.modal,
                 modalState: code
               });
-        case 500:
+        case 599:
           return this.setState({
             modal: !this.state.modal,
             modalState: code
           });
+        // case 958:
+        //   return this.setState({
+        //     modal: !this.state.modal,
+        //     modalState: code
+        //   });
         case 0:
           return this.setState({
             modal: !this.state.modal,
@@ -165,13 +199,14 @@ class SkinEditor extends Component {
       <React.Fragment>
         <Fade big>
           <div className="wrapper">
-            <button onClick={this.testFillBtn}>Dev BTN</button>
+            <button onClick={this.fillAll}>Dev BTN</button>
             <Modal
               options={this.state.options}
               frameData={this.state.frames}
               show={this.state.modal}
               onClose={this.showModal}
               modalState={this.state.modalState}
+              clearAll={this.clearAll}
             />
             <Editor
               frameData={this.state.frames}
@@ -184,6 +219,7 @@ class SkinEditor extends Component {
               deleteActiveFrames={this.deleteActiveFrames}
             />
             <Selector
+              customAll={this.customAll}
               frameData={this.state.frames}
               changeActive={this.handleActive}
               showModal={this.showModal}

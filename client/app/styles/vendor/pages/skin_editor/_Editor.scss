@@ -78,6 +78,7 @@
     #frames {
       display: inline-flex;
       align-items: flex-end;
+      flex-wrap: wrap;
       width: auto;
       float: left;
 
@@ -108,7 +109,6 @@
             border-radius: 0.2rem;
             vertical-align: unset !important;
           }
-
           input {
             position: absolute;
             left: 0;

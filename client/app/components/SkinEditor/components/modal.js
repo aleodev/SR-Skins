@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
-import { withAlert } from "react-alert";
 import Fade from "react-reveal/Fade";
 
 import Custom from "./modalUI/Custom";
+import Confirmation from "./modalUI/Confirmation";
 // import axios from "axios";
 // import { saveAs } from "file-saver/FileSaver";
 const modalRoot = document.getElementById("modal-root");
@@ -44,24 +44,25 @@ class Modal extends Component {
             onClose={this.props.onClose}
             variantSelect={this.variantSelect}
             variant={this.state.options.variant}
+            clearAll={this.props.clearAll}
           />
         );
       case 599:
         return (
-          <Custom
+          <Confirmation
             onClose={this.props.onClose}
-            variantSelect={this.variantSelect}
-            variant={this.state.options.variant}
+            code={this.props.modalState}
+            clearAll={this.props.clearAll}
           />
         );
-      case 958:
-        return (
-          <Custom
-            onClose={this.props.onClose}
-            variantSelect={this.variantSelect}
-            variant={this.state.options.variant}
-          />
-        );
+      // case 958:
+      //   return (
+      //     <Custom
+      //       onClose={this.props.onClose}
+      //       variantSelect={this.variantSelect}
+      //       variant={this.state.options.variant}
+      //     />
+      //   );
     }
   };
 
@@ -80,8 +81,8 @@ class Modal extends Component {
 Modal.propTypes = {
   show: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  alert: PropTypes.object.isRequired,
+  clearAll: PropTypes.func.isRequired,
   modalState: PropTypes.number
 };
 
-export default withAlert(Modal);
+export default Modal;
