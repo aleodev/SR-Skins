@@ -26,13 +26,13 @@ const Selector = props => (
         Create Skin
       </button>
       <button
-        onClick={e => props.showModal(468, e)}
+        onClick={e => props.showModal(599, e)}
         className="button button-3d button-rounded button-danger clear-btn"
       >
         Clear All
       </button>
       <button
-        onClick={e => props.showModal(468, e)}
+        onClick={e => props.showModal(958, e)}
         className="button button-3d button-rounded button-info upload-btn"
       >
         Single Upload All

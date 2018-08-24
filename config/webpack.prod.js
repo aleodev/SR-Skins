@@ -1,3 +1,4 @@
+const webpack = require("webpack");
 const merge = require("webpack-merge");
 const commonConfig = require("./webpack.common");
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
@@ -8,6 +9,7 @@ module.exports = merge(commonConfig, {
     filename: "js/[name].[hash].js",
     chunkFilename: "[id].[hash].chunk.js"
   },
+
   optimization: {
     minimizer: [
       // we specify a custom UglifyJsPlugin here to get source maps in production
@@ -22,5 +24,10 @@ module.exports = merge(commonConfig, {
         sourceMap: true
       })
     ]
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      __REACT_DEVTOOLS_GLOBAL_HOOK__: "({ isDisabled: true })"
+    })
+  ]
 });

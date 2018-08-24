@@ -16,7 +16,7 @@ class Custom extends Component {
     this.props.alert.error(
       "This function is turned off for development purposes."
     );
-    this.props.onClose(468, e);
+    this.props.onClose(0, e);
     // this.setState({ buttonState: "loading" });
     // axios({
     //   method: "POST",

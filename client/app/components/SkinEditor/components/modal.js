@@ -46,8 +46,22 @@ class Modal extends Component {
             variant={this.state.options.variant}
           />
         );
-      default:
-        return <p>YEAHHHHHHH</p>;
+      case 599:
+        return (
+          <Custom
+            onClose={this.props.onClose}
+            variantSelect={this.variantSelect}
+            variant={this.state.options.variant}
+          />
+        );
+      case 958:
+        return (
+          <Custom
+            onClose={this.props.onClose}
+            variantSelect={this.variantSelect}
+            variant={this.state.options.variant}
+          />
+        );
     }
   };
 

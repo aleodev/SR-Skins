@@ -129,18 +129,33 @@ class SkinEditor extends Component {
     }));
   };
   showModal = (code, e) => {
-    const modalCodes = [468];
+    const modalCodes = [468, 599, 958, 0];
+    // 458 Custom Skin
+    // 599 Clear All
+    // 958 Single Upload All
+    // 0 Close Modal
     e.preventDefault();
     if (modalCodes.includes(code)) {
-      if (!this.state.frames.every(x => x.image[0])) {
-        this.props.alert.error(
-          "Warning: Your skin will not work if you leave an animation empty."
-        );
-      } else {
-        this.setState({
-          modal: !this.state.modal,
-          modalState: code
-        });
+      switch (code) {
+        case 468:
+          return !this.state.frames.every(x => x.image[0])
+            ? this.props.alert.error(
+                "Warning: Your skin will not work if you leave an animation empty."
+              )
+            : this.setState({
+                modal: !this.state.modal,
+                modalState: code
+              });
+        case 500:
+          return this.setState({
+            modal: !this.state.modal,
+            modalState: code
+          });
+        case 0:
+          return this.setState({
+            modal: !this.state.modal,
+            modalState: code
+          });
       }
     }
   };
