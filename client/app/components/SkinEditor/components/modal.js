@@ -11,24 +11,10 @@ const modalRoot = document.getElementById("modal-root");
 class Modal extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      options: {
-        skinName: "",
-        variant: "00"
-      }
-    };
     this.el = document.createElement("div");
   }
   onClose = (code, e) => {
     this.props.onClose && this.props.onClose(code, e);
-  };
-  variantSelect = e => {
-    this.setState({
-      options: {
-        ...this.state.options,
-        variant: e.target.value
-      }
-    });
   };
   componentDidMount() {
     modalRoot.appendChild(this.el);
@@ -39,14 +25,7 @@ class Modal extends Component {
   changeModalUI = () => {
     switch (this.props.modalState) {
       case 468:
-        return (
-          <Custom
-            onClose={this.props.onClose}
-            variantSelect={this.variantSelect}
-            variant={this.state.options.variant}
-            clearAll={this.props.clearAll}
-          />
-        );
+        return <Custom onClose={this.props.onClose} />;
       case 599:
         return (
           <Confirmation

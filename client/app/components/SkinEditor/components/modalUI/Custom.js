@@ -8,9 +8,29 @@ class Custom extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      buttonState: ""
+      buttonState: "",
+      options: {
+        skinName: "anything",
+        variant: "00"
+      }
     };
   }
+  variantChange = e => {
+    this.setState({
+      options: {
+        ...this.state.options,
+        variant: e.target.value
+      }
+    });
+  };
+  nameChange = e => {
+    this.setState({
+      options: {
+        ...this.state.options,
+        skinName: e.target.value
+      }
+    });
+  };
   handleCreateCustom = e => {
     e.preventDefault();
     this.props.alert.error(
@@ -67,18 +87,20 @@ class Custom extends Component {
               id="name"
               aria-describedby="nameHelp"
               placeholder="Enter name"
+              onChange={e => this.nameChange(e)}
             />
             <small id="nameHelp" className="form-text text-muted">
-              e.g., Superman.zip
+              {this.state.options.skinName}
+              .zip
             </small>
           </div>
           <div className="form-group">
             <label htmlFor="exampleSelect1">Variant</label>
             <select
-              value={this.props.variant}
+              value={this.state.options.variant}
               className="form-control"
               id="variant_select"
-              onChange={e => this.props.variantSelect(e)}
+              onChange={e => this.variantChange(e)}
             >
               <option defaultValue="defaultValue" value="00">
                 00
@@ -88,7 +110,13 @@ class Custom extends Component {
               <option>03</option>
             </select>
             <small id="variantHelp" className="form-text text-muted">
-              e.g., animation_atlas_variant”00/01/02/03”.xnb
+              animation_atlas_variant
+              {this.state.options.variant}
+              .xnb
+              <br />
+              animation_variant
+              {this.state.options.variant}
+              .xnb
             </small>
           </div>
         </form>
@@ -113,8 +141,6 @@ class Custom extends Component {
 
 Custom.propTypes = {
   onClose: PropTypes.func.isRequired,
-  variantSelect: PropTypes.func.isRequired,
-  variant: PropTypes.string.isRequired,
   alert: PropTypes.object.isRequired
 };
 export default withAlert(Custom);
