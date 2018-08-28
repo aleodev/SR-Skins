@@ -55,9 +55,7 @@ class Custom extends Component {
     this.setState({ buttonState: "loading" });
     axios({
       method: "POST",
-      url: `https://${process.env.IP_ENV}:${
-        process.env.PORT_ENV
-      }/editor/custom`,
+      url: `http://${process.env.IP_ENV}:${process.env.PORT_ENV}/editor/custom`,
       data: {
         frame_data: this.props.frameData,
         options: this.state.options
