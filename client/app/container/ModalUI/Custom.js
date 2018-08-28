@@ -22,9 +22,6 @@ class Custom extends Component {
       }
     };
   }
-  componentDidMount() {
-    console.log(`http://${process.env.IP_ENV}:${process.env.PORT_ENV}`);
-  }
   characterChange = e => {
     this.setState({
       options: {
@@ -51,7 +48,6 @@ class Custom extends Component {
     });
   };
   handleCreateCustom = e => {
-    e.preventDefault();
     // this.props.alert.error(
     //   "This function is turned off for development purposes."
     // );
@@ -93,6 +89,7 @@ class Custom extends Component {
           console.log(error.response);
         }
       });
+    e.preventDefault();
   };
   render() {
     return (
