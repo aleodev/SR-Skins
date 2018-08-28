@@ -1,9 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
-var https = require('https');
-var http = require('http');
-var fs = require('fs');
+var https = require("https");
+var http = require("http");
+var fs = require("fs");
 const historyApiFallback = require("connect-history-api-fallback");
 // const mongoose = require("mongoose");
 const path = require("path");
@@ -76,13 +76,22 @@ if (isDev) {
     res.end();
   });
 }
-const privateKey = fs.readFileSync('/etc/letsencrypt/live/yourdomain.com/privkey.pem', 'utf8');
-const certificate = fs.readFileSync('/etc/letsencrypt/live/yourdomain.com/cert.pem', 'utf8');
-const ca = fs.readFileSync('/etc/letsencrypt/live/yourdomain.com/chain.pem', 'utf8');
+const privateKey = fs.readFileSync(
+  "/etc/letsencrypt/live/yourdomain.com/privkey.pem",
+  "utf8"
+);
+const certificate = fs.readFileSync(
+  "/etc/letsencrypt/live/yourdomain.com/cert.pem",
+  "utf8"
+);
+const ca = fs.readFileSync(
+  "/etc/letsencrypt/live/yourdomain.com/chain.pem",
+  "utf8"
+);
 const credentials = {
-	key: privateKey,
-	cert: certificate,
-	ca: ca
+  key: privateKey,
+  cert: certificate,
+  ca: ca
 };
 
 const httpServer = http.createServer(app);
@@ -96,7 +105,8 @@ httpServer.listen(port, err => {
 httpsServer.listen(443, err => {
   if (err) {
     console.log(err);
-  });
+  }
+});
 //////////////////
 
 //////////////////
