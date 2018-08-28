@@ -77,17 +77,17 @@ if (isDev) {
   });
 }
 const privateKey = fs.readFileSync(
-  "privkey.pem",
+  path.resolve(__dirname,"privkey.pem"),
   "utf8"
 );
 const certificate = fs.readFileSync(
-  "fullchain.pem",
+  path.resolve(__dirname,"fullchain.pem"),
   "utf8"
 );
-const ca = fs.readFileSync(
-  "chain.pem",
-  "utf8"
-);
+// const ca = fs.readFileSync(
+//   "chain.pem",
+//   "utf8"
+// );
 const credentials = {
   key: privateKey,
   cert: certificate
