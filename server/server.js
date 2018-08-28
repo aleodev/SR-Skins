@@ -1,9 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
-const https = require("https");
-const http = require("http");
-const fs = require("fs");
 const historyApiFallback = require("connect-history-api-fallback");
 // const mongoose = require("mongoose");
 const path = require("path");
@@ -76,33 +73,9 @@ if (isDev) {
     res.end();
   });
 }
-const privateKey = fs.readFileSync(
-  path.resolve(__dirname,"privkey.pem"),
-  "utf8"
-);
-const certificate = fs.readFileSync(
-  path.resolve(__dirname,"fullchain.pem"),
-  "utf8"
-);
-// const ca = fs.readFileSync(
-//   "chain.pem",
-//   "utf8"
-// );
-const credentials = {
-  key: privateKey,
-  cert: certificate
-  // ca: ca
-};
 
-const httpServer = http.createServer(app);
-const httpsServer = https.createServer(credentials, app);
 //////////////////
-httpServer.listen(port, err => {
-  if (err) {
-    console.log(err);
-  }
-});
-httpsServer.listen(443, err => {
+app.listen(port, err => {
   if (err) {
     console.log(err);
   }
