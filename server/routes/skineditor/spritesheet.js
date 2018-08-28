@@ -13,7 +13,7 @@ module.exports = app => {
   connections = [];
   //////////////////
   // skin editor post request
-  app.post("/skineditor", function(req, res) {
+  app.post("/editor/custom", function(req, res) {
     if (connections.includes(req.connection.remoteAddress) !== true) {
       connections.push(req.connection.remoteAddress);
       IP_ADD = req.connection.remoteAddress;
