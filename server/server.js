@@ -1,5 +1,5 @@
 const express = require("express");
-const  bodyParser = require('body-parser')
+const bodyParser = require("body-parser");
 const helmet = require("helmet");
 const historyApiFallback = require("connect-history-api-fallback");
 // const mongoose = require("mongoose");
