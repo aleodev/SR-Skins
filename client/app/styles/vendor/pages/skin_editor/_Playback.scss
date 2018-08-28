@@ -1,0 +1,40 @@
+.playback {
+  display: table-cell;
+  float: left;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+  -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.14);
+  -moz-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.14);
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.14);
+  @media screen and (max-width: 1199px) {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .btn-group {
+    margin: 15px 0;
+    -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
+  }
+  .img-container {
+    max-width: 250px;
+    margin: 0 auto;
+    bottom: 0;
+    img {
+      width: 100%;
+      display: block;
+    }
+  }
+
+  .not-active {
+    color: white;
+    opacity: 0.5;
+    text-align: center;
+    padding: 100px 0;
+    font-family: "HelveticaNeue";
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 2em;
+    animation: glowing 3000ms infinite;
+  }
+}

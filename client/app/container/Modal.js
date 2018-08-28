@@ -3,19 +3,14 @@ import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import Fade from "react-reveal/Fade";
 
-import Custom from "./modalUI/Custom";
-import Confirmation from "./modalUI/Confirmation";
-// import axios from "axios";
-// import { saveAs } from "file-saver/FileSaver";
+import Custom from "./ModalUI/Custom";
+import Confirmation from "./ModalUI/Confirmation";
 const modalRoot = document.getElementById("modal-root");
-class Modal extends Component {
+export default class Modal extends Component {
   constructor(props) {
     super(props);
     this.el = document.createElement("div");
   }
-  onClose = (code, e) => {
-    this.props.onClose && this.props.onClose(code, e);
-  };
   componentDidMount() {
     modalRoot.appendChild(this.el);
   }
@@ -25,7 +20,12 @@ class Modal extends Component {
   changeModalUI = () => {
     switch (this.props.modalState) {
       case 468:
-        return <Custom onClose={this.props.onClose} />;
+        return (
+          <Custom
+            frameData={this.props.frameData}
+            onClose={this.props.onClose}
+          />
+        );
       case 599:
         return (
           <Confirmation
@@ -34,14 +34,6 @@ class Modal extends Component {
             clearAll={this.props.clearAll}
           />
         );
-      // case 958:
-      //   return (
-      //     <Custom
-      //       onClose={this.props.onClose}
-      //       variantSelect={this.variantSelect}
-      //       variant={this.state.options.variant}
-      //     />
-      //   );
     }
   };
 
@@ -61,7 +53,6 @@ Modal.propTypes = {
   show: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   clearAll: PropTypes.func.isRequired,
+  frameData: PropTypes.array.isRequired,
   modalState: PropTypes.number
 };
-
-export default Modal;

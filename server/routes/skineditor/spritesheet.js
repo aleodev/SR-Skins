@@ -59,16 +59,25 @@ module.exports = app => {
       function createFrameMap() {
         return new Promise((resolve, reject) => {
           console.log("---- CREATE IMAGES ----");
-          let _data = req.body.frame_data;
+          let _data = req.body.frame_data
           // loop the frame creation, creating all frames in png format input by the user from the frontend
-          _data.map(frames =>
-            createFramePng(
-              frames.name + "00011",
-              frames.image.split("base64,").pop()
-            )
-          );
-          setTimeout(() => resolve(), 600);
-        });
+          // _data.map(frames =>
+          //   createFramePng(
+          //     frames.name + "00011",
+          //     frames.image.split("base64,").pop()
+          //   )
+          // );
+          ////
+          for (let anim of _data){
+            anim.image.map((frameImage, idx) => {
+                createFramePng(
+                  anim.name + "0001" + (idx + 1),
+                  frameImage.split("base64,").pop()
+                )
+            })
+          }
+          setTimeout(() => resolve(), 1000);
+        })
       }
       //////////////////
       // pack the frames into a spritesheet png and corresponding json
@@ -169,15 +178,16 @@ module.exports = app => {
           let sheetXnb = base64_encode(DATA_FOLDER + "spritesheet-1.xnb"),
             atlasXnb = base64_encode(DATA_FOLDER + "atlas.xnb"),
             skinZip = DATA_FOLDER + "skin.zip",
+            _options = req.body.options,
             zip = new JSZip();
           // zip both the xnb and json
           zip.file(
-            `animation_variant${req.body.options.variant}.xnb`,
+            `animation_variant${_options.variant}.xnb`,
             sheetXnb,
             { base64: true }
           );
           zip.file(
-            `animation_atlas_variant${req.body.options.variant}.xnb`,
+            `animation_atlas_variant${_options.variant}.xnb`,
             atlasXnb,
             { base64: true }
           );

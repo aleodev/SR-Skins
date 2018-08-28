@@ -3,14 +3,14 @@ import { render } from "react-dom";
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import App from "./components/App/App";
-import NotFound from "./components/App/NotFound";
+import App from "./components/App";
+import NotFound from "./components/NotFound";
 
-import Home from "./components/Home/Home";
+import Home from "./components/Home";
 
-import Portal from "./components/Portal/Portal";
+import Portal from "./components/Portal";
 
-import SkinEditor from "./components/SkinEditor/SkinEditor";
+import SkinEditor from "./container/SkinEditor";
 
 import "./styles/styles.scss";
 

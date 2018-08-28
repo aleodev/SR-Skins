@@ -2,8 +2,14 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import ProgressButton from "react-progress-button";
 import { withAlert } from "react-alert";
-//! Backend doesn't take in multiple frames
-
+import { character_names } from "../data/characters";
+import axios from "axios";
+import { saveAs } from "file-saver/FileSaver";
+// import openSocket from 'socket.io-client'
+// const socket = openSocket(`http://${process.env.IP_ENV}:${process.env.PORT_ENV}`)
+// ! Add sockets to remove data folder not being used
+// ! Backend doesn't take in multiple frames
+// ! Add small text under character selection (ask pop for UX advice)
 class Custom extends Component {
   constructor(props) {
     super(props);
@@ -11,10 +17,19 @@ class Custom extends Component {
       buttonState: "",
       options: {
         skinName: "anything",
-        variant: "00"
+        variant: "00",
+        character: "Speedrunner"
       }
     };
   }
+  characterChange = e => {
+    this.setState({
+      options: {
+        ...this.state.options,
+        character: e.target.value
+      }
+    });
+  };
   variantChange = e => {
     this.setState({
       options: {
@@ -23,6 +38,7 @@ class Custom extends Component {
       }
     });
   };
+
   nameChange = e => {
     this.setState({
       options: {
@@ -33,47 +49,47 @@ class Custom extends Component {
   };
   handleCreateCustom = e => {
     e.preventDefault();
-    this.props.alert.error(
-      "This function is turned off for development purposes."
-    );
-    this.props.onClose(0, e);
-    // this.setState({ buttonState: "loading" });
-    // axios({
-    //   method: "POST",
-    //   url: `http://${process.env.IP_ENV}:${process.env.PORT_ENV}/skineditor`,
-    //   data: {
-    //     frame_data: this.props.frameData,
-    //     variant: this.state.options.variant
-    //   },
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   },
-    //   responseType: "blob"
-    // })
-    //   .then(response => {
-    //     this.setState({ buttonState: "success" });
-    //     saveAs(
-    //       new Blob([response.data], { type: "application/zip" }),
-    //       `${this.state.options.skinName}.zip`
-    //     );
-    //   })
-    //   .catch(error => {
-    //     if (error.response.status === 403) {
-    //       this.setState({ buttonState: "error" }, () => {
-    //         setTimeout(() => {
-    //           this.setState({ buttonState: "" });
-    //         }, 2000);
-    //       });
-    //       console.log("Not allowed to request 2 things at a time.");
-    //     } else {
-    //       this.setState({ buttonState: "error" }, () => {
-    //         setTimeout(() => {
-    //           this.setState({ buttonState: "" });
-    //         }, 2000);
-    //       });
-    //       console.log(error.response);
-    //     }
-    //   });
+    // this.props.alert.error(
+    //   "This function is turned off for development purposes."
+    // );
+    // this.props.onClose(0, e);
+    this.setState({ buttonState: "loading" });
+    axios({
+      method: "POST",
+      url: `http://${process.env.IP_ENV}:${process.env.PORT_ENV}/skineditor`,
+      data: {
+        frame_data: this.props.frameData,
+        options: this.state.options
+      },
+      headers: {
+        "Content-Type": "application/json"
+      },
+      responseType: "blob"
+    })
+      .then(response => {
+        this.setState({ buttonState: "success" });
+        saveAs(
+          new Blob([response.data], { type: "application/zip" }),
+          `${this.state.options.skinName}.zip`
+        );
+      })
+      .catch(error => {
+        if (error.response.status === 403) {
+          this.setState({ buttonState: "error" }, () => {
+            setTimeout(() => {
+              this.setState({ buttonState: "" });
+            }, 2000);
+          });
+          console.log("Not allowed to request 2 things at a time.");
+        } else {
+          this.setState({ buttonState: "error" }, () => {
+            setTimeout(() => {
+              this.setState({ buttonState: "" });
+            }, 2000);
+          });
+          console.log(error.response);
+        }
+      });
   };
   render() {
     return (
@@ -119,6 +135,23 @@ class Custom extends Component {
               .xnb
             </small>
           </div>
+          <div className="form-group">
+            <label htmlFor="exampleSelect1">Character</label>
+            <select
+              value={this.state.options.character}
+              className="form-control"
+              id="character_select"
+              onChange={e => this.characterChange(e)}
+            >
+              <option defaultValue="defaultValue" value="Speedrunner">
+                Speedrunner
+              </option>
+              {character_names.map((name, idx) => {
+                return <option key={idx}>{name}</option>;
+              })}
+            </select>
+            <small id="variantHelp" className="form-text text-muted" />
+          </div>
         </form>
         <ProgressButton
           onClick={e => this.handleCreateCustom(e)}
@@ -141,6 +174,7 @@ class Custom extends Component {
 
 Custom.propTypes = {
   onClose: PropTypes.func.isRequired,
-  alert: PropTypes.object.isRequired
+  alert: PropTypes.object.isRequired,
+  frameData: PropTypes.array.isRequired
 };
 export default withAlert(Custom);

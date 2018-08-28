@@ -1,4 +1,5 @@
 const express = require("express");
+const  bodyParser = require('body-parser')
 const helmet = require("helmet");
 const historyApiFallback = require("connect-history-api-fallback");
 // const mongoose = require("mongoose");
@@ -12,7 +13,6 @@ const webpackConfig = require("../webpack.config");
 
 const dotenv = require("dotenv");
 const envFile = dotenv.config().parsed;
-
 // const colors = require("colors");
 // const socketio = require("socket.io");
 
@@ -38,8 +38,8 @@ app.use(function(req, res, next) {
   );
   next();
 });
-app.use(express.urlencoded({ limit: "100mb", extended: false }));
-app.use(express.json({ limit: "100mb" }));
+app.use(bodyParser.urlencoded({ limit: "100mb", extended: false }));
+app.use(bodyParser.json({ limit: "100mb" }));
 
 // API routes
 require("./routes")(app);

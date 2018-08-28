@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { frame_names } from "../data/frames";
+import { frame_names } from "./data/frames";
 const Selector = props => (
   <section id="selector">
     <div className="selector-right">
@@ -26,7 +26,7 @@ const Selector = props => (
         <input
           id="change-all"
           className="custom-all-input"
-          onChange={e => props.customAll(e)}
+          onChange={e => props.alter(e, "custom")}
           name="Select File"
           type="file"
         />
@@ -56,6 +56,6 @@ Selector.propTypes = {
   changeActive: PropTypes.func.isRequired,
   frameData: PropTypes.array.isRequired,
   showModal: PropTypes.func.isRequired,
-  customAll: PropTypes.func.isRequired
+  alter: PropTypes.func.isRequired
 };
 export default Selector;

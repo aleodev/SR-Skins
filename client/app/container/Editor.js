@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { BlockPicker } from "react-color";
-import { frame_names } from "../data/frames";
+import { frame_names } from "./data/frames";
+import Playback from "./Playback";
+// import ReactTooltip from "react-tooltip";
 const popover = {
   position: "absolute",
   zIndex: "2"
@@ -31,13 +33,21 @@ export default class Editor extends Component {
     this.setState({ editorColor: color.hex });
   };
   render() {
+    const maxFrames = 9;
+    // {
+    //   this.props.frameData[this.props.active].image.length >= maxFrames
+    //     ? disabled
+    //     : null;
+    // }
     return (
       <section id="editor" className="row row-eq-height">
         <div
           style={{
             backgroundColor: this.state.editorColor
           }}
-          className="configure col-sm-12 col-md-12 col-lg-12 col-xl-9"
+          className={`configure col-12 ${
+            this.props.active !== null ? "col-xl-9" : "col-xl-12"
+          }`}
         >
           {this.props.active == null ? (
             <div className="notactive align-middle">Nothing Active</div>
@@ -49,6 +59,30 @@ export default class Editor extends Component {
                 role="group"
                 aria-label="Button group with nested dropdown"
               >
+                <input
+                  id="newFrame"
+                  className="custom-file-input"
+                  onChange={e => this.props.alter(e, "add")}
+                  name="Select File"
+                  type="file"
+                />
+                {/* <ReactTooltip place="top" type="light" effect="solid" /> */}
+                {this.props.frameData[this.props.active].image.length >=
+                maxFrames ? (
+                  <label type="button" className="btn btn-success disabled">
+                    Add Frame
+                  </label>
+                ) : (
+                  <label
+                    type="button"
+                    className="btn btn-success"
+                    htmlFor="newFrame"
+                    // data-tip="Max Frames: <span style={{color: 'red'}}></span>"
+                  >
+                    Add Frame
+                  </label>
+                )}
+
                 <button
                   type="button"
                   className="btn btn-secondary"
@@ -84,7 +118,7 @@ export default class Editor extends Component {
                       className="dropdown-item"
                       onClick={this.props.deleteActiveFrames}
                     >
-                      Delete Row
+                      Clear All
                     </a>
                     <a
                       className="dropdown-item"
@@ -137,7 +171,7 @@ export default class Editor extends Component {
                             <input
                               id={"upload-" + idx}
                               className="custom-file-input"
-                              onChange={e => this.props.changeFrame(e, idx)}
+                              onChange={e => this.props.alter(e, "change", idx)}
                               name="Select File"
                               type="file"
                             />
@@ -155,55 +189,16 @@ export default class Editor extends Component {
                   }
                 )}
               </div>
-              {this.props.frameData[this.props.active].image.length >= 6 ? (
-                <div />
-              ) : (
-                <div className="new-frame-button-wrapper">
-                  <label
-                    htmlFor="newFrame"
-                    id="new-frame-button"
-                    className="button button-glow button-circle button-action button-jumbo"
-                  >
-                    <i className="fas fa-plus" />
-                  </label>
-                  <input
-                    id="newFrame"
-                    className="custom-file-input"
-                    onChange={e => this.props.addFrame(e)}
-                    name="Select File"
-                    type="file"
-                  />
-                </div>
-              )}
             </div>
           )}
         </div>
-        <div
-          className="playback col-sm-12 col-md-12 col-lg-12 col-xl-3"
-          style={{
-            backgroundColor: this.state.editorColor
-          }}
-        >
-          {this.props.active == null ? (
-            <div className="not-active align-middle">Nothing Active</div>
-          ) : (
-            <div className="btn-group" role="group" aria-label="Basic example">
-              <button type="button" className="btn btn-secondary">
-                <i className="fas fa-chevron-left" />
-              </button>
-              <button type="button" className="btn btn-secondary">
-                <i className="fas fa-play" />
-              </button>
-              <button type="button" className="btn btn-secondary">
-                <i className="fas fa-stop" />
-              </button>
-              <button type="button" className="btn btn-secondary">
-                <i className="fas fa-chevron-right" />
-              </button>
-            </div>
-          )}
-        </div>
-        <div className="clearfix" />
+        {this.props.active !== null ? (
+          <Playback
+            editorColor={this.state.editorColor}
+            active={this.props.active}
+            frameData={this.props.frameData}
+          />
+        ) : null}
       </section>
     );
   }
@@ -217,7 +212,6 @@ Editor.propTypes = {
   deleteActiveFrames: PropTypes.func.isRequired,
   addTransparent: PropTypes.func.isRequired,
   moveFrame: PropTypes.func.isRequired,
-  changeFrame: PropTypes.func.isRequired,
   removeFrame: PropTypes.func.isRequired,
-  addFrame: PropTypes.func.isRequired
+  alter: PropTypes.func.isRequired
 };

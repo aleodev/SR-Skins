@@ -57,17 +57,14 @@
         float: none;
         display: block;
       }
-    }
+      label {
+        -webkit-appearance: unset;
+        margin-bottom: 0;
+        border-color: #9ea3a9;
 
-    hr {
-      display: block;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .new-frame-button-wrapper {
-      margin: 20px;
-      float: left;
-
+        border-top-left-radius: 0.25rem;
+        border-bottom-left-radius: 0.25rem;
+      }
       input {
         display: none;
         left: 0;
@@ -81,10 +78,14 @@
       }
     }
 
+    hr {
+      display: block;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
     #frames {
       display: inline-flex;
       align-items: flex-end;
-      flex-wrap: wrap;
       width: auto;
       float: left;
 
@@ -96,12 +97,12 @@
 
         .btn-group-sm {
           display: block;
-          margin-left: 10px;
           button {
             vertical-align: unset;
+            margin-left: 2px;
           }
           .sideBtn {
-            margin: 0 10px;
+            margin: 0 1px;
           }
         }
 
@@ -116,6 +117,7 @@
             vertical-align: unset !important;
           }
           input {
+            display: none;
             position: absolute;
             left: 0;
             top: 0;
@@ -135,39 +137,6 @@
           vertical-align: middle;
         }
       }
-    }
-  }
-
-  .playback {
-    display: table-cell;
-    background-color: #ce6464;
-    float: left;
-    border-left: 1px solid rgba(255, 255, 255, 0.1);
-    text-align: center;
-    -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.14);
-    -moz-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.14);
-    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.14);
-    @media screen and (max-width: 1199px) {
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .btn-group {
-      margin: 15px;
-      -webkit-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
-      -moz-box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
-      box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.2);
-    }
-
-    .not-active {
-      color: white;
-      opacity: 0.5;
-      text-align: center;
-      padding: 100px 0;
-      font-family: "HelveticaNeue";
-      font-weight: 900;
-      text-transform: uppercase;
-      font-size: 2em;
-      animation: glowing 3000ms infinite;
     }
   }
 }
