@@ -22,6 +22,9 @@ class Custom extends Component {
       }
     };
   }
+  componentDidMount() {
+    console.log(`http://${process.env.IP_ENV}:${process.env.PORT_ENV}`);
+  }
   characterChange = e => {
     this.setState({
       options: {
