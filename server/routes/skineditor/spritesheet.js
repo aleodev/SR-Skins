@@ -230,6 +230,6 @@ module.exports = app => {
     }
   });
   app.post("/cuck", function(req, res) {
-    rres.send('Admin Homepage');
+    res.send('Admin Homepage');
   })
 };
