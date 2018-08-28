@@ -231,5 +231,5 @@ module.exports = app => {
   });
   app.post("/cuck", function(req, res) {
     res.send("YEAH")
-  }
+  })
 };
