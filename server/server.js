@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
+const path = require('path');
 var https = require("https");
 var http = require("http");
 var fs = require("fs");
@@ -77,21 +78,21 @@ if (isDev) {
   });
 }
 const privateKey = fs.readFileSync(
-  "/etc/letsencrypt/live/yourdomain.com/privkey.pem",
+  "../privkey.pem",
   "utf8"
 );
 const certificate = fs.readFileSync(
-  "/etc/letsencrypt/live/yourdomain.com/cert.pem",
+  "../fullchain.pem",
   "utf8"
 );
 const ca = fs.readFileSync(
-  "/etc/letsencrypt/live/yourdomain.com/chain.pem",
+  "../chain.pem",
   "utf8"
 );
 const credentials = {
   key: privateKey,
-  cert: certificate,
-  ca: ca
+  cert: certificate
+  // ca: ca
 };
 
 const httpServer = http.createServer(app);
