@@ -1,10 +1,9 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const helmet = require("helmet");
-const path = require('path');
-var https = require("https");
-var http = require("http");
-var fs = require("fs");
+const https = require("https");
+const http = require("http");
+const fs = require("fs");
 const historyApiFallback = require("connect-history-api-fallback");
 // const mongoose = require("mongoose");
 const path = require("path");
