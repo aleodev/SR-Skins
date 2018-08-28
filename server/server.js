@@ -76,7 +76,6 @@ if (isDev) {
     res.end();
   });
 }
-cont privPath = path.resolve(__dirname, "privkey.pem");
 const privateKey = fs.readFileSync(
   "privkey.pem",
   "utf8"
