@@ -212,7 +212,7 @@ module.exports = app => {
       async function init() {
         await createFrameMap();
         await spriteMaker();
-        await sheetToXnb();
+        // await sheetToXnb();
         // await jsonToAtlasXnb();
         // await zipFiles();
       }
