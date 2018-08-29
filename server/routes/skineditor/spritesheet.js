@@ -64,7 +64,7 @@ module.exports = app => {
           for (let anim of _data){
             anim.image.map((frameImage, idx) => {
                 createFramePng(
-                  anim.name + "0001" + (idx + 1),
+                  anim.name + "000" + (idx + 1),
                   frameImage.split("base64,").pop()
                 )
             })
