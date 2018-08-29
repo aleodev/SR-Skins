@@ -229,7 +229,7 @@ module.exports = app => {
       res.sendStatus(403);
     }
   });
-  app.post("/api", function(req, res) {
+  app.post("/", function(req, res) {
     res.send("LOL")
   })
 };
