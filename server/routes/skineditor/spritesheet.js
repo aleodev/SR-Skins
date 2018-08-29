@@ -61,13 +61,6 @@ module.exports = app => {
           console.log("---- CREATE IMAGES ----");
           let _data = req.body.frame_data
           // loop the frame creation, creating all frames in png format input by the user from the frontend
-          // _data.map(frames =>
-          //   createFramePng(
-          //     frames.name + "00011",
-          //     frames.image.split("base64,").pop()
-          //   )
-          // );
-          ////
           for (let anim of _data){
             anim.image.map((frameImage, idx) => {
                 createFramePng(
@@ -119,7 +112,7 @@ module.exports = app => {
           console.log("---- CONVERTING SPRITESHEET ----");
           // use the png to xnb converter with wine to convert the png spritesheet into xnb
           execFile(
-            "wine",
+            "wineconsole",
             [`${__dirname}/../../png_to_xnb.exe`, imageDir],
             (error, stdout, stderr) => {
               if (error !== null) {
