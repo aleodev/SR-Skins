@@ -112,7 +112,7 @@ module.exports = app => {
           console.log("---- CONVERTING SPRITESHEET ----");
           // use the png to xnb converter with wine to convert the png spritesheet into xnb
           execFile(
-            "wineconsole",
+            "wine",
             [`${__dirname}/../../png_to_xnb.exe`, imageDir],
             (error, stdout, stderr) => {
               if (error !== null) {
@@ -213,8 +213,8 @@ module.exports = app => {
         await createFrameMap();
         await spriteMaker();
         await sheetToXnb();
-        await jsonToAtlasXnb();
-        await zipFiles();
+        // await jsonToAtlasXnb();
+        // await zipFiles();
       }
       // initialize the async functions
       init();
