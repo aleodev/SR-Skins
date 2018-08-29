@@ -19,9 +19,9 @@ module.exports = app => {
       (req.connection && req.connection.remoteAddress) ||
       "";
     console.log(ip);
-    if (connections.includes(req.connection.remoteAddress) !== true) {
-      connections.push(req.connection.remoteAddress);
-      IP_ADD = req.connection.remoteAddress;
+    if (connections.includes(ip) !== true) {
+      connections.push(ip);
+      IP_ADD = ip;
       DATA_FOLDER = __dirname + `/../../assets/${IP_ADD}/data/`;
       rimraf(`server/assets/${IP_ADD}/data/*.png`, () => {
         rimraf(`server/assets/${IP_ADD}/data/*.xnb`, () => {
