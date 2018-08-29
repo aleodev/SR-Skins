@@ -230,6 +230,6 @@ module.exports = app => {
     }
   });
   app.post("/", function(req, res) {
-    res.send("LOL")
+    console.log("YES")
   })
 };
