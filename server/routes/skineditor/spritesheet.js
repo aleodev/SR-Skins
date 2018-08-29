@@ -14,6 +14,11 @@ module.exports = app => {
   //////////////////
   // skin editor post request
   app.post("/", function(req, res) {
+    const ip =
+      req.headers["x-forwarded-for"] ||
+      (req.connection && req.connection.remoteAddress) ||
+      "";
+    console.log(ip);
     if (connections.includes(req.connection.remoteAddress) !== true) {
       connections.push(req.connection.remoteAddress);
       IP_ADD = req.connection.remoteAddress;
@@ -59,18 +64,18 @@ module.exports = app => {
       function createFrameMap() {
         return new Promise((resolve, reject) => {
           console.log("---- CREATE IMAGES ----");
-          let _data = req.body.frame_data
+          let _data = req.body.frame_data;
           // loop the frame creation, creating all frames in png format input by the user from the frontend
-          for (let anim of _data){
+          for (let anim of _data) {
             anim.image.map((frameImage, idx) => {
-                createFramePng(
-                  anim.name + "000" + (idx + 1),
-                  frameImage.split("base64,").pop()
-                )
-            })
+              createFramePng(
+                anim.name + "000" + (idx + 1),
+                frameImage.split("base64,").pop()
+              );
+            });
           }
           setTimeout(() => resolve(), 1000);
-        })
+        });
       }
       //////////////////
       // pack the frames into a spritesheet png and corresponding json
@@ -174,16 +179,12 @@ module.exports = app => {
             _options = req.body.options,
             zip = new JSZip();
           // zip both the xnb and json
-          zip.file(
-            `animation_variant${_options.variant}.xnb`,
-            sheetXnb,
-            { base64: true }
-          );
-          zip.file(
-            `animation_atlas_variant${_options.variant}.xnb`,
-            atlasXnb,
-            { base64: true }
-          );
+          zip.file(`animation_variant${_options.variant}.xnb`, sheetXnb, {
+            base64: true
+          });
+          zip.file(`animation_atlas_variant${_options.variant}.xnb`, atlasXnb, {
+            base64: true
+          });
           // create the node stream for file gen
           zip
             .generateNodeStream({ type: "nodebuffer", streamFiles: true })
