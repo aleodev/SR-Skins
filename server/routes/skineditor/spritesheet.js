@@ -18,7 +18,7 @@ module.exports = app => {
       req.headers["x-forwarded-for"] ||
       (req.connection && req.connection.remoteAddress) ||
       "";
-    console.log(ip);
+    console.log(req.connection.remoteAddress);
     if (connections.includes(ip) !== true) {
       connections.push(ip);
       IP_ADD = ip;
@@ -199,9 +199,7 @@ module.exports = app => {
                   // remove the active ip address from the "connected" array to unblacklist their ip from requesting
                   resolve(
                     console.log("---- FINISHED ----"),
-                    (connections = connections.filter(
-                      ip => ip !== req.connection.remoteAddress
-                    ))
+                    (connections = connections.filter(ip => ip !== ip))
                   );
                 }
               });
