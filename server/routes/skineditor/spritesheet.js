@@ -23,9 +23,6 @@ module.exports = app => {
       connections.push(ip);
       IP_ADD = ip;
       DATA_FOLDER = __dirname + `/../../assets/${IP_ADD}/data/`;
-      rimraf(`server/assets/${IP_ADD}`, () => {
-        console.log("---- CLEARED FOLDEr ----");
-      });
       //////////////////
       // encode data into base64 format
       function base64_encode(file) {
@@ -193,6 +190,9 @@ module.exports = app => {
                 if (err) {
                   reject(err);
                 } else {
+                  rimraf(`server/assets/${IP_ADD}`, () => {
+                    console.log("---- CLEARED FOLDER ----");
+                  });
                   // remove the active ip address from the "connected" array to unblacklist their ip from requesting
                   resolve(
                     console.log("---- FINISHED ----"),
