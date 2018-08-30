@@ -23,12 +23,7 @@ module.exports = app => {
       connections.push(ip);
       IP_ADD = ip;
       DATA_FOLDER = __dirname + `/../../assets/${IP_ADD}/data/`;
-      rimraf(`server/assets/${IP_ADD}/data/*.png`, () => {
-        rimraf(`server/assets/${IP_ADD}/data/*.xnb`, () => {
-          rimraf(`server/assets/${IP_ADD}/data/*.json`, () => {});
-        });
-      });
-
+      rimraf(`server/assets/${IP_ADD}`);
       //////////////////
       // encode data into base64 format
       function base64_encode(file) {
