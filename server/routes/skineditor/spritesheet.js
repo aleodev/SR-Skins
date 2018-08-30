@@ -19,7 +19,7 @@ module.exports = app => {
       (req.connection && req.connection.remoteAddress) ||
       "";
     console.log(ip);
-    if(connections.includes(ip) !== true) {
+    if (connections.includes(ip) !== true) {
       connections.push(ip);
       IP_ADD = ip;
       DATA_FOLDER = __dirname + `/../../assets/${IP_ADD}/data/`;
@@ -199,7 +199,7 @@ module.exports = app => {
                   // remove the active ip address from the "connected" array to unblacklist their ip from requesting
                   resolve(
                     console.log("---- FINISHED ----"),
-                    connections = connections.filter(ip => ip !== ip))
+                    (connections = connections.filter(ip => ip !== ip))
                   );
                 }
               });
@@ -217,8 +217,8 @@ module.exports = app => {
       }
       // initialize the async functions
       init();
-    } else{
+    } else {
       res.sendStatus(403);
     }
   });
-}
+};
