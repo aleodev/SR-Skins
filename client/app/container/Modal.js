@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
-import Fade from "react-reveal/Fade";
+// import Fade from "react-reveal/Fade";
 
 import Custom from "./ModalUI/Custom";
 import Confirmation from "./ModalUI/Confirmation";
@@ -38,11 +38,7 @@ export default class Modal extends Component {
   };
 
   render() {
-    var modalUI = (
-      <Fade>
-        <div className="backdrop">{this.changeModalUI()}</div>
-      </Fade>
-    );
+    var modalUI = <div className="backdrop">{this.changeModalUI()}</div>;
     if (!this.props.show) {
       return null;
     }

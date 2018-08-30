@@ -2,17 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import Header from "./Header";
 import Footer from "./Footer";
-import Fade from "react-reveal/Fade";
 
 const App = ({ children }) => (
   <React.Fragment>
-    <Fade>
-      <Header />
+    <Header />
 
-      <main>{children}</main>
+    <main>{children}</main>
 
-      <Footer />
-    </Fade>
+    <Footer />
   </React.Fragment>
 );
 

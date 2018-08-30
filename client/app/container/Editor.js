@@ -34,11 +34,6 @@ export default class Editor extends Component {
   };
   render() {
     const maxFrames = 9;
-    // {
-    //   this.props.frameData[this.props.active].image.length >= maxFrames
-    //     ? disabled
-    //     : null;
-    // }
     return (
       <section id="editor" className="row row-eq-height">
         <div

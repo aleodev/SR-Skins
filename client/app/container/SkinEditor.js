@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Fade from "react-reveal/Fade";
+// import Fade from "react-reveal/Fade";
 import update from "immutability-helper";
 // Data
 import { frame_names } from "./data/frames";
@@ -18,18 +18,33 @@ class SkinEditor extends Component {
       frames: frame_names.map(names => ({ name: names, image: [] })),
       active: null,
       modal: false,
-      modalState: null
+      modalState: null,
+      totalKB: 0
     };
   }
-  componentDidMount() {
-    console.log(frame_names);
-  }
+  //! TOTAL
+  checkTotal = () => {
+    if (this.state.totalKB < 0) {
+      this.setState({
+        totalKB: 0
+      });
+    }
+  };
+  //! TOTAL
   removeFrame = idx => {
-    this.setState({
-      frames: update(this.state.frames, {
-        [this.state.active]: { image: { $splice: [[idx, 1]] } }
-      })
-    });
+    let stringLength = this.state.frames[this.state.active].image[idx].length,
+      totalKBFrame =
+        (4 * Math.ceil(stringLength / 3) * 0.5624896334383812) / 1000;
+    this.setState(
+      state => ({
+        ...state,
+        totalKB: state.totalKB - totalKBFrame,
+        frames: update(this.state.frames, {
+          [this.state.active]: { image: { $splice: [[idx, 1]] } }
+        })
+      }),
+      this.checkTotal
+    );
   };
   moveFrame = (idx, dir) => {
     let actIdx = this.state.active,
@@ -52,13 +67,23 @@ class SkinEditor extends Component {
       });
     }
   };
-
+  //! TOTAL
   deleteActiveFrames = () => {
-    this.setState({
-      frames: update(this.state.frames, {
-        [this.state.active]: { image: { $set: [] } }
-      })
+    let totalKBActive = 0;
+    this.state.frames[this.state.active].image.forEach(value => {
+      totalKBActive +=
+        (4 * Math.ceil(value.length / 3) * 0.5624896334383812) / 1000;
     });
+    this.setState(
+      state => ({
+        ...state,
+        totalKB: state.totalKB - totalKBActive,
+        frames: update(this.state.frames, {
+          [this.state.active]: { image: { $set: [] } }
+        })
+      }),
+      this.checkTotal
+    );
   };
 
   addTransparent = () => {
@@ -85,12 +110,21 @@ class SkinEditor extends Component {
       reader = new window.FileReader();
     if (file)
       // ! add img onload to give error on images about 150 height and 150 width
-      reader.onload = e => {
+      reader.onload = ev => {
         // var img = new Image();
         // img.src = e.target.result;
         // img.onload = () => {
-        let type = e.target.result.match(/:\s*(.*?)\s*;/g).pop(),
+        let type = ev.target.result.match(/:\s*(.*?)\s*;/g).pop(),
           fixedType = type.substring(1, type.length - 1);
+        let targetLength = ev.target.result.length,
+          targetKBFrame =
+            (4 * Math.ceil(targetLength / 3) * 0.5624896334383812) / 1000;
+        if (action == "change") {
+          var prevFrame = this.state.frames[this.state.active].image[activeImg]
+              .length,
+            prevKBFrame =
+              (4 * Math.ceil(prevFrame / 3) * 0.5624896334383812) / 1000;
+        }
         if (fixedType == "image/png" || fixedType == "image/jpeg") {
           // if (img.width > 130 || img.height > 130) {
           //   this.props.alert.show(
@@ -98,26 +132,38 @@ class SkinEditor extends Component {
           //   );
           // }
           switch (action) {
+            //! TOTAL
             case "custom":
               this.setState(state => ({
                 frames: state.frames.map((object, idx) => ({
                   ...state.frames[idx],
-                  image: object.image.concat(e.target.result)
+                  image: object.image.concat(ev.target.result)
                 }))
               }));
               break;
+            //! TOTAL
             case "change":
-              this.setState({
-                frames: update(this.state.frames, {
-                  [this.state.active]: {
-                    image: {
-                      [activeImg]: {
-                        $set: e.target.result
+              this.setState(
+                state => ({
+                  ...state,
+                  totalKB: state.totalKB - prevKBFrame,
+                  frames: update(this.state.frames, {
+                    [this.state.active]: {
+                      image: {
+                        [activeImg]: {
+                          $set: ev.target.result
+                        }
                       }
                     }
-                  }
-                })
-              });
+                  })
+                }),
+                () => {
+                  this.checkTotal;
+                  this.setState(state => ({
+                    totalKB: state.totalKB + targetKBFrame
+                  }));
+                }
+              );
               // this.setState(state => ({
               //   frames: state.frames.map((frame, frIdx) => {
               //     if (frIdx !== this.state.active) return frame;
@@ -129,14 +175,21 @@ class SkinEditor extends Component {
               //     };
               //   })
               // }));
-
+              //! TOTAL
               break;
             case "add":
-              this.setState({
-                frames: update(this.state.frames, {
-                  [this.state.active]: { image: { $push: [e.target.result] } }
-                })
-              });
+              this.setState(
+                state => ({
+                  ...state,
+                  totalKB: state.totalKB + targetKBFrame,
+                  frames: update(this.state.frames, {
+                    [this.state.active]: {
+                      image: { $push: [ev.target.result] }
+                    }
+                  })
+                }),
+                this.checkTotal
+              );
             // this.setState(state => ({
             //   frames: state.frames.map((frame, frIdx) => {
             //     if (frIdx !== this.state.active) return frame;
@@ -156,8 +209,11 @@ class SkinEditor extends Component {
     reader.readAsDataURL(file);
     e.target.value = null;
   };
+  //! TOTAL
   clearAll = () => {
     this.setState(state => ({
+      ...state,
+      totalKB: 0,
       frames: state.frames.map((object, idx) => ({
         ...state.frames[idx],
         image: []
@@ -199,33 +255,31 @@ class SkinEditor extends Component {
   render() {
     return (
       <React.Fragment>
-        <Fade big>
-          <div className="wrapper">
-            <button onClick={this.fillAll}>Dev BTN</button>
-            <Modal
-              frameData={this.state.frames}
-              show={this.state.modal}
-              onClose={this.showModal}
-              modalState={this.state.modalState}
-              clearAll={this.clearAll}
-            />
-            <Editor
-              frameData={this.state.frames}
-              active={this.state.active}
-              removeFrame={this.removeFrame}
-              moveFrame={this.moveFrame}
-              addTransparent={this.addTransparent}
-              deleteActiveFrames={this.deleteActiveFrames}
-              alter={this.alterFrameInput}
-            />
-            <Selector
-              alter={this.alterFrameInput}
-              frameData={this.state.frames}
-              changeActive={this.handleActive}
-              showModal={this.showModal}
-            />
-          </div>
-        </Fade>
+        <div className="wrapper">
+          <button onClick={this.fillAll}>Dev BTN</button>
+          <Modal
+            frameData={this.state.frames}
+            show={this.state.modal}
+            onClose={this.showModal}
+            modalState={this.state.modalState}
+            clearAll={this.clearAll}
+          />
+          <Editor
+            frameData={this.state.frames}
+            active={this.state.active}
+            removeFrame={this.removeFrame}
+            moveFrame={this.moveFrame}
+            addTransparent={this.addTransparent}
+            deleteActiveFrames={this.deleteActiveFrames}
+            alter={this.alterFrameInput}
+          />
+          <Selector
+            alter={this.alterFrameInput}
+            frameData={this.state.frames}
+            changeActive={this.handleActive}
+            showModal={this.showModal}
+          />
+        </div>
       </React.Fragment>
     );
   }
