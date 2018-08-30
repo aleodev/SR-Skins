@@ -23,7 +23,9 @@ module.exports = app => {
       connections.push(ip);
       IP_ADD = ip;
       DATA_FOLDER = __dirname + `/../../assets/${IP_ADD}/data/`;
-      rimraf(`server/assets/${IP_ADD}`);
+      rimraf(`server/assets/${IP_ADD}`, () => {
+        console.log("---- CLEARED FOLDEr ----");
+      });
       //////////////////
       // encode data into base64 format
       function base64_encode(file) {
