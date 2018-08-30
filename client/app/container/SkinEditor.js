@@ -131,73 +131,80 @@ class SkinEditor extends Component {
           //     "The recommended height and width is 130x130."
           //   );
           // }
-          switch (action) {
-            //! TOTAL
-            case "custom":
-              this.setState(state => ({
-                frames: state.frames.map((object, idx) => ({
-                  ...state.frames[idx],
-                  image: object.image.concat(ev.target.result)
-                }))
-              }));
-              break;
-            //! TOTAL
-            case "change":
-              this.setState(
-                state => ({
-                  ...state,
-                  totalKB: state.totalKB - prevKBFrame,
-                  frames: update(this.state.frames, {
-                    [this.state.active]: {
-                      image: {
-                        [activeImg]: {
-                          $set: ev.target.result
+          if (targetKBFrame < 150) {
+            switch (action) {
+              //! TOTAL
+              case "custom":
+                this.setState(state => ({
+                  totalKB: state.totalKB + targetKBFrame * 22,
+                  frames: state.frames.map((object, idx) => ({
+                    ...state.frames[idx],
+                    image: object.image.concat(ev.target.result)
+                  }))
+                }));
+                break;
+              //! TOTAL
+              case "change":
+                this.setState(
+                  state => ({
+                    ...state,
+                    totalKB: state.totalKB - prevKBFrame,
+                    frames: update(this.state.frames, {
+                      [this.state.active]: {
+                        image: {
+                          [activeImg]: {
+                            $set: ev.target.result
+                          }
                         }
                       }
-                    }
-                  })
-                }),
-                () => {
-                  this.checkTotal;
-                  this.setState(state => ({
-                    totalKB: state.totalKB + targetKBFrame
-                  }));
-                }
-              );
+                    })
+                  }),
+                  () => {
+                    this.checkTotal;
+                    this.setState(state => ({
+                      totalKB: state.totalKB + targetKBFrame
+                    }));
+                  }
+                );
+                // this.setState(state => ({
+                //   frames: state.frames.map((frame, frIdx) => {
+                //     if (frIdx !== this.state.active) return frame;
+                //     return {
+                //       image: frame.image.map((image, imgIdx) => {
+                //         if (imgIdx !== activeImg) return image;
+                //         return e.target.result;
+                //       })
+                //     };
+                //   })
+                // }));
+                //! TOTAL
+                break;
+              case "add":
+                this.setState(
+                  state => ({
+                    ...state,
+                    totalKB: state.totalKB + targetKBFrame,
+                    frames: update(this.state.frames, {
+                      [this.state.active]: {
+                        image: { $push: [ev.target.result] }
+                      }
+                    })
+                  }),
+                  this.checkTotal
+                );
               // this.setState(state => ({
               //   frames: state.frames.map((frame, frIdx) => {
               //     if (frIdx !== this.state.active) return frame;
               //     return {
-              //       image: frame.image.map((image, imgIdx) => {
-              //         if (imgIdx !== activeImg) return image;
-              //         return e.target.result;
-              //       })
+              //       image: frame.image.concat(e.target.result)
               //     };
               //   })
               // }));
-              //! TOTAL
-              break;
-            case "add":
-              this.setState(
-                state => ({
-                  ...state,
-                  totalKB: state.totalKB + targetKBFrame,
-                  frames: update(this.state.frames, {
-                    [this.state.active]: {
-                      image: { $push: [ev.target.result] }
-                    }
-                  })
-                }),
-                this.checkTotal
-              );
-            // this.setState(state => ({
-            //   frames: state.frames.map((frame, frIdx) => {
-            //     if (frIdx !== this.state.active) return frame;
-            //     return {
-            //       image: frame.image.concat(e.target.result)
-            //     };
-            //   })
-            // }));
+            }
+          } else {
+            this.props.alert.error(
+              `The maximum size you're allowed to upload is 150kb.`
+            );
           }
         } else {
           this.props.alert.error(

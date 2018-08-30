@@ -16,21 +16,23 @@ const Selector = props => (
       >
         Reset
       </button>
-      <div className="change-all-frame-button-wrapper">
-        <label
-          htmlFor="change-all"
-          className="button button-3d button-rounded button-info upload-btn"
-        >
-          Single Upload All
-        </label>
-        <input
-          id="change-all"
-          className="custom-all-input"
-          onChange={e => props.alter(e, "custom")}
-          name="Select File"
-          type="file"
-        />
-      </div>
+      {props.frameData.every(x => x.image.length < 9) ? (
+        <div className="change-all-frame-button-wrapper">
+          <label
+            htmlFor="change-all"
+            className="button button-3d button-rounded button-info upload-btn"
+          >
+            Single Upload All
+          </label>
+          <input
+            id="change-all"
+            className="custom-all-input"
+            onChange={e => props.alter(e, "custom")}
+            name="Select File"
+            type="file"
+          />
+        </div>
+      ) : null}
       <div className="selector-left">
         {frame_names.map((name, idx) => {
           return (
