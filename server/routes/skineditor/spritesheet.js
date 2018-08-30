@@ -14,11 +14,8 @@ module.exports = app => {
   //////////////////
   // skin editor post request
   app.post("/", function(req, res) {
-    const ip =
-      req.headers["x-forwarded-for"] ||
-      (req.connection && req.connection.remoteAddress) ||
-      "";
-    console.log(req.connection.remoteAddress);
+    var ip = req.headers["x-forwarded-for"] || req.connection.remoteAddress;
+    console.log(ip);
     if (connections.includes(ip) !== true) {
       connections.push(ip);
       IP_ADD = ip;
