@@ -158,8 +158,9 @@ class SkinEditor extends Component {
   };
   clearAll = () => {
     this.setState(state => ({
-      frames: state.frames.map(object => ({
-        image: (object.image = [])
+      frames: state.frames.map((object, idx) => ({
+        ...state.frames[idx],
+        image: []
       }))
     }));
   };
