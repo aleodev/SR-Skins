@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import ProgressButton from "react-progress-button";
 import { withAlert } from "react-alert";
 import { character_names } from "../data/characters";
-// import axios from "axios";
-// import { saveAs } from "file-saver/FileSaver";
+import axios from "axios";
+import { saveAs } from "file-saver/FileSaver";
 // import openSocket from 'socket.io-client'
 // const socket = openSocket(`http://${process.env.IP_ENV}:${process.env.PORT_ENV}`)
 // ! Add sockets to remove data folder not being used
@@ -52,54 +52,43 @@ class Custom extends Component {
     //   "This function is turned off for development purposes."
     // );
     // this.props.onClose(0, e);
-    let total = 0;
-    for (let anim of this.props.frameData) {
-      anim.image.map(frameImage => {
-        total += frameImage.length;
+    this.setState({ buttonState: "loading" });
+    axios({
+      method: "POST",
+      url: `${process.env.IP_ENV}`,
+      data: {
+        frame_data: this.props.frameData,
+        options: this.state.options
+      },
+      headers: {
+        "Content-Type": "application/json"
+      },
+      responseType: "blob"
+    })
+      .then(response => {
+        this.setState({ buttonState: "success" });
+        saveAs(
+          new Blob([response.data], { type: "application/zip" }),
+          `${this.state.options.skinName}.zip`
+        );
+      })
+      .catch(error => {
+        if (error.response.status === 403) {
+          this.setState({ buttonState: "error" }, () => {
+            setTimeout(() => {
+              this.setState({ buttonState: "" });
+            }, 2000);
+          });
+          console.log("Not allowed to request 2 things at a time.");
+        } else {
+          this.setState({ buttonState: "error" }, () => {
+            setTimeout(() => {
+              this.setState({ buttonState: "" });
+            }, 2000);
+          });
+          console.log(error.response);
+        }
       });
-    }
-    var stringLength = total;
-    var sizeInBytes = 4 * Math.ceil(stringLength / 3) * 0.5624896334383812;
-    var sizeInKb = sizeInBytes / 1000;
-    console.log(sizeInKb);
-
-    // this.setState({ buttonState: "loading" });
-    // axios({
-    //   method: "POST",
-    //   url: `${process.env.IP_ENV}`,
-    //   data: {
-    //     frame_data: this.props.frameData,
-    //     options: this.state.options
-    //   },
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   },
-    //   responseType: "blob"
-    // })
-    //   .then(response => {
-    //     this.setState({ buttonState: "success" });
-    //     saveAs(
-    //       new Blob([response.data], { type: "application/zip" }),
-    //       `${this.state.options.skinName}.zip`
-    //     );
-    //   })
-    //   .catch(error => {
-    //     if (error.response.status === 403) {
-    //       this.setState({ buttonState: "error" }, () => {
-    //         setTimeout(() => {
-    //           this.setState({ buttonState: "" });
-    //         }, 2000);
-    //       });
-    //       console.log("Not allowed to request 2 things at a time.");
-    //     } else {
-    //       this.setState({ buttonState: "error" }, () => {
-    //         setTimeout(() => {
-    //           this.setState({ buttonState: "" });
-    //         }, 2000);
-    //       });
-    //       console.log(error.response);
-    //     }
-    //   });
     e.preventDefault();
   };
   render() {
