@@ -3,8 +3,8 @@ import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 // import Fade from "react-reveal/Fade";
 
-import Custom from "./ModalUI/Custom";
-import Confirmation from "./ModalUI/Confirmation";
+import Custom from "./Custom";
+import Confirmation from "./Confirmation";
 const modalRoot = document.getElementById("modal-root");
 export default class Modal extends Component {
   constructor(props) {

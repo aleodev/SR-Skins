@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { BlockPicker } from "react-color";
-import { frame_names } from "./data/frames";
+import { frame_names } from "../data/frames";
 import Playback from "./Playback";
 // import ReactTooltip from "react-tooltip";
 const popover = {

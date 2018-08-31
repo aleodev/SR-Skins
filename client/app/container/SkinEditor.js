@@ -4,9 +4,9 @@ import update from "immutability-helper";
 // Data
 import { frame_names } from "./data/frames";
 // Components
-import Modal from "./Modal";
-import Editor from "./Editor";
-import Selector from "./Selector";
+import Modal from "./Modal/Modal";
+import Editor from "./Editor/Editor";
+import Tasks from "./Tasks/Tasks";
 // Alerts
 import { withAlert } from "react-alert";
 //PropTypes
@@ -280,7 +280,7 @@ class SkinEditor extends Component {
             deleteActiveFrames={this.deleteActiveFrames}
             alter={this.alterFrameInput}
           />
-          <Selector
+          <Tasks
             alter={this.alterFrameInput}
             frameData={this.state.frames}
             changeActive={this.handleActive}
