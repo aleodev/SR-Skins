@@ -134,13 +134,13 @@ module.exports = app => {
       function jsonToAtlasXnb() {
         return new Promise((resolve, reject) => {
           console.log("---- CONVERTING JSON ----");
-          let atlasGen = DATA_FOLDER + "atlas_generator.exe";
-          function atlasConv() {
-            exec(
-              `wine atlas_generator.exe`,
-              {
-                cwd: DATA_FOLDER
-              },
+          // function atlasConv() {
+            execFile(
+              "wine",[
+                `${__dirname}/../../atlas_generator.exe`,
+                "-o",
+                DATA_FOLDER + "atlas.json"
+              ],
               error => {
                 if (error !== null) {
                   console.log(`exec error: ${error}`, reject());
@@ -152,19 +152,19 @@ module.exports = app => {
               }
             );
           }
-          fse.pathExists(atlasGen, (err, exists) => {
-            if (exists) {
-              atlasConv();
-            } else {
-              fse
-                .copy(__dirname + "/../../atlas_generator.exe", atlasGen)
-                .then(() => {
-                  atlasConv();
-                })
-                .catch(err => console.log(err, reject()));
-            }
-          });
-        });
+        //   fse.pathExists(atlasGen, (err, exists) => {
+        //     if (exists) {
+        //       atlasConv();
+        //     } else {
+        //       fse
+        //         .copy(__dirname + "/../../atlas_generator.exe", atlasGen)
+        //         .then(() => {
+        //           atlasConv();
+        //         })
+        //         .catch(err => console.log(err, reject()));
+        //     }
+        //   });
+        // });
       }
 
       //////////////////

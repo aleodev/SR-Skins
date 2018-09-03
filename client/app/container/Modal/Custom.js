@@ -9,7 +9,6 @@ var cancel;
 import { saveAs } from "file-saver/FileSaver";
 // import openSocket from 'socket.io-client'
 // const socket = openSocket(`http://${process.env.IP_ENV}:${process.env.PORT_ENV}`)
-// ! Add sockets to remove data folder not being used
 class Custom extends Component {
   constructor(props) {
     super(props);
