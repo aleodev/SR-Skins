@@ -30,7 +30,7 @@ module.exports = app => {
       connections.push(ip);
       var IP_ADD = ip,
         _options = req.body.options,
-        DATA_FOLDER = __dirname + `../../../../assets/${IP_ADD}/data`;
+        DATA_FOLDER = __dirname + `../../../assets/${IP_ADD}/data`;
       //////////////////
       // loop the "createFramePng" function to get all frames needed to be packed
       function createFrames() {
