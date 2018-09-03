@@ -30,7 +30,7 @@ module.exports = app => {
       connections.push(ip);
       var IP_ADD = ip,
         _options = req.body.options,
-        DATA_FOLDER = __dirname + `../../../assets/${IP_ADD}/data/`,
+        DATA_FOLDER = __dirname + `/../../../assets/${IP_ADD}/data/`,
         MAIN_FOLDER = __dirname + `../../../assets/${IP_ADD}`,
         SERVER_FOLDER = __dirname + `../../..`;
       //////////////////
@@ -115,21 +115,16 @@ module.exports = app => {
               if (error !== null) {
                 console.log(`exec error: ${error}`, reject());
               } else {
-                rimraf(
-                  __dirname +
-                    `/../../../assets/${IP_ADD}/data/spritesheet-1.png`,
-                  () => {
-                    // rimraf(`${DATA_FOLDER}spritesheet-1.png`, () => {
-                    fs.writeFile(
-                      DATA_FOLDER + "config.txt",
-                      _options.characterIdx,
-                      err => {
-                        if (err) reject(err);
-                        resolve();
-                      }
-                    );
-                  }
-                );
+                rimraf(`${DATA_FOLDER}/spritesheet-1.png`, () => {
+                  fs.writeFile(
+                    DATA_FOLDER + "config.txt",
+                    _options.characterIdx,
+                    err => {
+                      if (err) reject(err);
+                      resolve();
+                    }
+                  );
+                });
               }
             }
           );
