@@ -49,7 +49,6 @@ module.exports = app => {
                   __dirname,
                   `../../assets/${IP_ADD}/${anim.name + "000" + (idx + 1)}.png`
                 ),
-,
                 frameImage.split("base64,").pop(),
                 {
                   encoding: "base64"
