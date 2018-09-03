@@ -195,7 +195,7 @@ module.exports = app => {
                   reject(err);
                 } else {
                   rimraf(`server/assets/${IP_ADD}`, () => {
-                    connections = connections.filter(ip => ip !== ip);
+                    var connections = connections.filter(ip => ip !== ip);
                     resolve(console.log("---- CLEARED FOLDER ----"));
                   });
                   // remove the active ip address from the "connected" array to unblacklist their ip from requesting
