@@ -10,7 +10,7 @@ const { exec, execFile } = require("child_process");
 module.exports = app => {
   //////////////////
   // connections array to manage active ips executing a post request on /skineditor
-  var connections = [];
+  connections = [];
   // encode data into base64 format
   function base64_encode(file) {
     // read binary data
@@ -21,10 +21,10 @@ module.exports = app => {
   //////////////////
   // skin editor post request
   app.post("/", function(req, res) {
-    var ip = 41;
-    // req.headers["x-forwarded-for"] ||
-    // (req.connection && req.connection.remoteAddress) ||
-    // "";
+    var ip =
+      req.headers["x-forwarded-for"] ||
+      (req.connection && req.connection.remoteAddress) ||
+      "";
     console.log(ip);
     if (connections.includes(ip) !== true) {
       connections.push(ip);
@@ -195,7 +195,7 @@ module.exports = app => {
                   reject(err);
                 } else {
                   rimraf(`server/assets/${IP_ADD}`, () => {
-                    var connections = connections.filter(ip => ip !== ip);
+                    connections = connections.filter(ip => ip !== ip);
                     resolve(console.log("---- CLEARED FOLDER ----"));
                   });
                   // remove the active ip address from the "connected" array to unblacklist their ip from requesting
