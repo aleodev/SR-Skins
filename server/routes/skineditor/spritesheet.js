@@ -30,7 +30,7 @@ module.exports = app => {
       connections.push(ip);
       var IP_ADD = ip,
         _options = req.body.options,
-        DATA_FOLDER = __dirname + `/../../../assets/${IP_ADD}/data`,
+        DATA_FOLDER = __dirname + `/../../../assets/${IP_ADD}/data/`,
         MAIN_FOLDER = __dirname + `../../../assets/${IP_ADD}`,
         SERVER_FOLDER = __dirname + `../../..`;
       //////////////////
