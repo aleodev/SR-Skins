@@ -32,7 +32,7 @@ module.exports = app => {
         _options = req.body.options,
         DATA_FOLDER = __dirname + `/server/assets/${IP_ADD}/data/`,
         MAIN_FOLDER = __dirname + `/server/assets/${IP_ADD}`;
-      console.log(__dirname);
+      console.log(MAIN_FOLDER + "/*.png");
       //////////////////
 
       //////////////////
