@@ -114,10 +114,14 @@ module.exports = app => {
                 console.log(`exec error: ${error}`, reject());
               } else {
                 rimraf(`server/assets/${IP_ADD}/data/spritesheet-1.png`, () => {
-                  fs.writeFile("config.txt", _options.characterIdx, err => {
-                    if (err) reject(err);
-                    resolve();
-                  });
+                  fs.writeFile(
+                    DATA_FOLDER + "config.txt",
+                    _options.characterIdx,
+                    err => {
+                      if (err) reject(err);
+                      resolve();
+                    }
+                  );
                 });
               }
             }
