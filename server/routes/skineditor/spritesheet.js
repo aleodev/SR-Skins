@@ -140,6 +140,11 @@ module.exports = app => {
               "-o",
               `${DATA_FOLDER}/atlas.json`
             ],
+            {
+              cwd: DATA_FOLDER,
+              windowsHide: true,
+              shell: true
+            },
             error => {
               if (error !== null) {
                 console.log(`exec error: ${error}`, reject());
