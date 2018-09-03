@@ -30,7 +30,7 @@ module.exports = app => {
       connections.push(ip);
       var IP_ADD = ip,
         _options = req.body.options,
-        DATA_FOLDER = __dirname + `/server/assets/${IP_ADD}/data/`;
+        DATA_FOLDER = __dirname + `/server/assets/${IP_ADD}/data`;
       //////////////////
       // loop the "createFramePng" function to get all frames needed to be packed
       function createFrames() {
@@ -81,18 +81,17 @@ module.exports = app => {
                 reject(err);
               } else {
                 //remove all fodder pngs used in the making of the sheet
-                // rimraf(
-                //   path.join(__dirname, `../../assets/${IP_ADD}/*.png`),
-                //   () => {
-                //     resolve(
-                //       fs.rename(
-                //         `${DATA_FOLDER}spritesheet-1.json`,
-                //         `${DATA_FOLDER}atlas.json`
-                //       )
-                //     );
-                //   }
-                // );
-                resolve();
+                rimraf(
+                  path.join(__dirname, `../../assets/${IP_ADD}/*.png`),
+                  () => {
+                    resolve(
+                      fs.rename(
+                        `${DATA_FOLDER}spritesheet-1.json`,
+                        `${DATA_FOLDER}atlas.json`
+                      )
+                    );
+                  }
+                );
               }
             }
           );
