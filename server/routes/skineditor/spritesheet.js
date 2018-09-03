@@ -5,7 +5,7 @@ const path = require("path");
 // const ElapsedTime = require('elapsed-time')
 const rimraf = require("rimraf");
 const packer = require("gamefroot-texture-packer");
-const { exec, execFile } = require("child_process");
+const { execFile } = require("child_process");
 
 module.exports = app => {
   //////////////////
@@ -31,6 +31,7 @@ module.exports = app => {
       var IP_ADD = ip,
         _options = req.body.options,
         DATA_FOLDER = __dirname + `/server/assets/${IP_ADD}/data/`;
+      console.log(__dirname);
       //////////////////
 
       //////////////////
