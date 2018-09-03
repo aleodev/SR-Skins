@@ -1,7 +1,6 @@
 const fse = require("fs-extra");
 const fs = require("fs");
 const JSZip = require("jszip");
-const path = require("path");
 // const ElapsedTime = require('elapsed-time')
 const rimraf = require("rimraf");
 const packer = require("gamefroot-texture-packer");
@@ -114,14 +113,7 @@ module.exports = app => {
                 console.log(`exec error: ${error}`, reject());
               } else {
                 rimraf(`${DATA_FOLDER}/spritesheet-1.png`, () => {
-                  fs.writeFile(
-                    DATA_FOLDER + "config.txt",
-                    _options.characterIdx,
-                    err => {
-                      if (err) reject(err);
-                      resolve();
-                    }
-                  );
+                  resolve();
                 });
               }
             }
@@ -140,7 +132,9 @@ module.exports = app => {
             [
               `${SERVER_FOLDER}/atlas_generator.exe`,
               "-o",
-              `${DATA_FOLDER}atlas.json`
+              `${DATA_FOLDER}atlas.json`,
+              "-c",
+              _options.characterIdx
             ],
             {
               cwd: DATA_FOLDER,
