@@ -30,7 +30,8 @@ module.exports = app => {
       connections.push(ip);
       var IP_ADD = ip,
         _options = req.body.options,
-        DATA_FOLDER = __dirname + `/server/assets/${IP_ADD}/data/`;
+        DATA_FOLDER = __dirname + `/server/assets/${IP_ADD}/data/`,
+        MAIN_FOLDER = __dirname + `/server/assets/${IP_ADD}`;
       console.log(__dirname);
       //////////////////
 
@@ -44,10 +45,7 @@ module.exports = app => {
           for (let anim of _data) {
             anim.image.map((frameImage, idx) => {
               fse.outputFile(
-                path.join(
-                  __dirname,
-                  `../../assets/${IP_ADD}/${anim.name + "000" + (idx + 1)}.png`
-                ),
+                `${MAIN_FOLDER}/${anim.name + "000" + (idx + 1)}.png`,
                 frameImage.split("base64,").pop(),
                 {
                   encoding: "base64"
@@ -65,8 +63,6 @@ module.exports = app => {
           }
         });
       }
-      //
-
       //////////////////
       // pack the frames into a spritesheet png and corresponding json
       function spriteMaker() {
@@ -74,7 +70,7 @@ module.exports = app => {
           console.log("---- PACK FRAMES ----");
           // pack all pngs made from the frame looping function into a png spritesheet and a json
           packer(
-            `${DATA_FOLDER}../*.png`,
+            `${MAIN_FOLDER}/*.png`,
             {
               format: "json",
               trim: true,
@@ -86,7 +82,7 @@ module.exports = app => {
                 reject(err);
               } else {
                 //remove all fodder pngs used in the making of the sheet
-                rimraf(`server/assets/${IP_ADD}/*.png`, () => {
+                rimraf(`${MAIN_FOLDER}/*.png`, () => {
                   resolve(
                     fs.rename(
                       `${DATA_FOLDER}spritesheet-1.json`,
@@ -139,7 +135,7 @@ module.exports = app => {
           execFile(
             "wine",
             [
-              `${__dirname}/../../atlas_generator.exe`,
+              `${__dirname}/server/atlas_generator.exe`,
               "-o",
               DATA_FOLDER + "atlas.json"
             ],
