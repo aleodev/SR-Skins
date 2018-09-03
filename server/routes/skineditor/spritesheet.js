@@ -30,7 +30,9 @@ module.exports = app => {
       connections.push(ip);
       var IP_ADD = ip,
         _options = req.body.options,
-        DATA_FOLDER = __dirname + `../../../assets/${IP_ADD}/data`;
+        DATA_FOLDER = __dirname + `../../../assets/${IP_ADD}/data`,
+        MAIN_FOLDER = __dirname + `../../../assets/${IP_ADD}`,
+        SERVER_FOLDER = __dirname + `../../..`;
       //////////////////
       // loop the "createFramePng" function to get all frames needed to be packed
       function createFrames() {
@@ -69,7 +71,7 @@ module.exports = app => {
           console.log("---- PACK FRAMES ----");
           // pack all pngs made from the frame looping function into a png spritesheet and a json
           packer(
-            path.join(__dirname, `../../assets/${IP_ADD}/*.png`),
+            `${MAIN_FOLDER}/*.png`,
             {
               format: "json",
               trim: true,
@@ -81,17 +83,14 @@ module.exports = app => {
                 reject(err);
               } else {
                 //remove all fodder pngs used in the making of the sheet
-                rimraf(
-                  path.join(__dirname, `../../assets/${IP_ADD}/*.png`),
-                  () => {
-                    resolve(
-                      fs.rename(
-                        `${DATA_FOLDER}spritesheet-1.json`,
-                        `${DATA_FOLDER}atlas.json`
-                      )
-                    );
-                  }
-                );
+                rimraf(`${MAIN_FOLDER}/*.png`, () => {
+                  resolve(
+                    fs.rename(
+                      `${DATA_FOLDER}/spritesheet-1.json`,
+                      `${DATA_FOLDER}/atlas.json`
+                    )
+                  );
+                });
               }
             }
           );
@@ -107,12 +106,12 @@ module.exports = app => {
           // use the png to xnb converter with wine to convert the png spritesheet into xnb
           execFile(
             "wine",
-            [`${__dirname}/../../png_to_xnb.exe`, imageDir],
+            [`${SERVER_FOLDER}/png_to_xnb.exe`, imageDir],
             error => {
               if (error !== null) {
                 console.log(`exec error: ${error}`, reject());
               } else {
-                rimraf(`server/assets/${IP_ADD}/data/spritesheet-1.png`, () => {
+                rimraf(`${DATA_FOLDER}/spritesheet-1.png`, () => {
                   fs.writeFile(
                     DATA_FOLDER + "config.txt",
                     _options.characterIdx,
@@ -137,15 +136,15 @@ module.exports = app => {
           execFile(
             "wine",
             [
-              `${__dirname}/server/atlas_generator.exe`,
+              `${SERVER_FOLDER}/atlas_generator.exe`,
               "-o",
-              DATA_FOLDER + "atlas.json"
+              `${DATA_FOLDER}/atlas.json`
             ],
             error => {
               if (error !== null) {
                 console.log(`exec error: ${error}`, reject());
               } else {
-                rimraf(`server/assets/${IP_ADD}/data/atlas.json`, () => {
+                rimraf(`${DATA_FOLDER}/atlas.json`, () => {
                   resolve();
                 });
               }
@@ -181,7 +180,7 @@ module.exports = app => {
                 if (err) {
                   reject(err);
                 } else {
-                  rimraf(`server/assets/${IP_ADD}`, () => {
+                  rimraf(MAIN_FOLDER, () => {
                     connections = connections.filter(ip => ip !== ip);
                     resolve(console.log("---- CLEARED FOLDER ----"));
                   });
