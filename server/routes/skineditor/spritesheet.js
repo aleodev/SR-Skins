@@ -135,36 +135,24 @@ module.exports = app => {
         return new Promise((resolve, reject) => {
           console.log("---- CONVERTING JSON ----");
           // function atlasConv() {
-            execFile(
-              "wine",[
-                `${__dirname}/../../atlas_generator.exe`,
-                "-o",
-                DATA_FOLDER + "atlas.json"
-              ],
-              error => {
-                if (error !== null) {
-                  console.log(`exec error: ${error}`, reject());
-                } else {
-                  rimraf(`server/assets/${IP_ADD}/data/atlas.json`, () => {
-                    resolve();
-                  });
-                }
+          execFile(
+            "wine",
+            [
+              `${__dirname}/../../atlas_generator.exe`,
+              "-o",
+              DATA_FOLDER + "atlas.json"
+            ],
+            error => {
+              if (error !== null) {
+                console.log(`exec error: ${error}`, reject());
+              } else {
+                rimraf(`server/assets/${IP_ADD}/data/atlas.json`, () => {
+                  resolve();
+                });
               }
-            );
-          }
-        //   fse.pathExists(atlasGen, (err, exists) => {
-        //     if (exists) {
-        //       atlasConv();
-        //     } else {
-        //       fse
-        //         .copy(__dirname + "/../../atlas_generator.exe", atlasGen)
-        //         .then(() => {
-        //           atlasConv();
-        //         })
-        //         .catch(err => console.log(err, reject()));
-        //     }
-        //   });
-        // });
+            }
+          );
+        });
       }
 
       //////////////////
