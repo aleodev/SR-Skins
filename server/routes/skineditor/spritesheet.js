@@ -30,9 +30,10 @@ module.exports = app => {
       connections.push(ip);
       var IP_ADD = ip,
         _options = req.body.options,
-        DATA_FOLDER = __dirname + `/../../../assets/${IP_ADD}/data/`,
-        MAIN_FOLDER = __dirname + `/../../../assets/${IP_ADD}`,
-        SERVER_FOLDER = __dirname + `../../..`;
+        DATA_FOLDER = __dirname + `/../../assets/${IP_ADD}/data/`,
+        MAIN_FOLDER = __dirname + `/../../assets/${IP_ADD}`,
+        SERVER_FOLDER = __dirname + `/../..`;
+      console.log(DATA_FOLDER);
       //////////////////
       // loop the "createFramePng" function to get all frames needed to be packed
       function createFrames() {
@@ -43,10 +44,7 @@ module.exports = app => {
           for (let anim of _data) {
             anim.image.map((frameImage, idx) => {
               fse.outputFile(
-                path.join(
-                  __dirname,
-                  `../../assets/${IP_ADD}/${anim.name + "000" + (idx + 1)}.png`
-                ),
+                `${MAIN_FOLDER}/${anim.name + "000" + (idx + 1)}.png`,
                 frameImage.split("base64,").pop(),
                 {
                   encoding: "base64"
