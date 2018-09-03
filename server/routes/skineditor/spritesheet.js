@@ -105,7 +105,6 @@ module.exports = app => {
             "wine",
             [`${SERVER_FOLDER}/png_to_xnb.exe`, imageDir],
             {
-              cwd: DATA_FOLDER,
               windowsHide: true
             },
             error => {
@@ -137,9 +136,7 @@ module.exports = app => {
               _options.characterIdx
             ],
             {
-              cwd: DATA_FOLDER,
-              windowsHide: true,
-              shell: true
+              windowsHide: true
             },
             error => {
               if (error !== null) {
