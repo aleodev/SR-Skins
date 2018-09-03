@@ -86,8 +86,8 @@ module.exports = app => {
                 rimraf(`${MAIN_FOLDER}/*.png`, () => {
                   resolve(
                     fs.rename(
-                      `${DATA_FOLDER}/spritesheet-1.json`,
-                      `${DATA_FOLDER}/atlas.json`
+                      `${DATA_FOLDER}spritesheet-1.json`,
+                      `${DATA_FOLDER}atlas.json`
                     )
                   );
                 });
