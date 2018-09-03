@@ -107,11 +107,16 @@ module.exports = app => {
           execFile(
             "wine",
             [`${SERVER_FOLDER}/png_to_xnb.exe`, imageDir],
+            {
+              cwd: DATA_FOLDER,
+              windowsHide: true,
+              shell: true
+            },
             error => {
               if (error !== null) {
                 console.log(`exec error: ${error}`, reject());
               } else {
-                rimraf(`${DATA_FOLDER}/spritesheet-1.png`, () => {
+                rimraf(`${DATA_FOLDER}spritesheet-1.png`, () => {
                   fs.writeFile(
                     DATA_FOLDER + "config.txt",
                     _options.characterIdx,
