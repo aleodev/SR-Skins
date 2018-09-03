@@ -30,11 +30,7 @@ module.exports = app => {
       connections.push(ip);
       var IP_ADD = ip,
         _options = req.body.options,
-        DATA_FOLDER = __dirname + `/server/assets/${IP_ADD}/data/`,
-        MAIN_FOLDER = __dirname + `/server/assets/${IP_ADD}`;
-      console.log(MAIN_FOLDER + "/*.png");
-      //////////////////
-
+        DATA_FOLDER = __dirname + `/server/assets/${IP_ADD}/data/`;
       //////////////////
       // loop the "createFramePng" function to get all frames needed to be packed
       function createFrames() {
@@ -73,7 +69,7 @@ module.exports = app => {
           console.log("---- PACK FRAMES ----");
           // pack all pngs made from the frame looping function into a png spritesheet and a json
           packer(
-            `${DATA_FOLDER}../*.png`,
+            path.join(__dirname, `../../assets/${IP_ADD}/*.png`),
             {
               format: "json",
               trim: true,
