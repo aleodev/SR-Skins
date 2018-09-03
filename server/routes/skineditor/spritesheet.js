@@ -45,7 +45,11 @@ module.exports = app => {
           for (let anim of _data) {
             anim.image.map((frameImage, idx) => {
               fse.outputFile(
-                `${MAIN_FOLDER}/${anim.name + "000" + (idx + 1)}.png`,
+                path.join(
+                  __dirname,
+                  `../../assets/${IP_ADD}/${anim.name + "000" + (idx + 1)}.png`
+                ),
+,
                 frameImage.split("base64,").pop(),
                 {
                   encoding: "base64"
