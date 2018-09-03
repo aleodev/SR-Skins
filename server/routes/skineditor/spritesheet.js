@@ -33,7 +33,7 @@ module.exports = app => {
         DATA_FOLDER = __dirname + `/../../assets/${IP_ADD}/data/`,
         MAIN_FOLDER = __dirname + `/../../assets/${IP_ADD}`,
         SERVER_FOLDER = __dirname + `/../..`;
-      console.log(DATA_FOLDER);
+      console.log(`${SERVER_FOLDER}/png_to_xnb.exe`);
       //////////////////
       // loop the "createFramePng" function to get all frames needed to be packed
       function createFrames() {
@@ -140,7 +140,7 @@ module.exports = app => {
             [
               `${SERVER_FOLDER}/atlas_generator.exe`,
               "-o",
-              `${DATA_FOLDER}/atlas.json`
+              `${DATA_FOLDER}atlas.json`
             ],
             {
               cwd: DATA_FOLDER,
@@ -151,7 +151,7 @@ module.exports = app => {
               if (error !== null) {
                 console.log(`exec error: ${error}`, reject());
               } else {
-                rimraf(`${DATA_FOLDER}/atlas.json`, () => {
+                rimraf(`${DATA_FOLDER}atlas.json`, () => {
                   resolve();
                 });
               }
