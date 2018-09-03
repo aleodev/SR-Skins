@@ -81,17 +81,18 @@ module.exports = app => {
                 reject(err);
               } else {
                 //remove all fodder pngs used in the making of the sheet
-                rimraf(
-                  path.join(__dirname, `../../assets/${IP_ADD}/*.png`),
-                  () => {
-                    resolve(
-                      fs.rename(
-                        `${DATA_FOLDER}spritesheet-1.json`,
-                        `${DATA_FOLDER}atlas.json`
-                      )
-                    );
-                  }
-                );
+                // rimraf(
+                //   path.join(__dirname, `../../assets/${IP_ADD}/*.png`),
+                //   () => {
+                //     resolve(
+                //       fs.rename(
+                //         `${DATA_FOLDER}spritesheet-1.json`,
+                //         `${DATA_FOLDER}atlas.json`
+                //       )
+                //     );
+                //   }
+                // );
+                resolve();
               }
             }
           );
