@@ -5,7 +5,7 @@ export const revData = [
     title: (
       <p>
         Rev 0.1
-        <span className="badge badge-info">Major Update</span>
+        <span className="badge badge-info">Update</span>
       </p>
     ),
     bodyTitle: "Introducting SR-Skins",

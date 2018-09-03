@@ -10,79 +10,74 @@ const { exec, execFile } = require("child_process");
 module.exports = app => {
   //////////////////
   // connections array to manage active ips executing a post request on /skineditor
-  connections = [];
+  var connections = [];
+  // encode data into base64 format
+  function base64_encode(file) {
+    // read binary data
+    let bitmap = fse.readFileSync(file);
+    // convert binary data to base64 encoded string
+    return new Buffer(bitmap).toString("base64");
+  }
   //////////////////
   // skin editor post request
   app.post("/", function(req, res) {
-    var ip =
-      req.headers["x-forwarded-for"] ||
-      (req.connection && req.connection.remoteAddress) ||
-      "";
+    var ip = 41;
+    // req.headers["x-forwarded-for"] ||
+    // (req.connection && req.connection.remoteAddress) ||
+    // "";
     console.log(ip);
     if (connections.includes(ip) !== true) {
       connections.push(ip);
-      IP_ADD = ip;
-      DATA_FOLDER = __dirname + `/../../assets/${IP_ADD}/data/`;
+      var IP_ADD = ip,
+        _options = req.body.options,
+        DATA_FOLDER = __dirname + `/../../assets/${IP_ADD}/data/`;
       //////////////////
-      // encode data into base64 format
-      function base64_encode(file) {
-        // read binary data
-        let bitmap = fse.readFileSync(file);
-        // convert binary data to base64 encoded string
-        return new Buffer(bitmap).toString("base64");
-      }
-      //////////////////
-      // create/write a png from each piece of framedata
-      function createFramePng(frameName, frameImage) {
-        return new Promise((resolve, reject) => {
-          // create each frame with base64 data from the req.body
-          fse.outputFile(
-            path.join(__dirname, `../../assets/${IP_ADD}/${frameName}.png`),
-            frameImage,
-            {
-              encoding: "base64"
-            },
-            err => {
-              if (err) {
-                console.log(err);
-                reject(err);
-              } else {
-                resolve();
-              }
-            }
-          );
-        });
-      }
+
       //////////////////
       // loop the "createFramePng" function to get all frames needed to be packed
-      function createFrameMap() {
+      function createFrames() {
         return new Promise((resolve, reject) => {
           console.log("---- CREATE IMAGES ----");
           let _data = req.body.frame_data;
           // loop the frame creation, creating all frames in png format input by the user from the frontend
           for (let anim of _data) {
             anim.image.map((frameImage, idx) => {
-              createFramePng(
-                anim.name + "000" + (idx + 1),
-                frameImage.split("base64,").pop()
+              fse.outputFile(
+                path.join(
+                  __dirname,
+                  `../../assets/${IP_ADD}/${anim.name + "000" + (idx + 1)}.png`
+                ),
+                frameImage.split("base64,").pop(),
+                {
+                  encoding: "base64"
+                },
+                err => {
+                  if (err) {
+                    console.log(err);
+                    reject(err);
+                  } else {
+                    resolve();
+                  }
+                }
               );
             });
           }
-          setTimeout(() => resolve(), 1000);
         });
       }
+      //
+
       //////////////////
       // pack the frames into a spritesheet png and corresponding json
       function spriteMaker() {
         return new Promise((resolve, reject) => {
-          console.log("---- CREATE SHEET ----");
+          console.log("---- PACK FRAMES ----");
           // pack all pngs made from the frame looping function into a png spritesheet and a json
           packer(
-            `server/assets/${IP_ADD}/*.png`,
+            `${DATA_FOLDER}../*.png`,
             {
               format: "json",
               trim: true,
-              path: `server/assets/${IP_ADD}/data`,
+              path: DATA_FOLDER,
               name: "spritesheet"
             },
             err => {
@@ -90,7 +85,7 @@ module.exports = app => {
                 reject(err);
               } else {
                 //remove all fodder pngs used in the making of the sheet
-                rimraf(`server/assets/${IP_ADD}/*.png`, function() {
+                rimraf(`server/assets/${IP_ADD}/*.png`, () => {
                   resolve(
                     fs.rename(
                       `${DATA_FOLDER}spritesheet-1.json`,
@@ -103,6 +98,7 @@ module.exports = app => {
           );
         });
       }
+
       //////////////////
       // convert both the spritesheet to xnbs
       function sheetToXnb() {
@@ -113,18 +109,22 @@ module.exports = app => {
           execFile(
             "wine",
             [`${__dirname}/../../png_to_xnb.exe`, imageDir],
-            (error, stdout, stderr) => {
+            error => {
               if (error !== null) {
                 console.log(`exec error: ${error}`, reject());
               } else {
                 rimraf(`server/assets/${IP_ADD}/data/spritesheet-1.png`, () => {
-                  resolve();
+                  fs.writeFile("config.txt", _options.characterIdx, err => {
+                    if (err) reject(err);
+                    resolve();
+                  });
                 });
               }
             }
           );
         });
       }
+
       //////////////////
       // convert json to atlas xnb
       function jsonToAtlasXnb() {
@@ -137,7 +137,7 @@ module.exports = app => {
               {
                 cwd: DATA_FOLDER
               },
-              (error, stdout, stderr) => {
+              error => {
                 if (error !== null) {
                   console.log(`exec error: ${error}`, reject());
                 } else {
@@ -157,11 +157,12 @@ module.exports = app => {
                 .then(() => {
                   atlasConv();
                 })
-                .catch(err => console.error(err, reject()));
+                .catch(err => console.log(err, reject()));
             }
           });
         });
       }
+
       //////////////////
       // zip the spritesheet xnb and atlas xnb
       function zipFiles() {
@@ -170,7 +171,6 @@ module.exports = app => {
           let sheetXnb = base64_encode(DATA_FOLDER + "spritesheet-1.xnb"),
             atlasXnb = base64_encode(DATA_FOLDER + "atlas.xnb"),
             skinZip = DATA_FOLDER + "skin.zip",
-            _options = req.body.options,
             zip = new JSZip();
           // zip both the xnb and json
           zip.file(`animation_variant${_options.variant}.xnb`, sheetXnb, {
@@ -191,29 +191,26 @@ module.exports = app => {
                   reject(err);
                 } else {
                   rimraf(`server/assets/${IP_ADD}`, () => {
-                    console.log("---- CLEARED FOLDER ----");
+                    resolve(console.log("---- CLEARED FOLDER ----"));
                   });
                   // remove the active ip address from the "connected" array to unblacklist their ip from requesting
-                  resolve(
-                    console.log("---- FINISHED ----"),
-                    (connections = connections.filter(ip => ip !== ip))
-                  );
                 }
               });
             });
         });
       }
+
       ////////////////
       // async function setup in order with all promises
       async function init() {
-        await createFrameMap();
+        await createFrames();
         await spriteMaker();
         await sheetToXnb();
         await jsonToAtlasXnb();
         await zipFiles();
       }
-      // initialize the async functions
       init();
+      // initialize the async functions
     } else {
       res.sendStatus(403);
     }

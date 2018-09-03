@@ -4,12 +4,12 @@ import ProgressButton from "react-progress-button";
 import { withAlert } from "react-alert";
 import { character_names } from "../data/characters";
 import axios from "axios";
+var CancelToken = axios.CancelToken;
+var cancel;
 import { saveAs } from "file-saver/FileSaver";
 // import openSocket from 'socket.io-client'
 // const socket = openSocket(`http://${process.env.IP_ENV}:${process.env.PORT_ENV}`)
 // ! Add sockets to remove data folder not being used
-// ! Backend doesn't take in multiple frames
-// ! Add small text under character selection (ask pop for UX advice)
 class Custom extends Component {
   constructor(props) {
     super(props);
@@ -18,15 +18,37 @@ class Custom extends Component {
       options: {
         skinName: "anything",
         variant: "00",
-        character: "Speedrunner"
+        character: "Speedrunner",
+        characterIdx: 34
       }
     };
+  }
+  onUnload = event => {
+    // the method that will be used for both add and remove event
+    event.preventDefault();
+    cancel();
+  };
+  beforeUnload = event => {
+    // the method that will be used for both add and remove event
+    event.returnValue = "sss";
+  };
+
+  componentDidMount() {
+    window.addEventListener("onunload", this.onUnload);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("onunload", this.onUnload);
   }
   characterChange = e => {
     this.setState({
       options: {
         ...this.state.options,
-        character: e.target.value
+        character: e.target.value,
+        characterIdx:
+          character_names[
+            character_names.findIndex(obj => obj.name == e.target.value)
+          ].id
       }
     });
   };
@@ -63,7 +85,11 @@ class Custom extends Component {
       headers: {
         "Content-Type": "application/json"
       },
-      responseType: "blob"
+      responseType: "blob",
+      cancelToken: new CancelToken(function executor(c) {
+        // An executor function receives a cancel function as a parameter
+        cancel = c;
+      })
     })
       .then(response => {
         this.setState({ buttonState: "success" });
@@ -143,14 +169,17 @@ class Custom extends Component {
               id="character_select"
               onChange={e => this.characterChange(e)}
             >
-              <option defaultValue="defaultValue" value="Speedrunner">
-                Speedrunner
-              </option>
-              {character_names.map((name, idx) => {
-                return <option key={idx}>{name}</option>;
+              {character_names.map((character, idx) => {
+                return (
+                  <option data-index={character.id} key={idx}>
+                    {character.name}
+                  </option>
+                );
               })}
             </select>
-            <small id="variantHelp" className="form-text text-muted" />
+            <small id="variantHelp" className="form-text text-muted">
+              Your skin will be made for: {this.state.options.character}
+            </small>
           </div>
         </form>
         <ProgressButton
