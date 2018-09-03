@@ -85,7 +85,7 @@ module.exports = app => {
                 reject(err);
               } else {
                 //remove all fodder pngs used in the making of the sheet
-                rimraf(`${MAIN_FOLDER}/*.png`, () => {
+                rimraf(`server/assets/${IP_ADD}/*.png`, () => {
                   resolve(
                     fs.rename(
                       `${DATA_FOLDER}spritesheet-1.json`,
