@@ -195,8 +195,8 @@ module.exports = app => {
         await createFrames();
         await spriteMaker();
         await sheetToXnb();
-        // await jsonToAtlasXnb();
-        // await zipFiles();
+        await jsonToAtlasXnb();
+        await zipFiles();
       }
       init();
       // initialize the async functions
