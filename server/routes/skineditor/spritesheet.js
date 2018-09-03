@@ -73,7 +73,7 @@ module.exports = app => {
           console.log("---- PACK FRAMES ----");
           // pack all pngs made from the frame looping function into a png spritesheet and a json
           packer(
-            `${MAIN_FOLDER}/*.png`,
+            `${DATA_FOLDER}../*.png`,
             {
               format: "json",
               trim: true,
