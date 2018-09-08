@@ -125,7 +125,6 @@ module.exports = app => {
       function jsonToAtlasXnb() {
         return new Promise((resolve, reject) => {
           console.log("---- CONVERTING JSON ----");
-          // function atlasConv() {
           execFile(
             "wine",
             [
@@ -142,9 +141,9 @@ module.exports = app => {
               if (error !== null) {
                 console.log(`exec error: ${error}`, reject());
               } else {
-                // rimraf(`${DATA_FOLDER}atlas.json`, () => {
-                resolve();
-                // });
+                rimraf(`${DATA_FOLDER}atlas.json`, () => {
+                  resolve();
+                });
               }
             }
           );
