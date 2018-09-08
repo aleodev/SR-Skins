@@ -140,6 +140,7 @@ module.exports = app => {
               _options.characterIdx
             ],
             {
+              cwd: { DATA_FOLDER },
               windowsHide: true
             },
             error => {
