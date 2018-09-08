@@ -147,9 +147,8 @@ module.exports = app => {
               if (error !== null) {
                 reject(error);
               } else {
-                // rimraf(`${DATA_FOLDER}atlas.json`, () => {
+                console.log(_options.characterIdx);
                 resolve();
-                // });
               }
             }
           );
