@@ -140,7 +140,7 @@ module.exports = app => {
               _options.characterIdx
             ],
             {
-              cwd: { DATA_FOLDER },
+              cwd: "/var/www/srskins/server",
               windowsHide: true
             },
             error => {
