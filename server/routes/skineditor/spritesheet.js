@@ -133,9 +133,9 @@ module.exports = app => {
           execFile(
             "wine",
             [
-              `${SERVER_FOLDER}/d/atlas_generator.exe`,
+              `${SERVER_FOLDER}/atlas_generator.exe`,
               "-o",
-              `${DATA_FOLDER}`,
+              `./`,
               "-c",
               _options.characterIdx
             ],
