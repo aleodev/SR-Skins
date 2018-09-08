@@ -125,6 +125,11 @@ module.exports = app => {
       function jsonToAtlasXnb() {
         return new Promise((resolve, reject) => {
           console.log("---- CONVERTING JSON ----");
+          //   fs.writeFile("/tmp/test", "Hey there!", function(err) {
+          //     if(err) {
+          //         reject(err);
+          //     }
+          // });
           execFile(
             "wine",
             [
@@ -141,9 +146,9 @@ module.exports = app => {
               if (error !== null) {
                 console.log(`exec error: ${error}`, reject());
               } else {
-                rimraf(`${DATA_FOLDER}atlas.json`, () => {
-                  resolve();
-                });
+                // rimraf(`${DATA_FOLDER}atlas.json`, () => {
+                resolve();
+                // });
               }
             }
           );
