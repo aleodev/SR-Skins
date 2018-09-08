@@ -144,7 +144,7 @@ module.exports = app => {
             },
             error => {
               if (error !== null) {
-                console.log(`exec error: ${error}`, reject());
+                reject(error);
               } else {
                 // rimraf(`${DATA_FOLDER}atlas.json`, () => {
                 resolve();
