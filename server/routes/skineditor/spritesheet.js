@@ -135,7 +135,7 @@ module.exports = app => {
             [
               `${SERVER_FOLDER}/atlas_generator.exe`,
               "-o",
-              `${DATA_FOLDER}atlas.json`,
+              `${DATA_FOLDER}`,
               "-c",
               _options.characterIdx
             ],
